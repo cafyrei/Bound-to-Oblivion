@@ -1,0 +1,88 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\VSCode\\C#\\Oblivion\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{4D40AEA6-ED04-4F2A-B25D-589541D833E9}|Oblivion\\Oblivion.csproj|d:\\vscode\\c#\\oblivion\\oblivion\\button2d.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4D40AEA6-ED04-4F2A-B25D-589541D833E9}|Oblivion\\Oblivion.csproj|solutionrelative:oblivion\\button2d.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4D40AEA6-ED04-4F2A-B25D-589541D833E9}|Oblivion\\Oblivion.csproj|d:\\vscode\\c#\\oblivion\\oblivion\\game1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4D40AEA6-ED04-4F2A-B25D-589541D833E9}|Oblivion\\Oblivion.csproj|solutionrelative:oblivion\\game1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4D40AEA6-ED04-4F2A-B25D-589541D833E9}|Oblivion\\Oblivion.csproj|d:\\vscode\\c#\\oblivion\\oblivion\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4D40AEA6-ED04-4F2A-B25D-589541D833E9}|Oblivion\\Oblivion.csproj|solutionrelative:oblivion\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4D40AEA6-ED04-4F2A-B25D-589541D833E9}|Oblivion\\Oblivion.csproj|d:\\vscode\\c#\\oblivion\\oblivion\\background.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4D40AEA6-ED04-4F2A-B25D-589541D833E9}|Oblivion\\Oblivion.csproj|solutionrelative:oblivion\\background.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Button2D.cs",
+              "DocumentMoniker": "D:\\VSCode\\C#\\Oblivion\\Oblivion\\Button2D.cs",
+              "RelativeDocumentMoniker": "Oblivion\\Button2D.cs",
+              "ToolTip": "D:\\VSCode\\C#\\Oblivion\\Oblivion\\Button2D.cs",
+              "RelativeToolTip": "Oblivion\\Button2D.cs",
+              "ViewState": "AgIAAB4AAAAAAAAAAAAowCYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-01T15:31:19.933Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Background.cs",
+              "DocumentMoniker": "D:\\VSCode\\C#\\Oblivion\\Oblivion\\Background.cs",
+              "RelativeDocumentMoniker": "Oblivion\\Background.cs",
+              "ToolTip": "D:\\VSCode\\C#\\Oblivion\\Oblivion\\Background.cs",
+              "RelativeToolTip": "Oblivion\\Background.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-01T15:29:43.997Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\VSCode\\C#\\Oblivion\\Oblivion\\Program.cs",
+              "RelativeDocumentMoniker": "Oblivion\\Program.cs",
+              "ToolTip": "D:\\VSCode\\C#\\Oblivion\\Oblivion\\Program.cs",
+              "RelativeToolTip": "Oblivion\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-01T14:43:59.622Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Game1.cs",
+              "DocumentMoniker": "D:\\VSCode\\C#\\Oblivion\\Oblivion\\Game1.cs",
+              "RelativeDocumentMoniker": "Oblivion\\Game1.cs",
+              "ToolTip": "D:\\VSCode\\C#\\Oblivion\\Oblivion\\Game1.cs",
+              "RelativeToolTip": "Oblivion\\Game1.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-01T14:42:05.989Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

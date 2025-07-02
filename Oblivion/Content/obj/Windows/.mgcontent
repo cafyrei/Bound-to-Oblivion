@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SourceFileCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Profile>Reach</Profile>
+  <Platform>Windows</Platform>
+  <Config />
+  <SourceFiles>
+    <File>d:/VSCode/C#/Oblivion/Oblivion/Content/Backgrounds/game_menu.png</File>
+    <File>d:/VSCode/C#/Oblivion/Oblivion/Content/Backgrounds/transparent_texture.png</File>
+    <File>d:/VSCode/C#/Oblivion/Oblivion/Content/Fonts/Blade Stroke.spritefont</File>
+    <File>d:/VSCode/C#/Oblivion/Oblivion/Content/game_menu.png</File>
+    <File>d:/VSCode/C#/Oblivion/Oblivion/Content/Music/missing_wind.mp3</File>
+    <File>d:/VSCode/C#/Oblivion/Oblivion/Content/Sound/menu_hover.WAV</File>
+    <File>d:/VSCode/C#/Oblivion/Oblivion/Content/Sound/menu_start.WAV</File>
+  </SourceFiles>
+  <DestFiles>
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+  </DestFiles>
+</SourceFileCollection>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PipelineBuildEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <SourceFile>d:/VSCode/C#/Oblivion/Oblivion/Content/Fonts/Blade Stroke.spritefont</SourceFile>
+  <SourceTime>2025-07-01T19:51:45.2976114+08:00</SourceTime>
+  <DestFile>d:/VSCode/C#/Oblivion/Oblivion/Content/bin/Windows/Fonts/Blade Stroke.xnb</DestFile>
+  <DestTime>2025-07-01T20:48:48.5873761+08:00</DestTime>
+  <Importer>FontDescriptionImporter</Importer>
+  <ImporterTime>2025-06-02T18:31:02+08:00</ImporterTime>
+  <Processor>FontDescriptionProcessor</Processor>
+  <ProcessorTime>2025-06-02T18:31:02+08:00</ProcessorTime>
+  <Parameters>
+    <Key>PremultiplyAlpha</Key>
+    <Value>True</Value>
+  </Parameters>
+  <Parameters>
+    <Key>TextureFormat</Key>
+    <Value>Compressed</Value>
+  </Parameters>
+  <Dependencies />
+  <BuildAsset />
+  <BuildOutput />
+</PipelineBuildEvent>

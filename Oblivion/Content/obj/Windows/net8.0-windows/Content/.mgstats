@@ -1,0 +1,8 @@
+Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
+"D:/VSCode/C#/Oblivion/Oblivion/Content/Backgrounds/game_menu.png","D:/VSCode/C#/Oblivion/Oblivion/Content/bin/Windows/Content/Backgrounds/game_menu.xnb","TextureProcessor","Texture2DContent",3136117,12600085,0.4406942
+"D:/VSCode/C#/Oblivion/Oblivion/Content/Backgrounds/transparent_texture.png","D:/VSCode/C#/Oblivion/Oblivion/Content/bin/Windows/Content/Backgrounds/transparent_texture.xnb","TextureProcessor","Texture2DContent",14781,3014741,0.1792416
+"D:/VSCode/C#/Oblivion/Oblivion/Content/Fonts/Blade Stroke.spritefont","D:/VSCode/C#/Oblivion/Oblivion/Content/bin/Windows/Content/Fonts/Blade Stroke.xnb","FontDescriptionProcessor","SpriteFontContent",2067,70681,0.1761438
+"D:/VSCode/C#/Oblivion/Oblivion/Content/game_menu.png","D:/VSCode/C#/Oblivion/Oblivion/Content/bin/Windows/Content/game_menu.xnb","TextureProcessor","Texture2DContent",3136117,12600085,0.4840834
+"D:/VSCode/C#/Oblivion/Oblivion/Content/Music/missing_wind.mp3","D:/VSCode/C#/Oblivion/Oblivion/Content/bin/Windows/Content/Music/missing_wind.xnb","SongProcessor","SongContent",3398844,130,0.4905657
+"D:/VSCode/C#/Oblivion/Oblivion/Content/Sound/menu_hover.WAV","D:/VSCode/C#/Oblivion/Oblivion/Content/bin/Windows/Content/Sound/menu_hover.xnb","SoundEffectProcessor","SoundEffectContent",20558,20585,0.2307276
+"D:/VSCode/C#/Oblivion/Oblivion/Content/Sound/menu_start.WAV","D:/VSCode/C#/Oblivion/Oblivion/Content/bin/Windows/Content/Sound/menu_start.xnb","SoundEffectProcessor","SoundEffectContent",532558,532585,0.340639
