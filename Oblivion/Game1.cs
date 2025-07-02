@@ -16,9 +16,10 @@ namespace Oblivion
         private SpriteBatch _spriteBatch;
 
         MainMenu _mainMenu;
+        GamePlay _gamePlay;
 
-        public enum GameState { MainMenu, GamePlay, Credits };
-        
+        public enum GameState { MainMenu, GamePlay, Continue, Credits };
+
         GameState currentState = GameState.MainMenu;
 
 
@@ -48,6 +49,7 @@ namespace Oblivion
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             _mainMenu = new MainMenu(Content, GraphicsDevice);
+            _gamePlay = new GamePlay(Content, GraphicsDevice);
         }
 
         protected override void Update(GameTime gameTime)
@@ -59,6 +61,8 @@ namespace Oblivion
                     _mainMenu.Update(gameTime);
                     if (_mainMenu.StartPressed)
                         currentState = GameState.GamePlay;
+                    else if (_mainMenu.ContinuePressed)
+                        currentState = GameState.Continue;
                     else if (_mainMenu.CreditsPressed)
                         currentState = GameState.Credits;
                     else if (_mainMenu.ExitPressed)
@@ -79,6 +83,9 @@ namespace Oblivion
                 case GameState.MainMenu:
                     _mainMenu.Draw(_spriteBatch);
                     break;
+                // case GameState.GamePlay:
+                //     _gamePlay.Draw(_spriteBatch);
+                //     break;
 
             }
 
