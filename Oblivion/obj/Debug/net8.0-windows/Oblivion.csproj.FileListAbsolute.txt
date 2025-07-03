@@ -70,3 +70,4 @@ D:\CODING\Oblivion\Oblivion\obj\Debug\net8.0-windows\Oblivion.pdb
 D:\CODING\Oblivion\Oblivion\obj\Debug\net8.0-windows\Oblivion.genruntimeconfig.cache
 D:\CODING\Oblivion\Oblivion\obj\Debug\net8.0-windows\ref\Oblivion.dll
 D:\CODING\Oblivion\Oblivion\bin\Debug\net8.0-windows\Content\Backgrounds\stage1BG.png
+D:\CODING\Oblivion\Oblivion\bin\Debug\net8.0-windows\Content\Backgrounds\stage1BG.xnb

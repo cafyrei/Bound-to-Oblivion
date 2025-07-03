@@ -5,6 +5,7 @@
   <Config />
   <SourceFiles>
     <File>D:/CODING/Oblivion/Oblivion/Content/Backgrounds/game_menu.png</File>
+    <File>D:/CODING/Oblivion/Oblivion/Content/Backgrounds/stage1BG.png</File>
     <File>D:/CODING/Oblivion/Oblivion/Content/Backgrounds/transparent_texture.png</File>
     <File>D:/CODING/Oblivion/Oblivion/Content/Fonts/Blade Stroke.spritefont</File>
     <File>D:/CODING/Oblivion/Oblivion/Content/game_menu.png</File>
@@ -13,6 +14,7 @@
     <File>D:/CODING/Oblivion/Oblivion/Content/Sound/menu_start.WAV</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

@@ -4,15 +4,17 @@
   <Platform>Windows</Platform>
   <Config />
   <SourceFiles>
-    <File>d:/VSCode/C#/Oblivion/Oblivion/Content/Backgrounds/game_menu.png</File>
-    <File>d:/VSCode/C#/Oblivion/Oblivion/Content/Backgrounds/transparent_texture.png</File>
-    <File>d:/VSCode/C#/Oblivion/Oblivion/Content/Fonts/Blade Stroke.spritefont</File>
-    <File>d:/VSCode/C#/Oblivion/Oblivion/Content/game_menu.png</File>
-    <File>d:/VSCode/C#/Oblivion/Oblivion/Content/Music/missing_wind.mp3</File>
-    <File>d:/VSCode/C#/Oblivion/Oblivion/Content/Sound/menu_hover.WAV</File>
-    <File>d:/VSCode/C#/Oblivion/Oblivion/Content/Sound/menu_start.WAV</File>
+    <File>d:/CODING/Oblivion/Oblivion/Content/Backgrounds/game_menu.png</File>
+    <File>d:/CODING/Oblivion/Oblivion/Content/Backgrounds/stage1BG.png</File>
+    <File>d:/CODING/Oblivion/Oblivion/Content/Backgrounds/transparent_texture.png</File>
+    <File>d:/CODING/Oblivion/Oblivion/Content/Fonts/Blade Stroke.spritefont</File>
+    <File>d:/CODING/Oblivion/Oblivion/Content/game_menu.png</File>
+    <File>d:/CODING/Oblivion/Oblivion/Content/Music/missing_wind.mp3</File>
+    <File>d:/CODING/Oblivion/Oblivion/Content/Sound/menu_hover.WAV</File>
+    <File>d:/CODING/Oblivion/Oblivion/Content/Sound/menu_start.WAV</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

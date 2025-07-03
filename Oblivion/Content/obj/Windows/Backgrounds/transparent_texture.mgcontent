@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <SourceFile>d:/VSCode/C#/Oblivion/Oblivion/Content/Backgrounds/transparent_texture.png</SourceFile>
-  <SourceTime>2025-07-01T11:53:21.1716282+08:00</SourceTime>
-  <DestFile>d:/VSCode/C#/Oblivion/Oblivion/Content/bin/Windows/Backgrounds/transparent_texture.xnb</DestFile>
-  <DestTime>2025-07-01T13:18:16.2847718+08:00</DestTime>
+  <SourceFile>d:/CODING/Oblivion/Oblivion/Content/Backgrounds/transparent_texture.png</SourceFile>
+  <SourceTime>2025-07-02T19:11:29.6228739+08:00</SourceTime>
+  <DestFile>d:/CODING/Oblivion/Oblivion/Content/bin/Windows/Backgrounds/transparent_texture.xnb</DestFile>
+  <DestTime>2025-07-03T15:55:29.0432466+08:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2025-06-02T18:31:02+08:00</ImporterTime>
   <Processor>TextureProcessor</Processor>

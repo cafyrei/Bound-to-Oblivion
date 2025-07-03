@@ -107,12 +107,14 @@ namespace Oblivion
 
         public void Draw(SpriteBatch spriteBatch)
         {
+            spriteBatch.Begin();
             spriteBatch.Draw(background.Background_Texture, background.Background_Rectangle, background.Background_color);
 
             foreach (var button in menuButtons)
             {
                 button.Draw(spriteBatch, currentMouseState);
             }
+            spriteBatch.End();
         }
     }
 
