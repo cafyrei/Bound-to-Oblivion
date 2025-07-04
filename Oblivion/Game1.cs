@@ -26,6 +26,8 @@ namespace Oblivion
 
         public static int screenWidth = 1280;
         public static int screenHeight = 720;
+
+        Viewport viewport;
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -51,7 +53,7 @@ namespace Oblivion
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             _mainMenu = new MainMenu(Content, GraphicsDevice);
-            _gamePlay = new GamePlay(Content, GraphicsDevice);
+            _gamePlay = new GamePlay(Content, GraphicsDevice, viewport);
         }
 
         protected override void Update(GameTime gameTime)

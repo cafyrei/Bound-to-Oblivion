@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Oblivion")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f9b78e4aaa9fa46467668808ac90ee7157039aba")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6f7bb3bdf7298ece4171009a1bec39c0c493cd36")]
 [assembly: System.Reflection.AssemblyProductAttribute("Oblivion")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Oblivion")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

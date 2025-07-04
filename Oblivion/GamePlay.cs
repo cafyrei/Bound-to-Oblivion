@@ -27,17 +27,15 @@ namespace Oblivion
         Texture2D ball_Texture;
         Player ball;
         Vector2 ballPos;
-
         //Movement
-        float moveSpeed = 4f;
-        float VelocityX;
+        Vector2 velocity = new Vector2(4f,4f);
 
         //Input
         Input input;
 
         //Camera
         public Camera camera;
-        public GamePlay(ContentManager content, GraphicsDevice graphics)
+        public GamePlay(ContentManager content, GraphicsDevice graphics, Viewport viewport)
         {
 
             LoadContent(content, graphics);
@@ -48,32 +46,41 @@ namespace Oblivion
 
         public void Update(GameTime gametime, GraphicsDevice graphics)
         {
+
+            
             Vector2 position = ball.Player_Position;
             if (input.IsKeyDown(Keys.A))
             {
-                VelocityX = -moveSpeed;
-                position.X += VelocityX;
+                position.X += -velocity.X;
             }
             if (input.IsKeyDown(Keys.D))
             {
-                VelocityX = moveSpeed;
-                position.X += VelocityX;
+                position.X += velocity.X;
             }
+            if (input.IsKeyDown(Keys.W))
+            {
+                position.Y += -velocity.Y;
+            }
+            if (input.IsKeyDown(Keys.S))
+            {
+                position.Y += velocity.Y;
+            }
+
+
+
+            Console.WriteLine();
+            
 
             //CLAMPING
             position.X = MathHelper.Clamp(position.X, 0, Game1.screenWidth - ball.Player_Rectangle.Width);
             position.Y = MathHelper.Clamp(position.Y, 0, Game1.screenHeight);
 
-            bool lockCamera = false;
             float deadzoneLeft = 250f;
 
+            // Console.WriteLine("Player X : ");
             ball.Player_Position = position;
 
-                if (ball.Player_Position.X > deadzoneLeft)
-                {
-                    lockCamera = true;
-                }
-                camera.Follow(ball, background.Background_Rectangle.X, background.Background_Rectangle.Y, lockCamera);
+                camera.Follow(ball);
 
             input.Update();
         }
@@ -85,8 +92,9 @@ namespace Oblivion
             background = new Background(background_Texture, backgroundRect, Color.White);
 
             ball_Texture = Content.Load<Texture2D>("Sprites/Ball");
-            ballPos = new Vector2(300, 600);
+            ballPos = new Vector2(Game1.screenWidth / 2 - ball_Texture.Width, Game1.screenHeight / 2);
             ball = new Player(ball_Texture, ballPos, Color.White);
+            
         }
         public void Draw(SpriteBatch spriteBatch)
         {
