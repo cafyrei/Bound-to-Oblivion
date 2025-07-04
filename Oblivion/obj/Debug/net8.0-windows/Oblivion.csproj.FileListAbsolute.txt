@@ -71,3 +71,4 @@ D:\CODING\Oblivion\Oblivion\obj\Debug\net8.0-windows\Oblivion.genruntimeconfig.c
 D:\CODING\Oblivion\Oblivion\obj\Debug\net8.0-windows\ref\Oblivion.dll
 D:\CODING\Oblivion\Oblivion\bin\Debug\net8.0-windows\Content\Backgrounds\stage1BG.png
 D:\CODING\Oblivion\Oblivion\bin\Debug\net8.0-windows\Content\Backgrounds\stage1BG.xnb
+D:\CODING\Oblivion\Oblivion\bin\Debug\net8.0-windows\Content\Icon\BoundedToOblivion Icon.xnb

@@ -1,9 +1,10 @@
 Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
-"d:/CODING/Oblivion/Oblivion/Content/Backgrounds/game_menu.png","d:/CODING/Oblivion/Oblivion/Content/bin/Windows/Backgrounds/game_menu.xnb","TextureProcessor","Texture2DContent",3136117,12600085,0.3727566
-"d:/CODING/Oblivion/Oblivion/Content/Backgrounds/stage1BG.png","d:/CODING/Oblivion/Oblivion/Content/bin/Windows/Backgrounds/stage1BG.xnb","TextureProcessor","Texture2DContent",1297371,3686485,0.0707622
-"d:/CODING/Oblivion/Oblivion/Content/Backgrounds/transparent_texture.png","d:/CODING/Oblivion/Oblivion/Content/bin/Windows/Backgrounds/transparent_texture.xnb","TextureProcessor","Texture2DContent",14781,3014741,0.0628009
-"d:/CODING/Oblivion/Oblivion/Content/Fonts/Blade Stroke.spritefont","d:/CODING/Oblivion/Oblivion/Content/bin/Windows/Fonts/Blade Stroke.xnb","FontDescriptionProcessor","SpriteFontContent",2067,70681,0.0991585
-"d:/CODING/Oblivion/Oblivion/Content/game_menu.png","d:/CODING/Oblivion/Oblivion/Content/bin/Windows/game_menu.xnb","TextureProcessor","Texture2DContent",3136117,12600085,0.2197662
-"d:/CODING/Oblivion/Oblivion/Content/Music/missing_wind.mp3","d:/CODING/Oblivion/Oblivion/Content/bin/Windows/Music/missing_wind.xnb","SongProcessor","SongContent",3398844,130,0.641737
-"d:/CODING/Oblivion/Oblivion/Content/Sound/menu_hover.WAV","d:/CODING/Oblivion/Oblivion/Content/bin/Windows/Sound/menu_hover.xnb","SoundEffectProcessor","SoundEffectContent",20558,20585,0.0798677
-"d:/CODING/Oblivion/Oblivion/Content/Sound/menu_start.WAV","d:/CODING/Oblivion/Oblivion/Content/bin/Windows/Sound/menu_start.xnb","SoundEffectProcessor","SoundEffectContent",532558,532585,0.1625393
+"d:/CODING/Oblivion/Oblivion/Content/Backgrounds/game_menu.png","d:/CODING/Oblivion/Oblivion/Content/bin/Windows/Backgrounds/game_menu.xnb","TextureProcessor","Texture2DContent",3136117,12600085,0.4029425
+"d:/CODING/Oblivion/Oblivion/Content/Backgrounds/stage1BG.png","d:/CODING/Oblivion/Oblivion/Content/bin/Windows/Backgrounds/stage1BG.xnb","TextureProcessor","Texture2DContent",1297371,3686485,0.0619308
+"d:/CODING/Oblivion/Oblivion/Content/Backgrounds/transparent_texture.png","d:/CODING/Oblivion/Oblivion/Content/bin/Windows/Backgrounds/transparent_texture.xnb","TextureProcessor","Texture2DContent",14781,3014741,0.0504152
+"d:/CODING/Oblivion/Oblivion/Content/Fonts/Blade Stroke.spritefont","d:/CODING/Oblivion/Oblivion/Content/bin/Windows/Fonts/Blade Stroke.xnb","FontDescriptionProcessor","SpriteFontContent",2067,70681,0.1086278
+"d:/CODING/Oblivion/Oblivion/Content/game_menu.png","d:/CODING/Oblivion/Oblivion/Content/bin/Windows/game_menu.xnb","TextureProcessor","Texture2DContent",3136117,12600085,0.1983427
+"d:/CODING/Oblivion/Oblivion/Content/Icon/BoundedToOblivion Icon.ico","d:/CODING/Oblivion/Oblivion/Content/bin/Windows/Icon/BoundedToOblivion Icon.xnb","TextureProcessor","Texture2DContent",4286,4181,0.0015473
+"d:/CODING/Oblivion/Oblivion/Content/Music/missing_wind.mp3","d:/CODING/Oblivion/Oblivion/Content/bin/Windows/Music/missing_wind.xnb","SongProcessor","SongContent",3398844,130,0.633734
+"d:/CODING/Oblivion/Oblivion/Content/Sound/menu_hover.WAV","d:/CODING/Oblivion/Oblivion/Content/bin/Windows/Sound/menu_hover.xnb","SoundEffectProcessor","SoundEffectContent",20558,20585,0.0838689
+"d:/CODING/Oblivion/Oblivion/Content/Sound/menu_start.WAV","d:/CODING/Oblivion/Oblivion/Content/bin/Windows/Sound/menu_start.xnb","SoundEffectProcessor","SoundEffectContent",532558,532585,0.1489432
