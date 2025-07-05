@@ -1,4 +1,18 @@
-**/Oblivion/obj
-Oblivion/bin
-/.vs
-Oblivion/.vscode
+# Ignore VS and VS Code folders
+.vs/
+.vscode/
+Oblivion/.vscode/
+
+# Ignore build artifacts
+bin/
+obj/
+**/bin/
+**/obj/
+
+# Ignore MonoGame compiled content (XNBs, MGCB outputs)
+Oblivion/Content/bin/
+Oblivion/Content/obj/
+
+# Optional: temp files
+*.tmp
+*.log
