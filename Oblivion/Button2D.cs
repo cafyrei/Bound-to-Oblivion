@@ -17,13 +17,13 @@ namespace Oblivion
         private bool _hasHovered = false;
 
         private SoundEffect _menuHover;
-        private SoundEffect _menuClicked;   
+        private SoundEffectInstance _menuClicked;
 
         public SoundEffect MenuHover
         {
             set => _menuHover = value;
         }
-        public SoundEffect MenuClicked
+        public SoundEffectInstance MenuClicked
         {
             set => _menuClicked = value;
         }

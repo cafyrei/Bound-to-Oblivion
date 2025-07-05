@@ -15,14 +15,19 @@ namespace Oblivion
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
+        //Game States
         MainMenu _mainMenu;
+        GamePlay _gamePlay;
 
-        public enum GameState { MainMenu, GamePlay, Credits };
-        
+        public enum GameState { MainMenu, GamePlay, Continue, Credits };
+
         GameState currentState = GameState.MainMenu;
 
 
+        public static int screenWidth = 1280;
+        public static int screenHeight = 720;
 
+        Viewport viewport;
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -34,8 +39,8 @@ namespace Oblivion
         {
             #region Game Window Configuration
             _graphics.IsFullScreen = false;
-            _graphics.PreferredBackBufferWidth = 1280;
-            _graphics.PreferredBackBufferHeight = 720;
+            _graphics.PreferredBackBufferWidth = screenWidth;
+            _graphics.PreferredBackBufferHeight = screenHeight;
             _graphics.ApplyChanges();
             #endregion
 
@@ -48,6 +53,7 @@ namespace Oblivion
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             _mainMenu = new MainMenu(Content, GraphicsDevice);
+            _gamePlay = new GamePlay(Content, GraphicsDevice, viewport);
         }
 
         protected override void Update(GameTime gameTime)
@@ -59,30 +65,34 @@ namespace Oblivion
                     _mainMenu.Update(gameTime);
                     if (_mainMenu.StartPressed)
                         currentState = GameState.GamePlay;
+
+                    else if (_mainMenu.ContinuePressed)
+                        currentState = GameState.Continue;
                     else if (_mainMenu.CreditsPressed)
                         currentState = GameState.Credits;
                     else if (_mainMenu.ExitPressed)
                         Exit();
                     break;
             }
+            _gamePlay.Update(gameTime, GraphicsDevice);
             base.Update(gameTime);
+
         }
 
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            _spriteBatch.Begin();
-
             switch (currentState)
             {
                 case GameState.MainMenu:
                     _mainMenu.Draw(_spriteBatch);
                     break;
+                case GameState.GamePlay:
+                    _gamePlay.Draw(_spriteBatch);
+                    break;
 
             }
-
-            _spriteBatch.End();
 
             base.Draw(gameTime);
         }

@@ -25,6 +25,18 @@
 /processorParam:TextureFormat=Color
 /build:Backgrounds/game_menu.png
 
+#begin Backgrounds/stage1BG.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Backgrounds/stage1BG.png
+
 #begin Backgrounds/transparent_texture.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -56,11 +68,35 @@
 /processorParam:TextureFormat=Color
 /build:game_menu.png
 
+#begin Icon/BoundedToOblivion Icon.ico
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Icon/BoundedToOblivion Icon.ico
+
 #begin Music/missing_wind.mp3
 /importer:Mp3Importer
 /processor:SongProcessor
 /processorParam:Quality=Best
 /build:Music/missing_wind.mp3
+
+#begin Platform/sprite sheet 16x16px seamless textures.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Platform/sprite sheet 16x16px seamless textures.png
 
 #begin Sound/menu_hover.WAV
 /importer:WavImporter
@@ -73,4 +109,16 @@
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Sound/menu_start.WAV
+
+#begin Sprites/Ball.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Sprites/Ball.png
 
