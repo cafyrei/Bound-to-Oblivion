@@ -67,7 +67,7 @@ namespace Oblivion
                     {6,7}, // Sprint
                     {7,6}  // Walk
                 },
-                frameTime: 0.2f
+                frameTime: 0.03f
                 );
 
             _player = new Player(_samuraiTexture, _playerAnimation)

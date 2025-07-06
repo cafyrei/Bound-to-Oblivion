@@ -12,7 +12,7 @@ namespace Oblivion
         private Vector2 velocity = Vector2.Zero;
         private SpriteAnimation2D _animation;
         private float Speed = 100f;
-
+        bool attackTurn = true;
 
         public Vector2 Velocity
         {
@@ -26,41 +26,72 @@ namespace Oblivion
             _animation = animation;
         }
 
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(_texture, Position, _animation.GetSourceRect(), Color.White, 0, new Vector2(0, 0), 2f, Flip, Layer);
+        }
+
         public override void Update(GameTime gameTime)
         {
-
-            velocity = Vector2.Zero;
             KeyboardState input = Keyboard.GetState();
+            velocity = Vector2.Zero;
 
-            if (input.IsKeyDown(Keys.A))
+            // Boolean Controls
+            bool moveLeft = input.IsKeyDown(Keys.A);
+            bool moveRight = input.IsKeyDown(Keys.D);
+            bool run = input.IsKeyDown(Keys.LeftShift);
+            bool jump = input.IsKeyDown(Keys.W);
+            bool attack = input.IsKeyDown(Keys.E);
+
+            int newAnimationRow = 4; 
+
+            if (moveRight && run && !moveLeft)
             {
-                velocity.X -= 1f;
-                _animation.SetRow(6);
-                Flip = SpriteEffects.None;
+                velocity.X += 8f;
+                Flip = SpriteEffects.FlipHorizontally;
+                newAnimationRow = 6; // Run Right
             }
-
-            if (input.IsKeyDown(Keys.D))
+            else if (moveLeft && run && !moveRight)
+            {
+                velocity.X -= 8f;
+                Flip = SpriteEffects.None;
+                newAnimationRow = 6; // Run Left
+            }
+            else if (moveRight && !moveLeft)
             {
                 velocity.X += 1f;
-                _animation.SetRow(6);
                 Flip = SpriteEffects.FlipHorizontally;
+                newAnimationRow = 7; // Walk Right
+            }
+            else if (moveLeft && !moveRight)
+            {
+                velocity.X -= 1f;
+                Flip = SpriteEffects.None;
+                newAnimationRow = 7; // Walk Left
             }
 
-            if (input.IsKeyDown(Keys.W))
+            if (attack)
+            {
+                if (attackTurn) {
+                    newAnimationRow = 0;
+                    attackTurn = false;
+                }
+                else
+                {
+                    newAnimationRow = 1;
+                    attackTurn = true;
+                }
+            }
+
+            if (jump)
             {
                 velocity.Y -= 1f;
-                _animation.SetRow(5);
-                Flip = SpriteEffects.None;
             }
 
-            if (velocity == Vector2.Zero)
-            {
-                _animation.SetRow(4);
-            }
+            // Apply Animation Change
+            _animation.SetRow(newAnimationRow);
 
-            Console.WriteLine(velocity);
-
-
+            // Move character
             if (velocity != Vector2.Zero)
             {
                 velocity.Normalize();
@@ -69,10 +100,7 @@ namespace Oblivion
 
             _animation.Update(gameTime);
         }
-        public void Draw(SpriteBatch spriteBatch)
-        {
-            spriteBatch.Draw(_texture, Position, _animation.GetSourceRect(), Color.White, 0, new Vector2(0, 0), 2f, Flip, Layer);
-        }
+
     }
 
 }

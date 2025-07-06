@@ -50,12 +50,11 @@ namespace Oblivion
                     Position = new Vector2((i * texture.Width) - 1, Game1.ScreenHeight - texture.Height)
                 });
             }
-
         }
+        
         public override void Update(GameTime gameTime)
         {
             ApplySpeed(gameTime);
-
             CheckPosition();
         }
 

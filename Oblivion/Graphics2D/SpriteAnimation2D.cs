@@ -11,16 +11,14 @@ namespace Oblivion
     {
 
         private Dictionary<int, int> _rowFrameCounts;
-        public int FrameWidth;
-        public int FrameHeight;
-        public int FramesPerRow;
-        public int CurrentRow;
+        private int FrameWidth;
+        private int FrameHeight;
+        private int CurrentRow;
+        private float FrameTime;
+        private float _timer; 
+        private int _currentColumn;
 
-        public float FrameTime;
-        public float _timer; 
-        public int _currentColumn;
-
-        public bool IsLooping;
+        private bool IsLooping;
         public SpriteAnimation2D(int frameWidth, int frameHeight, Dictionary<int,int> rowFrameCount, float frameTime, bool looping = true)
         {
             FrameWidth = frameWidth;
@@ -48,6 +46,8 @@ namespace Oblivion
                 }
             }
         }
+
+        
         public void Reset() => _currentColumn = 0;
 
         public void SetRow(int row)
@@ -58,6 +58,7 @@ namespace Oblivion
                 Reset();
             }
         }
+        
         public Rectangle GetSourceRect()
         {
             return new Rectangle(_currentColumn * FrameWidth, CurrentRow * FrameHeight, FrameWidth, FrameHeight);
