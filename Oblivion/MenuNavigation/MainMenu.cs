@@ -1,16 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection.Metadata;
-using System.Runtime.CompilerServices;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
-using SharpDX.Direct2D1;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.TrayNotify;
 using SpriteBatch = Microsoft.Xna.Framework.Graphics.SpriteBatch;
 
 
@@ -18,11 +13,6 @@ namespace Oblivion
 {
     internal class MainMenu
     {
-        // Sound Section
-        private Song _menuBackgroundsfx;
-        private SoundEffect _menuHover;
-        private SoundEffect _menuClicked;
-
         // Game Background
         Texture2D background_Texture;
         Background background;
@@ -54,12 +44,7 @@ namespace Oblivion
             backgroundRect = new Rectangle(0, 0, graphics.Viewport.Width, graphics.Viewport.Height);
             background = new Background(background_Texture, backgroundRect, Color.White);
 
-            _menuHover = Content.Load<SoundEffect>("Sound/menu_hover");
-            _menuClicked = Content.Load<SoundEffect>("Sound/menu_start");
-            _menuBackgroundsfx = Content.Load<Song>("Music/missing_wind");
-            MediaPlayer.IsRepeating = true;
-            MediaPlayer.Play(_menuBackgroundsfx);
-            MediaPlayer.Volume = .5f;
+            AudioManager.PlayMenuBGM();
 
             button_Texture = Content.Load<Texture2D>("Backgrounds/transparent_texture");
             SpriteFont menu_Font = Content.Load<SpriteFont>("Fonts/Blade Stroke");
@@ -69,8 +54,8 @@ namespace Oblivion
                 Rectangle button_Rect = new Rectangle(180, 400 + i * 60, 120, 40);
                 Button2D menu_Button = new Button2D(button_Texture, button_Rect, Color.White, labels[i], menu_Font)
                 {
-                    MenuHover = _menuHover,
-                    MenuClicked = _menuClicked
+                    MenuHover = AudioManager._menuHover,
+                    MenuClicked = AudioManager._menuClicked
                 };
 
                 int index = i;

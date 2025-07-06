@@ -14,15 +14,15 @@ namespace Oblivion
     {
         private GraphicsDeviceManager _graphics;
 
-        public static int ScreenWidth = 1280;
-        public static int ScreenHeight = 720;
-        private SpriteBatch _spriteBatch;
-        private SpriteAnimation2D _playerAnimation;
-
         MainMenu _mainMenu;
         GameStage _gameStage;
 
         public enum GameState { MainMenu, GamePlay, Credits };
+
+        public static int ScreenWidth = 1280;
+        public static int ScreenHeight = 720;
+        private SpriteBatch _spriteBatch;
+        private SpriteAnimation2D _playerAnimation;
 
         GameState currentState = GameState.MainMenu;
         private List<ScrollingBackground> _scrollingBackground;
@@ -43,14 +43,14 @@ namespace Oblivion
             _graphics.PreferredBackBufferHeight = ScreenHeight;
             _graphics.ApplyChanges();
             #endregion
-
-
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+            AudioManager.Load(Content); // Handles Audio for the whole game
+
 
             var _samuraiTexture = Content.Load<Texture2D>("Player/thumbnail_sprite_sheet");
             _playerAnimation = new SpriteAnimation2D(
@@ -67,7 +67,7 @@ namespace Oblivion
                     {6,7}, // Sprint
                     {7,6}  // Walk
                 },
-                frameTime: 0.03f
+                frameTime: 0.2f
                 );
 
             _player = new Player(_samuraiTexture, _playerAnimation)
@@ -121,6 +121,12 @@ namespace Oblivion
                 case GameState.GamePlay:
                     _gameStage.Update(gameTime);
                     break;
+                // case GameState.Continue:
+                //     _gameStage.Update(gameTime);
+                //     break;
+                // case GameState.Credits:
+                    //     _gameStage.Update(gameTime);
+                    //     break;
             }
 
             base.Update(gameTime);

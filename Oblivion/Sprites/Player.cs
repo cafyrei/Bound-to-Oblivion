@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -13,6 +14,7 @@ namespace Oblivion
         private SpriteAnimation2D _animation;
         private float Speed = 100f;
         bool attackTurn = true;
+        private KeyboardState _previousKeyboard;
 
         public Vector2 Velocity
         {
@@ -43,7 +45,7 @@ namespace Oblivion
             bool jump = input.IsKeyDown(Keys.W);
             bool attack = input.IsKeyDown(Keys.E);
 
-            int newAnimationRow = 4; 
+            int newAnimationRow = 4;
 
             if (moveRight && run && !moveLeft)
             {
@@ -70,9 +72,11 @@ namespace Oblivion
                 newAnimationRow = 7; // Walk Left
             }
 
-            if (attack)
+            bool _attack_Pressed = input.IsKeyDown(Keys.E) && !_previousKeyboard.IsKeyDown(Keys.E);
+            if (_attack_Pressed)
             {
-                if (attackTurn) {
+                if (attackTurn)
+                {
                     newAnimationRow = 0;
                     attackTurn = false;
                 }
@@ -81,7 +85,11 @@ namespace Oblivion
                     newAnimationRow = 1;
                     attackTurn = true;
                 }
+                AudioManager.PlayAttack();
+
             }
+            _previousKeyboard = input;
+
 
             if (jump)
             {

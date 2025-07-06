@@ -15,11 +15,12 @@ namespace Oblivion
         private List<Sprite> _sprites;
         private readonly Player _player;
         private float _speed;
+        
 
         public float Layer
         {
-             get { return _layer; }
-             set
+            get { return _layer; }
+            set
             {
                 _layer = value;
 
@@ -51,7 +52,7 @@ namespace Oblivion
                 });
             }
         }
-        
+
         public override void Update(GameTime gameTime)
         {
             ApplySpeed(gameTime);

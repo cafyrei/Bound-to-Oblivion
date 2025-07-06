@@ -158,3 +158,9 @@
 /processorParam:Quality=Best
 /build:Sound/menu_start.WAV
 
+#begin Sound/sword_slash1.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sound/sword_slash1.wav
+
