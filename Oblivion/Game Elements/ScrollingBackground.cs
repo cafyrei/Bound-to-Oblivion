@@ -15,7 +15,8 @@ namespace Oblivion
         private List<Sprite> _sprites;
         private readonly Player _player;
         private float _speed;
-        
+        private Camera2D _camera;
+        private Vector2 _previousCameraPosition;
 
         public float Layer
         {
@@ -23,7 +24,6 @@ namespace Oblivion
             set
             {
                 _layer = value;
-
                 foreach (var sprite in _sprites)
                 {
                     sprite.Layer = _layer;
@@ -31,24 +31,28 @@ namespace Oblivion
             }
         }
 
-        public ScrollingBackground(Texture2D texture, Player player, float scrollingSpeed, bool constSpeed = false) : 
-            this(new List<Texture2D>() {texture , texture}, player, scrollingSpeed, constSpeed)
+        // Constructors
+        public ScrollingBackground(Texture2D texture, Player player, float scrollingSpeed, bool constSpeed = false) :
+            this(new List<Texture2D>() { texture }, player, scrollingSpeed, constSpeed)
         {
-
         }
-        public ScrollingBackground(List<Texture2D> textures, Player player, float scrollingSpeed, bool constSpeed = false) 
-        { 
+
+        public ScrollingBackground(List<Texture2D> textures, Player player, float scrollingSpeed, bool constSpeed = false)
+        {
             _player = player;
             _sprites = new List<Sprite>();
             _scrollingSpeed = scrollingSpeed;
             _constantSpeed = constSpeed;
 
-            for(int i = 0; i < textures.Count; i++)
-            {
-                var texture = textures[i];
+            // Calculate how many sprites are needed to cover the screen width
+            int spriteCount = (int)Math.Ceiling((float)Game1.ScreenWidth / textures[0].Width) + 2;
 
-                _sprites.Add(new Sprite(texture){
-                    Position = new Vector2((i * texture.Width) - 1, Game1.ScreenHeight - texture.Height)
+            for (int i = 0; i < spriteCount; i++)
+            {
+                var texture = textures[0]; // Assuming you want to use the first texture
+                _sprites.Add(new Sprite(texture)
+                {
+                    Position = new Vector2(i * texture.Width, Game1.ScreenHeight - texture.Height)
                 });
             }
         }
@@ -61,12 +65,14 @@ namespace Oblivion
 
         private void ApplySpeed(GameTime gameTime)
         {
-            _speed = (float)(_scrollingSpeed * gameTime.ElapsedGameTime.TotalSeconds);
+            float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            if(!_constantSpeed || _player.Velocity.X != 0)
-            {
-                _speed *= _player.Velocity.X;
-            }
+            if (_camera == null)
+                return;
+
+            Vector2 cameraDelta = _camera.Position - _previousCameraPosition;
+            _speed = cameraDelta.X * (_scrollingSpeed * 0.01f);
+            _previousCameraPosition = _camera.Position;
 
             foreach (var sprite in _sprites)
             {
@@ -80,26 +86,28 @@ namespace Oblivion
             {
                 var sprite = _sprites[i];
 
-                if(sprite.Rectangle.Right <= 0)
+                // If the sprite has moved off the left side of the screen
+                if (sprite.Rectangle.Right <= 0)
                 {
-                    var index = i - 1;
-                    if (index < 0) 
-                    {
-                        index = _sprites.Count - 1; 
-                    }
-
-                    sprite.Position.X = _sprites[index].Rectangle.Right - (_speed * 2) ;
-                     
+                    // Move it to the right of the last sprite
+                    int index = (i - 1 + _sprites.Count) % _sprites.Count; // Wrap around
+                    sprite.Position.X = _sprites[index].Rectangle.Right;
                 }
             }
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
-        { 
-            foreach(var sprite in _sprites)
+        {
+            foreach (var sprite in _sprites)
             {
                 sprite.Draw(gameTime, spriteBatch);
             }
+        }
+
+        public void SetCamera(Camera2D camera)
+        {
+            _camera = camera;
+            _previousCameraPosition = _camera.Position; // store initial
         }
     }
 }

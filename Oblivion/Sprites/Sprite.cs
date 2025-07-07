@@ -8,7 +8,9 @@ namespace Oblivion
     {
         protected float _layer { get; set; }
         protected Texture2D _texture;
-
+        
+        public Texture2D Texture => _texture;
+        
         public float Layer
         {
             get { return _layer; }

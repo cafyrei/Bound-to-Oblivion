@@ -11,7 +11,7 @@ using SpriteBatch = Microsoft.Xna.Framework.Graphics.SpriteBatch;
 
 namespace Oblivion
 {
-    internal class MainMenu
+    public class MainMenu
     {
         // Game Background
         Texture2D background_Texture;
@@ -35,7 +35,6 @@ namespace Oblivion
         {
             LoadContent(contents, graphics);
         }
-
 
         private void LoadContent(ContentManager Content, GraphicsDevice graphics)
         {

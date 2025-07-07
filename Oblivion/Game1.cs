@@ -12,21 +12,17 @@ namespace Oblivion
 {
     public class Game1 : Game
     {
+        private SpriteBatch _spriteBatch;
         private GraphicsDeviceManager _graphics;
 
-        MainMenu _mainMenu;
-        GameStage _gameStage;
-
         public enum GameState { MainMenu, GamePlay, Credits };
+        GameState currentState = GameState.MainMenu;
+
+        // Content Managers
+        private TextureManager _textureManager;
 
         public static int ScreenWidth = 1280;
         public static int ScreenHeight = 720;
-        private SpriteBatch _spriteBatch;
-        private SpriteAnimation2D _playerAnimation;
-
-        GameState currentState = GameState.MainMenu;
-        private List<ScrollingBackground> _scrollingBackground;
-        private Player _player;
 
         public Game1()
         {
@@ -43,6 +39,7 @@ namespace Oblivion
             _graphics.PreferredBackBufferHeight = ScreenHeight;
             _graphics.ApplyChanges();
             #endregion
+
             base.Initialize();
         }
 
@@ -51,57 +48,8 @@ namespace Oblivion
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             AudioManager.Load(Content); // Handles Audio for the whole game
 
-
-            var _samuraiTexture = Content.Load<Texture2D>("Player/thumbnail_sprite_sheet");
-            _playerAnimation = new SpriteAnimation2D(
-                frameWidth: 64,
-                frameHeight: 64,
-                rowFrameCount: new Dictionary<int, int>
-                {
-                    {0,6}, // Atk 1 
-                    {1,6}, // Atk 2
-                    {2,6}, // Death
-                    {3,5}, // Hit
-                    {4,6}, // Idle
-                    {5,6}, // Jump
-                    {6,7}, // Sprint
-                    {7,6}  // Walk
-                },
-                frameTime: 0.2f
-                );
-
-            _player = new Player(_samuraiTexture, _playerAnimation)
-            {
-                Position = new Vector2(50, ScreenHeight - 150),
-                Layer = 1f,
-            };
-
-            _scrollingBackground = new List<ScrollingBackground>()
-            {
-                new ScrollingBackground(Content.Load<Texture2D>("Parallax_Layers/_stage1"), _player, 3f)
-                {
-                    Layer = 0.1f,
-                },
-                new ScrollingBackground(Content.Load<Texture2D>("Parallax_Layers/Layer 1"), _player, 30f)
-                {
-                    Layer = 0.93f,
-                },
-                new ScrollingBackground(Content.Load<Texture2D>("Parallax_Layers/Layer 2"), _player, 50f)
-                {
-                    Layer = 0.95f,
-                },
-                new ScrollingBackground(Content.Load<Texture2D>("Parallax_Layers/Layer 3"), _player,70f)
-                {
-                    Layer = 0.97f,
-                },
-                new ScrollingBackground(Content.Load<Texture2D>("Parallax_Layers/Layer 4"), _player, 0f)
-                {
-                    Layer = 0.99f,
-                }
-            };
-
-            _mainMenu = new MainMenu(Content, GraphicsDevice);
-            _gameStage = new GameStage(_spriteBatch, _scrollingBackground,_player);
+            _textureManager = new TextureManager();
+            _textureManager.Load(Content, GraphicsDevice); // Handles Txture for Background and Player
 
         }
         protected override void Update(GameTime gameTime)
@@ -109,22 +57,22 @@ namespace Oblivion
             switch (currentState)
             {
                 case GameState.MainMenu:
-                    _mainMenu.Update(gameTime);
-                    if (_mainMenu.StartPressed)
+                    _textureManager.MainMenu.Update(gameTime);
+                    if (_textureManager.MainMenu.StartPressed)
                         currentState = GameState.GamePlay;
-                    else if (_mainMenu.CreditsPressed)
+                    else if (_textureManager.MainMenu.CreditsPressed)
                         currentState = GameState.Credits;
-                    else if (_mainMenu.ExitPressed)
+                    else if (_textureManager.MainMenu.ExitPressed)
                         Exit();
                     break;
 
                 case GameState.GamePlay:
-                    _gameStage.Update(gameTime);
+                    _textureManager.GameStage.Update(gameTime, _textureManager.Camera);
                     break;
-                // case GameState.Continue:
-                //     _gameStage.Update(gameTime);
-                //     break;
-                // case GameState.Credits:
+                    // case GameState.Continue:
+                    //     _gameStage.Update(gameTime);
+                    //     break;
+                    // case GameState.Credits:
                     //     _gameStage.Update(gameTime);
                     //     break;
             }
@@ -136,22 +84,24 @@ namespace Oblivion
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            _spriteBatch.Begin();
-
             switch (currentState)
             {
                 case GameState.MainMenu:
-                    _mainMenu.Draw(_spriteBatch);
+                    _spriteBatch.Begin(); 
+                    _textureManager.MainMenu.Draw(_spriteBatch);
+                    _spriteBatch.End();
                     break;
 
                 case GameState.GamePlay:
-                    _gameStage.Draw(gameTime);
+                    _textureManager.Camera.Follow(_textureManager.GameStage.GetPlayerPosition(), TextureManager.tileWidth, TextureManager.tileHeight); // Follow the player
+                    _spriteBatch.Begin(transformMatrix: _textureManager.Camera.GetViewMatrix());
+                    _textureManager.GameStage.Draw(gameTime, _spriteBatch);
+                    _spriteBatch.End();
                     break;
             }
-
-            _spriteBatch.End();
 
             base.Draw(gameTime);
         }
     }
 }
+

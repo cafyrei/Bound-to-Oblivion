@@ -19,6 +19,11 @@ namespace Oblivion
         private int _currentColumn;
 
         private bool IsLooping;
+
+        // Frame Properties
+        public int FrameWidthAccess { get => FrameWidth; }
+        public int FrameHeightAccess { get => FrameHeight; }
+
         public SpriteAnimation2D(int frameWidth, int frameHeight, Dictionary<int,int> rowFrameCount, float frameTime, bool looping = true)
         {
             FrameWidth = frameWidth;
@@ -46,7 +51,6 @@ namespace Oblivion
                 }
             }
         }
-
         
         public void Reset() => _currentColumn = 0;
 

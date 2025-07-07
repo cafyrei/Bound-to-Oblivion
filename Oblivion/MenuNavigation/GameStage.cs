@@ -4,20 +4,18 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Oblivion
 {
-    internal class GameStage
+    public class GameStage
     {
-        private SpriteBatch _spriteBatch;
         private List<ScrollingBackground> _scrollingBackground;
         private Player _player;
 
-        public GameStage(SpriteBatch spriteBatch, List<ScrollingBackground> scrollingBackground, Player player)
+        public GameStage( List<ScrollingBackground> scrollingBackground, Player player)
         {
-            _spriteBatch = spriteBatch;
             _scrollingBackground = scrollingBackground;
             _player = player;
         }
 
-        public void Update(GameTime gameTime)
+        public void Update(GameTime gameTime, Camera2D _camera)
         {
             foreach (var sb in _scrollingBackground)
             {
@@ -27,7 +25,13 @@ namespace Oblivion
             _player.Update(gameTime);
         }
 
-        public void Draw(GameTime gameTime)
+
+        public Vector2 GetPlayerPosition()
+        {
+            return _player.Position;
+        }
+
+        public void Draw(GameTime gameTime, SpriteBatch _spriteBatch)
         {
             foreach (var sb in _scrollingBackground)
             {
