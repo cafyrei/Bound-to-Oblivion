@@ -82,14 +82,13 @@ namespace Oblivion
                 new ScrollingBackground(Content.Load<Texture2D>("Parallax_Layers/Layer 3"), _player,40f)
                 {
                     Layer = 0.97f,
-                },
-                new ScrollingBackground(Content.Load<Texture2D>("Parallax_Layers/Layer 4"), _player, 0f, true)
-                {
-                    Layer = 0.99f,
                 }
+                // new ScrollingBackground(Content.Load<Texture2D>("Parallax_Layers/Layer 4"), _player, 0f, true)
+                // {
+                //     Layer = 0.99f,
+                // }
             };
             #endregion
-
 
             _camera = new Camera2D(graphicsDevice.Viewport);
             _mainMenu = new MainMenu(Content, graphicsDevice);
