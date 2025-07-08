@@ -68,7 +68,7 @@ namespace Oblivion
             _player = new Player(_samuraiTexture, _playerAnimation)
             {
                 Position = new Vector2(50, Game1.ScreenHeight - 150),
-                Layer =  0.94f,
+                Layer = 0.94f,
             };
 
             _scrollingBackground = new List<ScrollingBackground>()
@@ -117,10 +117,10 @@ namespace Oblivion
             );
 
             _minorEnemies = new List<MinorEnemy>(); // Initialize the list of enemies
-            SpawnEnemies(5); // Spawn 5 enemies
+            SpawnEnemies(2); // Spawn enemies
 
             #endregion
-            
+
             _camera = new Camera2D(graphicsDevice.Viewport);
             _mainMenu = new MainMenu(Content, graphicsDevice);
             _platform1 = new Platform("../../../Data/Stage1map.csv", Content, graphicsDevice);
@@ -134,20 +134,24 @@ namespace Oblivion
 
         private void SpawnEnemies(int count)
         {
-            for (int i = 0; i < count; i++)
+            Vector2[] spawnPositions = new Vector2[]
             {
-                float randomX = (float)_random.Next(0, Game1.ScreenWidth - 96); 
-                float randomY = (float)_random.Next(0, Game1.ScreenHeight - 64); 
+                new Vector2(200, 300),
+                new Vector2(500, 320),
+                new Vector2(800, 310),
+            };
 
-                var enemy = new MinorEnemy(_minorEnemyTexture, _minorEnemyAnimation, 0, 400)
+            foreach (var pos in spawnPositions)
+            {
+                var enemy = new MinorEnemy(_minorEnemyTexture, _minorEnemyAnimation, pos.X - 100, pos.X + 100)
                 {
-                    Position = new Vector2(randomX, randomY),
-                    Layer =  0.93f,
+                    Position = pos,
+                    Layer = 0.93f,
                 };
-
-                _minorEnemies.Add(enemy); 
+                _minorEnemies.Add(enemy);
             }
         }
+
 
         // Properties
         public MainMenu MainMenu => _mainMenu;

@@ -47,7 +47,7 @@ namespace Oblivion
 
         public override void Update(GameTime gameTime)
         {
-            throw new NotImplementedException();
+
         }
     }
 }

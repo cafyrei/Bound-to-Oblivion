@@ -32,8 +32,9 @@ namespace Oblivion
 
             foreach (var enemy in _minorEnemies)
             {
-                enemy.Update(gameTime);
+                enemy.Update(gameTime, _platform.collision);
             }
+
         }
 
 

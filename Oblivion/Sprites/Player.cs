@@ -49,14 +49,14 @@ namespace Oblivion
 
             velocity = new Vector2(0, velocity.Y);
 
-            if (_isOnGround)
-            {
-                Console.WriteLine("Is on Ground");
-            }
-            else
-            {
-                Console.WriteLine("NOT IN GROUND");
-            }
+            // if (_isOnGround)
+            // {
+            //     Console.WriteLine("Is on Ground");
+            // }
+            // else
+            // {
+            //     Console.WriteLine("NOT IN GROUND");
+            // }
 
             HandleMovement(input);
             HandleJump(input);
