@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -9,13 +10,15 @@ namespace Oblivion
         private List<ScrollingBackground> _scrollingBackground;
         private Player _player;
         private List<MinorEnemy> _minorEnemies;
+        private Platform _platform;
 
 
-        public GameStage(List<ScrollingBackground> scrollingBackground, Player player, List<MinorEnemy> minorEnemy)
+        public GameStage(List<ScrollingBackground> scrollingBackground, Player player, List<MinorEnemy> minorEnemy, Platform platform)
         {
             _scrollingBackground = scrollingBackground;
             _player = player;
             _minorEnemies = minorEnemy;
+            _platform = platform;
         }
 
         public void Update(GameTime gameTime, Camera2D _camera)
@@ -25,7 +28,7 @@ namespace Oblivion
                 sb.Update(gameTime);
             }
 
-            _player.Update(gameTime);
+            _player.Update(gameTime, _platform.collision);
 
             foreach (var enemy in _minorEnemies)
             {
@@ -45,6 +48,8 @@ namespace Oblivion
             {
                 sb.Draw(gameTime, _spriteBatch);
             }
+
+            _platform.Draw(_spriteBatch);
 
             foreach (var enemy in _minorEnemies)
             {

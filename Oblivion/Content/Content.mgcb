@@ -146,6 +146,18 @@
 /processorParam:TextureFormat=Color
 /build:Parallax_Layers/Layer 4.png
 
+#begin Platform/sprite sheet 16x16px seamless textures.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Platform/sprite sheet 16x16px seamless textures.png
+
 #begin Player/Samurai Spritesheet.png
 /importer:TextureImporter
 /processor:TextureProcessor

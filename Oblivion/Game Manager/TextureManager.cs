@@ -24,6 +24,7 @@ namespace Oblivion
 
         // Background Variables
         private List<ScrollingBackground> _scrollingBackground;
+        private Platform _platform1;
 
         // Camera Variables
         private Camera2D _camera;
@@ -122,7 +123,8 @@ namespace Oblivion
             
             _camera = new Camera2D(graphicsDevice.Viewport);
             _mainMenu = new MainMenu(Content, graphicsDevice);
-            _gameStage = new GameStage(_scrollingBackground, _player, _minorEnemies);
+            _platform1 = new Platform("../../../Data/Stage1map.csv", Content, graphicsDevice);
+            _gameStage = new GameStage(_scrollingBackground, _player, _minorEnemies, _platform1);
 
             foreach (var bg in _scrollingBackground)
             {
