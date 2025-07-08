@@ -20,7 +20,8 @@ namespace Oblivion
 
         // Enemy Variables
         private SpriteAnimation2D _minorEnemyAnimation;
-        private List<MinorEnemy> _minorEnemies; // Changed to a list for multiple enemies
+        private List<MinorEnemy> _minorEnemies;
+        public static float attackAnimationSpeed = .15f;
 
         // Background Variables
         private List<ScrollingBackground> _scrollingBackground;
@@ -31,12 +32,8 @@ namespace Oblivion
         public static int tileWidth = 2800;
         public static int tileHeight = 720;
 
-        // Random number generator
-        private Random _random;
-
         public void Load(ContentManager Content, GraphicsDevice graphicsDevice)
         {
-            _random = new Random(); // Initialize the random number generator
 
             #region Player And Background Declaration
             try
@@ -113,11 +110,11 @@ namespace Oblivion
                     {3, 8}, // Idle
                     {4, 10} // Walk
                 },
-                frameTime: .2f
+                frameTime: attackAnimationSpeed
             );
 
             _minorEnemies = new List<MinorEnemy>(); // Initialize the list of enemies
-            SpawnEnemies(2); // Spawn enemies
+            SpawnEnemies(3); // Spawn enemies
 
             #endregion
 
@@ -143,11 +140,15 @@ namespace Oblivion
 
             foreach (var pos in spawnPositions)
             {
-                var enemy = new MinorEnemy(_minorEnemyTexture, _minorEnemyAnimation, pos.X - 100, pos.X + 100)
+                var animationClone = new SpriteAnimation2D(_minorEnemyAnimation);
+                
+                var enemy = new MinorEnemy(_minorEnemyTexture, animationClone, pos.X - 100, pos.X + 100)
                 {
                     Position = pos,
                     Layer = 0.93f,
                 };
+
+                enemy.SetTarget(_player);
                 _minorEnemies.Add(enemy);
             }
         }

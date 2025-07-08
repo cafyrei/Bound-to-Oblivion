@@ -35,6 +35,7 @@ namespace Oblivion
 
         // Accessor
         public Vector2 Velocity => velocity;
+        public Rectangle Hitbox => _hitbox;
 
         public Player(Texture2D texture, SpriteAnimation2D animation) : base(texture)
         {

@@ -15,7 +15,7 @@ namespace Oblivion
         private int FrameHeight;
         private int CurrentRow;
         private float FrameTime;
-        private float _timer; 
+        private float _timer;
         private int _currentColumn;
 
         private bool IsLooping;
@@ -24,7 +24,20 @@ namespace Oblivion
         public int FrameWidthAccess { get => FrameWidth; }
         public int FrameHeightAccess { get => FrameHeight; }
 
-        public SpriteAnimation2D(int frameWidth, int frameHeight, Dictionary<int,int> rowFrameCount, float frameTime, bool looping = true)
+        public SpriteAnimation2D(SpriteAnimation2D other)
+        {
+            FrameWidth = other.FrameWidth;
+            FrameHeight = other.FrameHeight;
+            FrameTime = other.FrameTime;
+            IsLooping = other.IsLooping;
+
+            _rowFrameCounts = new Dictionary<int, int>(other._rowFrameCounts);
+            CurrentRow = 0;
+            _timer = 0f;
+            _currentColumn = 0;
+        }
+
+        public SpriteAnimation2D(int frameWidth, int frameHeight, Dictionary<int, int> rowFrameCount, float frameTime, bool looping = true)
         {
             FrameWidth = frameWidth;
             FrameHeight = frameHeight;
@@ -61,7 +74,7 @@ namespace Oblivion
                 Reset();
             }
         }
-        
+
         public Rectangle GetSourceRect()
         {
             return new Rectangle(_currentColumn * FrameWidth, CurrentRow * FrameHeight, FrameWidth, FrameHeight);

@@ -35,6 +35,14 @@ namespace Oblivion
         private float _idleTimer = 0f;
         private float _idleDuration = 2f;
 
+        // Targeting
+        private Player _player;
+
+        // Animation Cool Down
+        private float _animationCoolDown = 2f;
+        private float _stateTimer = 0f;
+        private bool _inRange;
+
         public MinorEnemy(Texture2D texture, SpriteAnimation2D animation, float leftBound, float rightBound)
             : base(texture)
         {
@@ -47,6 +55,7 @@ namespace Oblivion
         public void Update(GameTime gameTime, Dictionary<Vector2, Rectangle> collisionBlocks)
         {
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            _inRange = _player.Hitbox.Intersects(_hitbox);
             int newAnimationRow = 3;
 
             ApplyGravity(deltaTime);
@@ -64,26 +73,67 @@ namespace Oblivion
                     break;
 
                 case EnemyState.Patrol:
-                    float nextX = Position.X + _enemyVelocity.X * deltaTime;
+                    // Check if player is in range
+                    float distanceToPlayer = Vector2.Distance(Position, _player.Position);
 
-                    // Reverse direction at bounds
-                    if (nextX <= _leftBound)
+                    if (distanceToPlayer < 150f) // chase if player is close
                     {
-                        Position.X = _leftBound;
-                        _enemyVelocity.X = _walkSpeed;
-                        Flip = SpriteEffects.None;
-                    }
-                    else if (nextX >= _rightBound)
-                    {
-                        Position.X = _rightBound;
-                        _enemyVelocity.X = -_walkSpeed;
-                        Flip = SpriteEffects.FlipHorizontally;
+                        _currentState = EnemyState.Chase;
+                        break;
                     }
 
-                    // Move
-                    Position.X += _enemyVelocity.X * deltaTime;
+                    PatrolMovement(deltaTime);
                     newAnimationRow = 4;
                     break;
+
+                case EnemyState.Chase:
+                    {
+                        float distance = Vector2.Distance(Position, _player.Position);
+
+                        if (_player.Hitbox.Intersects(_hitbox))
+                        {
+                            _currentState = EnemyState.Attack;
+                            _stateTimer = 0f; 
+                            newAnimationRow = 0;
+                            break;
+                        }
+
+                        if (distance > 500f)
+                        {
+                            _currentState = EnemyState.Patrol;
+                            newAnimationRow = 3;
+                            break;
+                        }
+
+                        // Still chasing
+                        ChasePlayer(deltaTime);
+                        newAnimationRow = 4;
+                        break;
+                    }
+
+                case EnemyState.Attack:
+                    {
+                        newAnimationRow = 0; // attack row
+                        _stateTimer += deltaTime;
+
+                        if (_stateTimer >= _animationCoolDown)
+                        {
+                            _stateTimer = 0f;
+
+                            float distance = Vector2.Distance(Position, _player.Position);
+
+                            if (distance <= 500f)
+                            {
+                                _currentState = EnemyState.Chase;
+                            }
+                            else
+                            {
+                                _currentState = EnemyState.Patrol;
+                            }
+                        }
+
+                        break;
+                    }
             }
 
             UpdateHitbox();
@@ -179,6 +229,46 @@ namespace Oblivion
                 Layer
             );
         }
+
+        public void SetTarget(Player player)
+        {
+            _player = player;
+        }
+
+        private void ChasePlayer(float deltaTime)
+        {
+            if (_player.Position.X > Position.X)
+            {
+                _enemyVelocity.X = _walkSpeed;
+                Flip = SpriteEffects.None;
+            }
+            else
+            {
+                _enemyVelocity.X = -_walkSpeed;
+                Flip = SpriteEffects.FlipHorizontally;
+            }
+
+            Position.X += _enemyVelocity.X * deltaTime;
+        }
+
+        private void PatrolMovement(float deltaTime)
+        {
+            if (Position.X <= _leftBound)
+            {
+                Position.X = _leftBound;
+                _enemyVelocity.X = _walkSpeed;
+                Flip = SpriteEffects.None;
+            }
+            else if (Position.X >= _rightBound)
+            {
+                Position.X = _rightBound;
+                _enemyVelocity.X = -_walkSpeed;
+                Flip = SpriteEffects.FlipHorizontally;
+            }
+
+            Position.X += _enemyVelocity.X * deltaTime;
+        }
+
     }
 }
 
