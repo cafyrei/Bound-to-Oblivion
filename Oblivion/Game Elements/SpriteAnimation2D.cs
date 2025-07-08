@@ -51,7 +51,6 @@ namespace Oblivion
                 }
             }
         }
-        
         public void Reset() => _currentColumn = 0;
 
         public void SetRow(int row)

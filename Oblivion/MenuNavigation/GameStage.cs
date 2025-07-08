@@ -8,11 +8,14 @@ namespace Oblivion
     {
         private List<ScrollingBackground> _scrollingBackground;
         private Player _player;
+        private List<MinorEnemy> _minorEnemies;
 
-        public GameStage( List<ScrollingBackground> scrollingBackground, Player player)
+
+        public GameStage(List<ScrollingBackground> scrollingBackground, Player player, List<MinorEnemy> minorEnemy)
         {
             _scrollingBackground = scrollingBackground;
             _player = player;
+            _minorEnemies = minorEnemy;
         }
 
         public void Update(GameTime gameTime, Camera2D _camera)
@@ -23,6 +26,11 @@ namespace Oblivion
             }
 
             _player.Update(gameTime);
+
+            foreach (var enemy in _minorEnemies)
+            {
+                enemy.Update(gameTime);
+            }
         }
 
 
@@ -38,7 +46,13 @@ namespace Oblivion
                 sb.Draw(gameTime, _spriteBatch);
             }
 
+            foreach (var enemy in _minorEnemies)
+            {
+                enemy.Draw(_spriteBatch);
+            }
+
             _player.Draw(_spriteBatch);
+
         }
     }
 }
