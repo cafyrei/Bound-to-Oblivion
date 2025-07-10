@@ -12,6 +12,8 @@ namespace Oblivion
         private MainMenu _mainMenu;
         private GameStage _gameStage;
 
+        private Controls _controlsMenu;
+
         // Player Variables
         private Texture2D _samuraiTexture;
         private Texture2D _minorEnemyTexture;
@@ -66,7 +68,7 @@ namespace Oblivion
             _HpBar = new HPBar(Content, 123f);
             _player = new Player(_samuraiTexture, _playerAnimation, Content, _HpBar, _HpBar.MaxValue)
             {
-                Position = new Vector2(50, 0),
+                Position = new Vector2(50, 150),
                 Layer = 0.94f,
             };
 
@@ -124,6 +126,7 @@ namespace Oblivion
             _mainMenu = new MainMenu(Content, graphicsDevice);
             _platform1 = new Platform("../../../Data/Stage1map.csv", Content, graphicsDevice);
             _gameStage = new GameStage(_scrollingBackground, _player, _minorEnemies, _platform1);
+            _controlsMenu = new Controls(Content, graphicsDevice);
 
             foreach (var bg in _scrollingBackground)
             {
@@ -159,11 +162,11 @@ namespace Oblivion
         // Properties
         public MainMenu MainMenu => _mainMenu;
         public GameStage GameStage => _gameStage;
+        public Controls controls => _controlsMenu;
 
         public Camera2D Camera { get => _camera; }
 
         public Player Player1 { get => _player; set => _player = value; }
     }
-
-        
+    
     }

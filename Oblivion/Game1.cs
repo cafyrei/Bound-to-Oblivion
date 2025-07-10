@@ -15,7 +15,7 @@ namespace Oblivion
         private SpriteBatch _spriteBatch;
         private GraphicsDeviceManager _graphics;
 
-        public enum GameState { MainMenu, GamePlay, Credits };
+        public enum GameState { MainMenu, GamePlay, Controls, Credits };
         GameState currentState = GameState.MainMenu;
 
         // Content Managers
@@ -60,6 +60,8 @@ namespace Oblivion
                     _textureManager.MainMenu.Update(gameTime);
                     if (_textureManager.MainMenu.StartPressed)
                         currentState = GameState.GamePlay;
+                    else if (_textureManager.MainMenu.ControlsPressed)
+                        currentState = GameState.Controls;
                     else if (_textureManager.MainMenu.CreditsPressed)
                         currentState = GameState.Credits;
                     else if (_textureManager.MainMenu.ExitPressed)
@@ -100,6 +102,12 @@ namespace Oblivion
 
                     _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
                     _textureManager.Player1._HPbar.Draw(_spriteBatch);
+                    _spriteBatch.End();
+                    break;
+
+                case GameState.Controls:
+                    _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
+                    _textureManager.controls.Draw(_spriteBatch);
                     _spriteBatch.End();
                     break;
             }

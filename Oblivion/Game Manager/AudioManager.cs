@@ -22,8 +22,8 @@ namespace Oblivion
             _attackSound1 = content.Load<SoundEffect>("Sound/sword_slash1");
             _menuHover = content.Load<SoundEffect>("Sound/menu_hover");
             _menuClicked = content.Load<SoundEffect>("Sound/menu_start");
-            _menuClickedInstance = _menuClicked.CreateInstance();
-            _menuClickedInstance.Volume = 0.5f;
+            // _menuClickedInstance = _menuClicked.CreateInstance();
+            // _menuClickedInstance.Volume = 0.1f;
 
             // Load BGM
             _menuBackgroundsfx = content.Load<Song>("Music/missing_wind");

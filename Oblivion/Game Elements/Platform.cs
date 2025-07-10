@@ -35,6 +35,10 @@ public class Platform
             new Rectangle(0,96,32,32), //10 REVERSE GRASS LEFT
             new Rectangle(32,96,32,32), //11 REVERSE GRASS MIDDLE
             new Rectangle(64,96,32,32), //12 REVERSE GRASS RIGHT
+            new Rectangle(96,0,32,32), //13 CORNER UPPER LEFT
+            new Rectangle(96,32,32,32), //14 CORNER UPPER RIGHT
+            new Rectangle(96,64,32,32), //15 CORNER LOWER LEFT
+            new Rectangle(96,96,32,32) //16 CORNER LOWER RIGHT
             //BLOCKS WITHOUT COLLISION
         };
     }

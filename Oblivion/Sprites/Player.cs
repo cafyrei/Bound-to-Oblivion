@@ -12,7 +12,7 @@ namespace Oblivion
         // Constants
         private const float BaseSpeed = 100f;
         private const float JumpSpeed = 550f;
-        private const float Gravity = 950f;
+        private const float Gravity = 800f;
         private const float FallMultiplier = 2.5f;
         private const float AttackDuration = 0.5f;
         private const float HitboxScale = 1.5f;
@@ -232,7 +232,7 @@ namespace Oblivion
                     else
                     {
                         // Vertical collision
-                        if (_hitbox.Center.Y < tile.Center.Y)
+                        if (_hitbox.Center.Y< tile.Center.Y)
                         {
                             // Landing
                             Position.Y -= intersection.Height;

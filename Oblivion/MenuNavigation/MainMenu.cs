@@ -21,7 +21,7 @@ namespace Oblivion
         // All About Buttons
         public Texture2D button_Texture;
         List<Button2D> menuButtons = new List<Button2D>();
-        string[] labels = { "Start", "Continue", "Credits", "Exit" };
+        string[] labels = { "Start", "Continue", "Controls", "Credits", "Exit" };
 
         // All About Mouse
         MouseState currentMouseState;
@@ -33,6 +33,7 @@ namespace Oblivion
         public bool StartPressed { get; private set; } = false;
         public bool CreditsPressed { get; private set; } = false;
         public bool ExitPressed { get; private set; } = false;
+        public bool ControlsPressed { get; private set; } = false;
 
         public MainMenu(ContentManager contents, GraphicsDevice graphics)
         {
@@ -74,12 +75,12 @@ namespace Oblivion
                 {
                     switch (index)
                     {
-                        case 0: StartPressed = true; break;
-                        case 1: break;
-                        case 2: CreditsPressed = true ; break;
-                        case 3: ExitPressed = true; break;
+                        case 0: StartPressed = true; MediaPlayer.Stop(); break;
+                        case 1: break; //MediaPlayer.Stop()
+                        case 2: ControlsPressed = true; break;
+                        case 3: CreditsPressed = true; break;
+                        case 4: ExitPressed = true; break;
                     }
-                    MediaPlayer.Stop();
                 };
                 menuButtons.Add(menu_Button);
             }
