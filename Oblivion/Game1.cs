@@ -87,19 +87,22 @@ namespace Oblivion
             switch (currentState)
             {
                 case GameState.MainMenu:
-                    _spriteBatch.Begin(); 
+                    _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
                     _textureManager.MainMenu.Draw(_spriteBatch);
                     _spriteBatch.End();
                     break;
 
                 case GameState.GamePlay:
                     _textureManager.Camera.Follow(_textureManager.GameStage.GetPlayerPosition(), TextureManager.tileWidth, TextureManager.tileHeight); // Follow the player
-                    _spriteBatch.Begin(transformMatrix: _textureManager.Camera.GetViewMatrix());
+                    _spriteBatch.Begin(transformMatrix: _textureManager.Camera.GetViewMatrix(), samplerState: SamplerState.PointClamp);
                     _textureManager.GameStage.Draw(gameTime, _spriteBatch);
+                    _spriteBatch.End();
+
+                    _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
+                    _textureManager.Player1._HPbar.Draw(_spriteBatch);
                     _spriteBatch.End();
                     break;
             }
-
             base.Draw(gameTime);
         }
     }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -10,11 +11,11 @@ namespace Oblivion
     {
         // Constants
         private const float BaseSpeed = 100f;
-        private const float JumpSpeed = 380f;
-        private const float Gravity = 500f;
+        private const float JumpSpeed = 550f;
+        private const float Gravity = 950f;
         private const float FallMultiplier = 2.5f;
         private const float AttackDuration = 0.5f;
-        private const float HitboxScale = 2f;
+        private const float HitboxScale = 1.5f;
 
         // Movement and State
         private Vector2 velocity;
@@ -23,6 +24,8 @@ namespace Oblivion
         private float _attackTimer;
         private bool _attackTurn;
         private KeyboardState _previousKeyboard;
+
+        private MouseState _previousMouse;
 
         // Movement Speeds
         private readonly float _walkSpeed = 1f;
@@ -37,16 +40,26 @@ namespace Oblivion
         public Vector2 Velocity => velocity;
         public Rectangle Hitbox => _hitbox;
 
-        public Player(Texture2D texture, SpriteAnimation2D animation) : base(texture)
+        //HP System
+        public HPBar _HPbar;
+        float _maxHealth;
+        float _health;
+        float _maxLowestHealth = 23;
+
+        public Player(Texture2D texture, SpriteAnimation2D animation, ContentManager Content, HPBar _hpBar, float maxValue) : base(texture)
         {
             _texture = texture;
             _animation = animation;
+            _maxHealth = maxValue;
+            _health = maxValue;
+            _HPbar = _hpBar;
         }
 
         public void Update(GameTime gameTime, Dictionary<Vector2, Rectangle> collisionBlocks)
         {
             var deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
             var input = Keyboard.GetState();
+            var mouseInput = Mouse.GetState();
 
             velocity = new Vector2(0, velocity.Y);
 
@@ -68,8 +81,14 @@ namespace Oblivion
             UpdateHitbox();
             HandleCollision(collisionBlocks);
 
+            TakeDamage(10f, mouseInput, _previousMouse);
+            Heal(10f, mouseInput, _previousMouse);
+
             _animation.Update(gameTime);
             _previousKeyboard = input;
+            _previousMouse = mouseInput;
+
+            _HPbar.Update(_health);
         }
 
         private void HandleMovement(KeyboardState input)
@@ -130,6 +149,25 @@ namespace Oblivion
             }
         }
 
+        private void TakeDamage(float dmg, MouseState input, MouseState prev)
+        {
+            if (prev.LeftButton == ButtonState.Released && input.LeftButton == ButtonState.Pressed)
+            {
+                _health -= dmg;
+                if (_health < _maxLowestHealth) _health = _maxLowestHealth;
+                Console.WriteLine(_health);
+            }
+        }
+
+        private void Heal(float heal, MouseState input, MouseState prev)
+        {
+            if (prev.RightButton == ButtonState.Released && input.RightButton == ButtonState.Pressed)
+            {
+                _health += heal;
+                if (_health > _maxHealth) _health = _maxHealth;
+                Console.WriteLine(_health);
+            }
+        }
         private void ApplyGravity(float deltaTime)
         {
             if (!_isOnGround)
@@ -153,9 +191,9 @@ namespace Oblivion
         private void UpdateHitbox()
         {
             int offset = 41;
-            
+
             _hitbox = new Rectangle(
-                (int)(Position.X + offset), 
+                (int)(Position.X + offset),
                 (int)(Position.Y + offset / 2),
                 (int)(_animation.FrameWidthAccess * HitboxScale) - offset * 2,
                 (int)(_animation.FrameHeightAccess * HitboxScale) - offset

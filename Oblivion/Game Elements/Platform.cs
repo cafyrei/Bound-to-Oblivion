@@ -11,6 +11,8 @@ public class Platform
     private Dictionary<Vector2, int> tileMap;
     public List<Rectangle> textureStore;
 
+    int TILESIZE = 32;
+
     public Dictionary<Vector2, Rectangle> collision;
 
     Texture2D Atlas;
@@ -20,7 +22,20 @@ public class Platform
         (tileMap, collision) = LoadMap(map);
         textureStore = new()
         {
-            new Rectangle(0,0,16,16)
+            //BLOCKS WITH COLLISION
+            new Rectangle(0,0,32,32), //1 GRASS Left Side Block
+            new Rectangle(32,0,32,32), //2 GRASS Middle Side Block
+            new Rectangle(64,0,32,32), //3 GRASS Right Side Block
+            new Rectangle(0,32,32,32), //4 MID GRASS LEFT
+            new Rectangle(32,32,32,32), //5 MID GRASS Middle
+            new Rectangle(64,32,32,32), //6 MID GRASS RIGHT
+            new Rectangle(0,64,32,32), //7 DARK LEFT
+            new Rectangle(32,64,32,32), //8 DARK MIDDLE
+            new Rectangle(64,64,32,32), //9 DARK RIGHT
+            new Rectangle(0,96,32,32), //10 REVERSE GRASS LEFT
+            new Rectangle(32,96,32,32), //11 REVERSE GRASS MIDDLE
+            new Rectangle(64,96,32,32), //12 REVERSE GRASS RIGHT
+            //BLOCKS WITHOUT COLLISION
         };
     }
 
@@ -43,7 +58,8 @@ public class Platform
                     if (value > 0)
                     {
                         result[new Vector2(x, y)] = value;
-                        collision[new Vector2(x,y)] = new Rectangle(x * 64, y * 64, 64, 64);
+                        //if (value < NUM of platform tiles)
+                        collision[new Vector2(x,y)] = new Rectangle(x * TILESIZE, y * TILESIZE, TILESIZE, TILESIZE);
                     }
                 }
             }
@@ -59,14 +75,14 @@ public class Platform
 
     public void LoadContent(ContentManager Content, GraphicsDevice graphics)
     {
-        Atlas = Content.Load<Texture2D>("Platform/sprite sheet 16x16px seamless textures");
+        Atlas = Content.Load<Texture2D>("Platform/Platform Tiles");
     }
 
     public void Draw(SpriteBatch _spritebatch)
     {
         foreach (var item in tileMap)
         {
-            Rectangle dest = new Rectangle((int)item.Key.X * 64, (int)item.Key.Y * 64, 64, 64);
+            Rectangle dest = new Rectangle((int)item.Key.X * TILESIZE, (int)item.Key.Y * TILESIZE, TILESIZE, TILESIZE);
             Rectangle src = textureStore[item.Value - 1];
             _spritebatch.Draw(Atlas, dest, src, Color.White);
         }

@@ -31,7 +31,7 @@ namespace Oblivion
         SpriteFont menu_Font;
 
         public bool StartPressed { get; private set; } = false;
-        public bool CreditsPressed { get; private set; } = false;   
+        public bool CreditsPressed { get; private set; } = false;
         public bool ExitPressed { get; private set; } = false;
 
         public MainMenu(ContentManager contents, GraphicsDevice graphics)
@@ -47,7 +47,7 @@ namespace Oblivion
             background = new Background(background_Texture, backgroundRect, Color.White);
 
             AudioManager.PlayMenuBGM();
-        
+
             button_Texture = Content.Load<Texture2D>("Backgrounds/transparent_texture");
 
             try
@@ -58,7 +58,7 @@ namespace Oblivion
             {
                 Console.WriteLine("Error Loading Font : Basara Error Code : " + e.Message);
                 // menu_Font = Content.Load<SpriteFont>("Fonts/Blade Stroke");
-            } 
+            }
 
             for (int i = 0; i < labels.Length; i++)
             {
