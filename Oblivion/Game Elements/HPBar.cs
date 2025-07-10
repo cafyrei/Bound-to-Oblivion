@@ -33,7 +33,7 @@ namespace Oblivion
             currentValue = _maxHealth;
 
             // Movement
-            position = new Vector2(0, 0);
+            position = new Vector2(10, 10);
             part = new(0, 0, midground.Width, midground.Height);
         }
 

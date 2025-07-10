@@ -168,7 +168,7 @@ namespace Oblivion
             {
                 var animationClone = new SpriteAnimation2D(_minorEnemyAnimation);
 
-                var enemy = new MinorEnemy(_minorEnemyTexture, animationClone, pos.X - 100, pos.X + 100)
+                var enemy = new MinorEnemy(_minorEnemyTexture, animationClone, pos.X - 100, pos.X + 100, Camera)
                 {
                     Position = pos,
                     Layer = 0.93f,

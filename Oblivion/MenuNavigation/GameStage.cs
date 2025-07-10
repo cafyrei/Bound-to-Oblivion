@@ -38,7 +38,7 @@ namespace Oblivion
             _pauseMenu.BackToMenu += backToMenu;
         }
 
-        public void Update(GameTime gameTime)
+        public void Update(GameTime gameTime, Camera2D camera)
         {
             KeyboardState _currentKeyboardState = Keyboard.GetState();
             AudioManager.PlayGameStageBGM();
@@ -68,7 +68,7 @@ namespace Oblivion
 
                 foreach (var enemy in _minorEnemies)
                 {
-                    enemy.Update(gameTime, _platform.collision);
+                    enemy.Update(gameTime, _platform.collision, camera);
                 }
             }
         }

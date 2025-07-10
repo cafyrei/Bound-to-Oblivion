@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -45,7 +46,12 @@ namespace Oblivion
 
         float _maxHealth = 100f;
         float _minHealth = 0f;
-        float _currentHealth ;
+        float _currentHealth;
+
+        // Animation Control
+        bool _isHit = false;
+        float _hitTimer = 0f;
+        float _hitDuration = 3f;
 
         public Player(Texture2D texture, SpriteAnimation2D animation, ContentManager Content, HPBar hpbar) : base(texture)
         {
@@ -64,7 +70,7 @@ namespace Oblivion
 
             velocity = new Vector2(0, velocity.Y);
 
-            HandleMovement(input);
+            HandleMovement(input, gameTime);
             HandleJump(input);
             HandleAttack(input, deltaTime);
             ApplyGravity(deltaTime);
@@ -78,13 +84,26 @@ namespace Oblivion
             _previousMouse = mouseInput;
         }
 
-        private void HandleMovement(KeyboardState input)
+        private void HandleMovement(KeyboardState input, GameTime gameTime)
         {
+            float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+
             bool moveLeft = input.IsKeyDown(Keys.A);
             bool moveRight = input.IsKeyDown(Keys.D);
             bool run = input.IsKeyDown(Keys.LeftShift);
 
             float moveSpeed = run ? _runSpeed : _walkSpeed;
+            if (_isHit && !_isAttacking && !moveLeft && !moveRight)
+            {
+                _hitTimer += deltaTime;
+                _animation.SetRow(3);
+                if (_hitTimer >= _hitDuration)
+                {
+                    _isHit = false;
+                    _hitTimer = 0f;
+                }
+                return;
+            }
 
             if (moveRight && !moveLeft)
             {
@@ -114,12 +133,13 @@ namespace Oblivion
             }
             _HPbar.Update(_currentHealth);
         }
-        public void TakeDamage(float dmg)
+        public void TakeDamage(float dmg, Camera2D camera)
         {
-            _animation.SetRow(3);
+            _isHit = true;
             SetHealth(_currentHealth - dmg);
-
+            camera.Shake(0.25f, 10f);
         }
+
 
         public void Heal(float heal)
         {
@@ -148,6 +168,7 @@ namespace Oblivion
                 AudioManager.PlayAttack();
             }
         }
+
         private void HandleJump(KeyboardState input)
         {
             if (input.IsKeyDown(Keys.Space) && !_previousKeyboard.IsKeyDown(Keys.Space) && _isOnGround)

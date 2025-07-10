@@ -56,7 +56,7 @@ namespace Oblivion
         float _damageTimer = 0f;
 
 
-        public MinorEnemy(Texture2D texture, SpriteAnimation2D animation, float leftBound, float rightBound)
+        public MinorEnemy(Texture2D texture, SpriteAnimation2D animation, float leftBound, float rightBound, Camera2D camera)
             : base(texture)
         {
             _animation = animation;
@@ -66,7 +66,7 @@ namespace Oblivion
             randDamage = new Random();
         }
 
-        public void Update(GameTime gameTime, Dictionary<Vector2, Rectangle> collisionBlocks)
+        public void Update(GameTime gameTime, Dictionary<Vector2, Rectangle> collisionBlocks, Camera2D camera)
         {
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds; // Delta Time
 
@@ -140,9 +140,8 @@ namespace Oblivion
                             // Collision Just started (valid attack)  
                             if (_damageTimer >= _damageCooldown)
                             {
-                                _damage = randDamage.Next(5, 11);
-                                Console.WriteLine("Damage " + _damage);
-                                _player.TakeDamage(_damage);
+                                _damage = randDamage.Next(5, 11); // Damage Per Slah (min,max)
+                                _player.TakeDamage(_damage, camera);
                                 _damageTimer = 0f;
                             }
                         }

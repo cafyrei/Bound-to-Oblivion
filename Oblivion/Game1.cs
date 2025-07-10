@@ -76,7 +76,7 @@ namespace Oblivion
                     break;
 
                 case GameState.GamePlay:
-                    _textureManager.GameStage.Update(gameTime);
+                    _textureManager.GameStage.Update(gameTime, _textureManager.Camera);
                     break;
 
                 case GameState.GameOver:
@@ -101,7 +101,7 @@ namespace Oblivion
                     break;
 
                 case GameState.GamePlay:
-                    _textureManager.Camera.Follow(_textureManager.GameStage.GetPlayerPosition(), TextureManager.tileWidth, TextureManager.tileHeight); // Follow the player
+                    _textureManager.Camera.Follow(_textureManager.GameStage.GetPlayerPosition(), TextureManager.tileWidth, TextureManager.tileHeight, gameTime); // Follow the player
                     _spriteBatch.Begin(transformMatrix: _textureManager.Camera.GetViewMatrix(), samplerState: SamplerState.PointClamp);
                     _textureManager.GameStage.Draw(gameTime, _spriteBatch);
                     _spriteBatch.End();
