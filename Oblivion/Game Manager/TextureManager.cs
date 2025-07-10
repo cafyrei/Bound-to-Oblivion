@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace Oblivion
 {
@@ -11,8 +12,8 @@ namespace Oblivion
         // Game Stages Variables;
         private MainMenu _mainMenu;
         private GameStage _gameStage;
-
-        private Controls _controlsMenu;
+        private GameOverScreen _gameOver;
+        private Controls _control;
 
         // Player Variables
         private Texture2D _samuraiTexture;
@@ -122,11 +123,36 @@ namespace Oblivion
 
             #endregion
 
+            #region Game Over
+            _gameOver = new GameOverScreen(Content, graphicsDevice);
+            #endregion
+
             _camera = new Camera2D(graphicsDevice.Viewport);
             _mainMenu = new MainMenu(Content, graphicsDevice);
             _platform1 = new Platform("../../../Data/Stage1map.csv", Content, graphicsDevice);
-            _gameStage = new GameStage(_scrollingBackground, _player, _minorEnemies, _platform1);
-            _controlsMenu = new Controls(Content, graphicsDevice);
+
+
+            // Game Stage Constructor
+            _gameStage = new GameStage(
+                _scrollingBackground,
+                _player,
+                _minorEnemies,
+                _platform1,
+                () =>
+                {
+                    Game1.currentState = Game1.GameState.MainMenu;
+                    MainMenu.ResetFlags();
+                    _mainMenu.StartFadeIn();
+                }
+            );
+
+            _control = new Controls(Content, graphicsDevice,
+            () => {
+                Game1.currentState = Game1.GameState.MainMenu;
+                 }
+            );
+
+            _gameStage.Load(Content, graphicsDevice);
 
             foreach (var bg in _scrollingBackground)
             {
@@ -158,15 +184,14 @@ namespace Oblivion
             }
         }
 
-
         // Properties
         public MainMenu MainMenu => _mainMenu;
         public GameStage GameStage => _gameStage;
-        public Controls controls => _controlsMenu;
+        public Controls Controls => _control;
 
         public Camera2D Camera { get => _camera; }
-
         public Player Player1 { get => _player; set => _player = value; }
+        public GameOverScreen GameOver { get => _gameOver; }
     }
-    
+
     }

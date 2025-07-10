@@ -22,7 +22,6 @@ public class Platform
         (tileMap, collision) = LoadMap(map);
         textureStore = new()
         {
-            //BLOCKS WITH COLLISION
             new Rectangle(0,0,32,32), //1 GRASS Left Side Block
             new Rectangle(32,0,32,32), //2 GRASS Middle Side Block
             new Rectangle(64,0,32,32), //3 GRASS Right Side Block
@@ -39,7 +38,6 @@ public class Platform
             new Rectangle(96,32,32,32), //14 CORNER UPPER RIGHT
             new Rectangle(96,64,32,32), //15 CORNER LOWER LEFT
             new Rectangle(96,96,32,32) //16 CORNER LOWER RIGHT
-            //BLOCKS WITHOUT COLLISION
         };
     }
 

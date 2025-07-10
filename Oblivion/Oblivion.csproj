@@ -7,7 +7,7 @@
     <TieredCompilation>false</TieredCompilation>
     <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
-  <PropertyGroup> 
+  <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <ApplicationIcon>BoundedToOblivion Icon.ico</ApplicationIcon>
   </PropertyGroup>

@@ -17,7 +17,7 @@ namespace Oblivion
         private bool _hasHovered = false;
 
         private SoundEffect _menuHover;
-        private SoundEffect _menuClicked;   
+        private SoundEffect _menuClicked;
 
         public SoundEffect MenuHover
         {
@@ -84,6 +84,5 @@ namespace Oblivion
                 0f);
             }
         }
-
     }
 }

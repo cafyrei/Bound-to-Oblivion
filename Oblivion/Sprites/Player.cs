@@ -155,7 +155,6 @@ namespace Oblivion
             {
                 _health -= dmg;
                 if (_health < _maxLowestHealth) _health = _maxLowestHealth;
-                Console.WriteLine(_health);
             }
         }
 
@@ -165,7 +164,6 @@ namespace Oblivion
             {
                 _health += heal;
                 if (_health > _maxHealth) _health = _maxHealth;
-                Console.WriteLine(_health);
             }
         }
         private void ApplyGravity(float deltaTime)

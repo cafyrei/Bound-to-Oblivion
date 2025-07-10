@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Windows.Forms;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -16,8 +17,7 @@ namespace Oblivion
 
         // All About Buttons
         public Texture2D button_Texture;
-        List<Button2D> menuButtons = new List<Button2D>();
-        string[] labels = { "Back" };
+        Button2D menu_Button;
 
         // All About Mouse
         MouseState currentMouseState;
@@ -27,44 +27,51 @@ namespace Oblivion
         SpriteFont menu_Font;
 
         public bool BackPressed { get; private set; } = false;
-        public Controls(ContentManager contents, GraphicsDevice graphics)
+        public Controls(ContentManager contents, GraphicsDevice graphics, Action OnExitToMenu)
         {
             LoadContent(contents, graphics);
         }
 
         private void LoadContent(ContentManager Content, GraphicsDevice graphics)
         {
-
+            menu_Font = Content.Load<SpriteFont>("Fonts/Blade Stroke");
             background_Texture = Content.Load<Texture2D>("Backgrounds/Controls");
             backgroundRect = new Rectangle(0, 0, graphics.Viewport.Width, graphics.Viewport.Height);
             background = new Background(background_Texture, backgroundRect, Color.White);
+            
             button_Texture = Content.Load<Texture2D>("Backgrounds/transparent_texture");
+            Rectangle button_Rect = new Rectangle(70, 70, 120, 40);
 
-            Rectangle button_Rect = new Rectangle(180, 200, 120, 40);
-            Button2D menu_Buttons = new Button2D(button_Texture, button_Rect, Color.White, labels[0], menu_Font)
+            menu_Button = new Button2D(button_Texture, button_Rect, Color.White, "Back", menu_Font)
             {
                 MenuHover = AudioManager._menuHover,
                 MenuClicked = AudioManager._menuClicked
             };
-            menu_Buttons.Clicked += () =>
+            menu_Button.Clicked += () =>
+            {
+                BackPressed = true;
+                Game1.currentState = Game1.GameState.MainMenu;
+            };
         }
 
-        public void Update(GameTime gameTime)
+        public void Update()
         {
             currentMouseState = Mouse.GetState();
-
-            foreach (var menu_button in menuButtons)
-            {
-                menu_button.Update(currentMouseState, previousMouseState);
-            }
-
+            menu_Button.Update(currentMouseState, previousMouseState);
             previousMouseState = currentMouseState;
+
+             if (BackPressed)
+            {
+                Game1.currentState = Game1.GameState.MainMenu;
+                MainMenu.ResetFlags();
+                BackPressed = false; // Reset this so it doesn't immediately trigger again next time
+            }
         }
+
         public void Draw(SpriteBatch _spritebatch)
         {
             _spritebatch.Draw(background.Background_Texture, background.Background_Rectangle, background.Background_color);
-
-            button.Draw(_spritebatch, currentMouseState);
+            menu_Button.Draw(_spritebatch, currentMouseState);
         }
     }
 }
