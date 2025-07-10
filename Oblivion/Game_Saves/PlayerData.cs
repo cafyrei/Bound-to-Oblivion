@@ -18,6 +18,8 @@ public class SerializableVector2
     public float X;
     public float Y;
 
+    public SerializableVector2() { }
+
     public SerializableVector2(Vector2 vector)
     {
         X = vector.X;

@@ -39,9 +39,22 @@ namespace Oblivion
         private Player _player;
 
         // Animation Cool Down
-        private float _animationCoolDown = 1.5f;
+        private float _animationCoolDown = 1.3f;
         private float _stateTimer = 0f;
-        private bool _inRange;
+        private bool _isColliding;
+
+        // Health Related Variables
+
+        float _minHealth = 0;
+        float _maxHealth = 100f;
+        float _currentHealth;
+        bool wasColliding = false;
+
+        Random randDamage;
+        float _damage;
+        float _damageCooldown = 1.5f;
+        float _damageTimer = 0f;
+
 
         public MinorEnemy(Texture2D texture, SpriteAnimation2D animation, float leftBound, float rightBound)
             : base(texture)
@@ -50,15 +63,19 @@ namespace Oblivion
             _enemyVelocity = new Vector2(_walkSpeed, 0); // Start moving right
             _leftBound = leftBound;
             _rightBound = rightBound;
+            randDamage = new Random();
         }
 
         public void Update(GameTime gameTime, Dictionary<Vector2, Rectangle> collisionBlocks)
         {
-            float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            _inRange = _player.Hitbox.Intersects(_hitbox);
+            float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds; // Delta Time
+
+            _isColliding = _player.Hitbox.Intersects(_hitbox); // Condition Checking
+
             int newAnimationRow = 3;
 
             ApplyGravity(deltaTime);
+
             Position.Y += _enemyVelocity.Y * deltaTime;
 
             switch (_currentState)
@@ -93,12 +110,12 @@ namespace Oblivion
                         if (_player.Hitbox.Intersects(_hitbox))
                         {
                             _currentState = EnemyState.Attack;
-                            _stateTimer = 0f; 
+                            _stateTimer = 0f;
                             newAnimationRow = 0;
                             break;
                         }
 
-                        if (distance > 500f)
+                        if (distance > 500f) // If Distance Back to Patrol
                         {
                             _currentState = EnemyState.Patrol;
                             newAnimationRow = 3;
@@ -113,25 +130,40 @@ namespace Oblivion
 
                 case EnemyState.Attack:
                     {
-                        newAnimationRow = 0; // attack row
                         _stateTimer += deltaTime;
+                        _damageTimer += deltaTime;
+                        newAnimationRow = 0; // attack row
 
-                        if (_stateTimer >= _animationCoolDown)
+                        if (_isColliding)
                         {
-                            _stateTimer = 0f;
 
-                            float distance = Vector2.Distance(Position, _player.Position);
-
-                            if (distance <= 500f)
+                            // Collision Just started (valid attack)  
+                            if (_damageTimer >= _damageCooldown)
                             {
-                                _currentState = EnemyState.Chase;
-                            }
-                            else
-                            {
-                                _currentState = EnemyState.Patrol;
+                                _damage = randDamage.Next(5, 11);
+                                Console.WriteLine("Damage " + _damage);
+                                _player.TakeDamage(_damage);
+                                _damageTimer = 0f;
                             }
                         }
+                        else
+                        {
+                            if (_stateTimer >= _animationCoolDown)
+                            {
+                                _stateTimer = 0f;
 
+                                float distance = Vector2.Distance(Position, _player.Position);
+
+                                if (distance <= 500f)
+                                {
+                                    _currentState = EnemyState.Chase;
+                                }
+                                else
+                                {
+                                    _currentState = EnemyState.Patrol;
+                                }
+                            }
+                        }
                         break;
                     }
             }
@@ -142,6 +174,7 @@ namespace Oblivion
             _animation.SetRow(newAnimationRow);
             _animation.Update(gameTime);
         }
+
 
         private void ApplyGravity(float deltaTime)
         {
@@ -162,9 +195,9 @@ namespace Oblivion
 
             _hitbox = new Rectangle(
                 (int)(Position.X + horizontalTrim),
-                (int)(Position.Y + verticalTrim / 2),
+                (int)(Position.Y + verticalTrim ),
                 Math.Max(1, (int)(_animation.FrameWidthAccess * HitboxScale) - horizontalTrim * 2),
-                Math.Max(1, (int)(_animation.FrameHeightAccess * HitboxScale) - verticalTrim)
+                Math.Max(1, (int)(_animation.FrameHeightAccess * HitboxScale) - verticalTrim * 2)
             );
         }
 
@@ -229,6 +262,7 @@ namespace Oblivion
                 Layer
             );
         }
+        
 
         public void SetTarget(Player player)
         {

@@ -42,17 +42,18 @@ namespace Oblivion
 
         //HP System
         public HPBar _HPbar;
-        float _maxHealth;
-        float _health;
-        float _maxLowestHealth = 23;
 
-        public Player(Texture2D texture, SpriteAnimation2D animation, ContentManager Content, HPBar _hpBar, float maxValue) : base(texture)
+        float _maxHealth = 100f;
+        float _minHealth = 0f;
+        float _currentHealth ;
+
+        public Player(Texture2D texture, SpriteAnimation2D animation, ContentManager Content, HPBar hpbar) : base(texture)
         {
             _texture = texture;
             _animation = animation;
-            _maxHealth = maxValue;
-            _health = maxValue;
-            _HPbar = _hpBar;
+
+            _currentHealth = _maxHealth;
+            _HPbar = hpbar;
         }
 
         public void Update(GameTime gameTime, Dictionary<Vector2, Rectangle> collisionBlocks)
@@ -63,15 +64,6 @@ namespace Oblivion
 
             velocity = new Vector2(0, velocity.Y);
 
-            // if (_isOnGround)
-            // {
-            //     Console.WriteLine("Is on Ground");
-            // }
-            // else
-            // {
-            //     Console.WriteLine("NOT IN GROUND");
-            // }
-
             HandleMovement(input);
             HandleJump(input);
             HandleAttack(input, deltaTime);
@@ -81,14 +73,9 @@ namespace Oblivion
             UpdateHitbox();
             HandleCollision(collisionBlocks);
 
-            TakeDamage(10f, mouseInput, _previousMouse);
-            Heal(10f, mouseInput, _previousMouse);
-
             _animation.Update(gameTime);
             _previousKeyboard = input;
             _previousMouse = mouseInput;
-
-            _HPbar.Update(_health);
         }
 
         private void HandleMovement(KeyboardState input)
@@ -117,13 +104,26 @@ namespace Oblivion
             }
         }
 
-        private void HandleJump(KeyboardState input)
+        private void SetHealth(float value) // Update
         {
-            if (input.IsKeyDown(Keys.Space) && !_previousKeyboard.IsKeyDown(Keys.Space) && _isOnGround)
+            _currentHealth = MathHelper.Clamp(value, _minHealth, _maxHealth);
+            Console.WriteLine("Health Damage " + _currentHealth);
+            if (_currentHealth <= 23f)
             {
-                velocity.Y = -JumpSpeed;
-                _isOnGround = false;
+                Console.WriteLine("Game Over");
             }
+            _HPbar.Update(_currentHealth);
+        }
+        public void TakeDamage(float dmg)
+        {
+            _animation.SetRow(3);
+            SetHealth(_currentHealth - dmg);
+
+        }
+
+        public void Heal(float heal)
+        {
+            SetHealth(_currentHealth + heal);
         }
 
         private void HandleAttack(KeyboardState input, float deltaTime)
@@ -148,26 +148,16 @@ namespace Oblivion
                 AudioManager.PlayAttack();
             }
         }
-
-        private void TakeDamage(float dmg, MouseState input, MouseState prev)
+        private void HandleJump(KeyboardState input)
         {
-            if (prev.LeftButton == ButtonState.Released && input.LeftButton == ButtonState.Pressed)
+            if (input.IsKeyDown(Keys.Space) && !_previousKeyboard.IsKeyDown(Keys.Space) && _isOnGround)
             {
-                _health -= dmg;
-                if (_health < _maxLowestHealth) _health = _maxLowestHealth;
-                Console.WriteLine(_health);
+                velocity.Y = -JumpSpeed;
+                _isOnGround = false;
             }
         }
 
-        private void Heal(float heal, MouseState input, MouseState prev)
-        {
-            if (prev.RightButton == ButtonState.Released && input.RightButton == ButtonState.Pressed)
-            {
-                _health += heal;
-                if (_health > _maxHealth) _health = _maxHealth;
-                Console.WriteLine(_health);
-            }
-        }
+
         private void ApplyGravity(float deltaTime)
         {
             if (!_isOnGround)

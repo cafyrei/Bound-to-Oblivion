@@ -38,7 +38,7 @@ namespace Oblivion
             _pauseMenu.BackToMenu += backToMenu;
         }
 
-        public void Update(GameTime gameTime, Camera2D camera)
+        public void Update(GameTime gameTime)
         {
             KeyboardState _currentKeyboardState = Keyboard.GetState();
             AudioManager.PlayGameStageBGM();
