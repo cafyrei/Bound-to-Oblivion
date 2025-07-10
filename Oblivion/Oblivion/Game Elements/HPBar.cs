@@ -45,7 +45,6 @@ namespace Oblivion
             _spritebatch.Draw(midground, position, part, Color.White, 0f, Vector2.Zero, 0.7f, SpriteEffects.None, 0f);
             _spritebatch.Draw(avatar, position, part, Color.White, 0f, Vector2.Zero, 0.7f, SpriteEffects.None, 0f);
             _spritebatch.Draw(profile, position, part, Color.White, 0f, Vector2.Zero, 0.7f, SpriteEffects.None, 0f);
-
         }
     }
 }
