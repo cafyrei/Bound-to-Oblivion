@@ -13,6 +13,9 @@ namespace Oblivion
 {
     public class MainMenu
     {
+
+        // Fade Transition
+        private Texture2D _fadeTexture;
         // Game Background
         Texture2D background_Texture;
         Background background;
@@ -20,18 +23,21 @@ namespace Oblivion
 
         // All About Buttons
         public Texture2D button_Texture;
+        // Load Menu
+        private float _fadeAlpha = 0f;
+        private bool _fadingIn = false;
+
         List<Button2D> menuButtons = new List<Button2D>();
         string[] labels = { "Start", "Continue", "Credits", "Exit" };
 
         // All About Mouse
         MouseState currentMouseState;
         MouseState previousMouseState;
-
         // Font
         SpriteFont menu_Font;
 
         public bool StartPressed { get; private set; } = false;
-        public bool CreditsPressed { get; private set; } = false;   
+        public bool CreditsPressed { get; private set; } = false;
         public bool ExitPressed { get; private set; } = false;
 
         public MainMenu(ContentManager contents, GraphicsDevice graphics)
@@ -45,9 +51,12 @@ namespace Oblivion
             background_Texture = Content.Load<Texture2D>("Backgrounds/game_menu");
             backgroundRect = new Rectangle(0, 0, graphics.Viewport.Width, graphics.Viewport.Height);
             background = new Background(background_Texture, backgroundRect, Color.White);
+            _fadeTexture = new Texture2D(graphics, 1, 1);
+            _fadeTexture.SetData(new[] { Color.Black });
+
 
             AudioManager.PlayMenuBGM();
-        
+
             button_Texture = Content.Load<Texture2D>("Backgrounds/transparent_texture");
 
             try
@@ -58,7 +67,7 @@ namespace Oblivion
             {
                 Console.WriteLine("Error Loading Font : Basara Error Code : " + e.Message);
                 // menu_Font = Content.Load<SpriteFont>("Fonts/Blade Stroke");
-            } 
+            }
 
             for (int i = 0; i < labels.Length; i++)
             {
@@ -76,7 +85,7 @@ namespace Oblivion
                     {
                         case 0: StartPressed = true; break;
                         case 1: break;
-                        case 2: CreditsPressed = true ; break;
+                        case 2: CreditsPressed = true; break;
                         case 3: ExitPressed = true; break;
                     }
                     MediaPlayer.Stop();
@@ -84,6 +93,21 @@ namespace Oblivion
                 menuButtons.Add(menu_Button);
             }
         }
+
+        public void ResetFlags()
+        {
+            StartPressed = false;
+            CreditsPressed = false;
+            ExitPressed = false;
+        }
+
+        public void StartFadeIn()
+        {
+            _fadeAlpha = 1f;
+            _fadingIn = true;
+        }
+
+
 
         public void Update(GameTime gameTime)
         {
@@ -105,7 +129,27 @@ namespace Oblivion
             {
                 button.Draw(spriteBatch, currentMouseState);
             }
+
+            if (_fadeAlpha > 0f)
+            {
+                spriteBatch.Draw(
+                    _fadeTexture,
+                    backgroundRect,
+                    Color.Black * _fadeAlpha 
+                );
+
+                if (_fadingIn)
+                {
+                    _fadeAlpha -= 0.02f;
+                    if (_fadeAlpha <= 0f)
+                    {
+                        _fadeAlpha = 0f;
+                        _fadingIn = false;
+                    }
+                }
+            }
         }
+
     }
 
 }

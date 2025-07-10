@@ -16,7 +16,7 @@ namespace Oblivion
         private GraphicsDeviceManager _graphics;
 
         public enum GameState { MainMenu, GamePlay, Credits };
-        GameState currentState = GameState.MainMenu;
+        public static GameState currentState = GameState.MainMenu;
 
         // Content Managers
         private TextureManager _textureManager;
@@ -87,7 +87,7 @@ namespace Oblivion
             switch (currentState)
             {
                 case GameState.MainMenu:
-                    _spriteBatch.Begin(); 
+                    _spriteBatch.Begin();
                     _textureManager.MainMenu.Draw(_spriteBatch);
                     _spriteBatch.End();
                     break;
@@ -97,6 +97,11 @@ namespace Oblivion
                     _spriteBatch.Begin(transformMatrix: _textureManager.Camera.GetViewMatrix());
                     _textureManager.GameStage.Draw(gameTime, _spriteBatch);
                     _spriteBatch.End();
+
+                    _spriteBatch.Begin();
+                    _textureManager.GameStage.DrawUI(_spriteBatch, GraphicsDevice.Viewport);
+                    _spriteBatch.End();
+
                     break;
             }
 

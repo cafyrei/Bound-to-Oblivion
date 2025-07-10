@@ -68,6 +68,13 @@
 /processorParam:TextureFormat=Compressed
 /build:Fonts/Blade Stroke.spritefont
 
+#begin Fonts/PauseFont.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/PauseFont.spritefont
+
 #begin game_menu.png
 /importer:TextureImporter
 /processor:TextureProcessor

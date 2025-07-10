@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace Oblivion
 {
@@ -121,7 +122,24 @@ namespace Oblivion
             _camera = new Camera2D(graphicsDevice.Viewport);
             _mainMenu = new MainMenu(Content, graphicsDevice);
             _platform1 = new Platform("../../../Data/Stage1map.csv", Content, graphicsDevice);
-            _gameStage = new GameStage(_scrollingBackground, _player, _minorEnemies, _platform1);
+
+
+            // Game Stage Constructor
+            _gameStage = new GameStage(
+                _scrollingBackground,
+                _player,
+                _minorEnemies,
+                _platform1,
+                () =>
+                {
+                    Game1.currentState = Game1.GameState.MainMenu;
+                    _mainMenu.ResetFlags();
+                    _mainMenu.StartFadeIn();
+                }
+            );
+
+
+            _gameStage.Load(Content, graphicsDevice);
 
             foreach (var bg in _scrollingBackground)
             {
@@ -141,7 +159,7 @@ namespace Oblivion
             foreach (var pos in spawnPositions)
             {
                 var animationClone = new SpriteAnimation2D(_minorEnemyAnimation);
-                
+
                 var enemy = new MinorEnemy(_minorEnemyTexture, animationClone, pos.X - 100, pos.X + 100)
                 {
                     Position = pos,

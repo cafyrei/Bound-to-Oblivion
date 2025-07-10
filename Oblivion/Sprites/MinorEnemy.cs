@@ -39,7 +39,7 @@ namespace Oblivion
         private Player _player;
 
         // Animation Cool Down
-        private float _animationCoolDown = 2f;
+        private float _animationCoolDown = 1.5f;
         private float _stateTimer = 0f;
         private bool _inRange;
 

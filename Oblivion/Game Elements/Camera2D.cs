@@ -9,7 +9,7 @@ namespace Oblivion
         private readonly Viewport _viewport;
         private float _zoom;
         private float _rotation;
-        private bool Clamped ;
+        private bool Clamped;
 
         public bool IsClamped { get => Clamped; }
 
@@ -33,7 +33,6 @@ namespace Oblivion
         }
 
         // Constructor
-
         public Camera2D(Viewport viewport)
         {
             _viewport = viewport;
@@ -60,7 +59,5 @@ namespace Oblivion
             Clamped = (target.X != x) || (target.Y != y);
             _position = new Vector2(x, y);
         }
-
-        
     }
 }
