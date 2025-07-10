@@ -38,10 +38,10 @@ namespace Oblivion
             _pauseMenu.BackToMenu += backToMenu;
         }
 
-
         public void Update(GameTime gameTime, Camera2D camera)
         {
             KeyboardState _currentKeyboardState = Keyboard.GetState();
+            AudioManager.PlayGameStageBGM();
 
             if (_currentKeyboardState.IsKeyDown(Keys.Escape) && !_previousKeyboardState.IsKeyDown(Keys.Escape))
             {
@@ -75,11 +75,9 @@ namespace Oblivion
 
         private void backToMenu()
         {
-            // _textureManager.MainMenu.StartFadeIn();
-
+            AudioManager.StopMusic();
             _onExitToMenu?.Invoke();
         }
-
 
         public Vector2 GetPlayerPosition()
         {

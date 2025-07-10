@@ -54,9 +54,6 @@ namespace Oblivion
             _fadeTexture = new Texture2D(graphics, 1, 1);
             _fadeTexture.SetData(new[] { Color.Black });
 
-
-            AudioManager.PlayMenuBGM();
-
             button_Texture = Content.Load<Texture2D>("Backgrounds/transparent_texture");
 
             try
@@ -88,7 +85,6 @@ namespace Oblivion
                         case 2: CreditsPressed = true; break;
                         case 3: ExitPressed = true; break;
                     }
-                    MediaPlayer.Stop();
                 };
                 menuButtons.Add(menu_Button);
             }

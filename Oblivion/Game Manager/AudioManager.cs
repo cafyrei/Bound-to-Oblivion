@@ -11,9 +11,11 @@ namespace Oblivion
         private static SoundEffect _attackSound1;
         public static SoundEffect _menuHover;
         public static SoundEffect _menuClicked;
+        public static SoundEffect _pauseMenuClicked;
 
         // Music
         private static Song _menuBackgroundsfx;
+        private static Song _menuGamestagesfx;
 
         public static void Load(ContentManager content)
         {
@@ -21,9 +23,11 @@ namespace Oblivion
             _attackSound1 = content.Load<SoundEffect>("Sound/sword_slash1");
             _menuHover = content.Load<SoundEffect>("Sound/menu_hover");
             _menuClicked = content.Load<SoundEffect>("Sound/menu_start");
+            _pauseMenuClicked = content.Load<SoundEffect>("Sound/kotohit");
 
             // Load BGM
             _menuBackgroundsfx = content.Load<Song>("Music/missing_wind");
+            _menuGamestagesfx = content.Load<Song>("Music/main_gameSound");
             MediaPlayer.IsRepeating = true;
             MediaPlayer.Volume = 0.5f;
         }
@@ -39,6 +43,15 @@ namespace Oblivion
             if (MediaPlayer.State != MediaState.Playing)
                 MediaPlayer.Play(_menuBackgroundsfx);
         }
+
+        public static void PlayGameStageBGM()
+        {
+            if (MediaPlayer.Queue.ActiveSong != _menuGamestagesfx)
+            {
+                MediaPlayer.Play(_menuGamestagesfx);
+            }
+        }
+
 
         public static void StopMusic()
         {

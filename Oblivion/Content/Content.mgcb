@@ -87,6 +87,12 @@
 /processorParam:TextureFormat=Color
 /build:game_menu.png
 
+#begin Music/main_gameSound.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Music/main_gameSound.mp3
+
 #begin Music/missing_wind.mp3
 /importer:Mp3Importer
 /processor:SongProcessor
@@ -188,6 +194,12 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Player/thumbnail_sprite_sheet.png
+
+#begin Sound/kotohit.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sound/kotohit.wav
 
 #begin Sound/menu_hover.WAV
 /importer:WavImporter

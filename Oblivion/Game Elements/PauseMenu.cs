@@ -51,7 +51,7 @@ namespace Oblivion
                 Button2D _pauseButton = new Button2D(_buttonTexture, button_Rect, Color.White, _pauseMenuLabels[i], _font)
                 {
                     MenuHover = AudioManager._menuHover,
-                    MenuClicked = AudioManager._menuClicked
+                    MenuClicked = AudioManager._pauseMenuClicked
                 };
 
                 int index = i;

@@ -58,8 +58,12 @@ namespace Oblivion
             {
                 case GameState.MainMenu:
                     _textureManager.MainMenu.Update(gameTime);
+                    AudioManager.PlayMenuBGM();
                     if (_textureManager.MainMenu.StartPressed)
+                    {
                         currentState = GameState.GamePlay;
+                        AudioManager.StopMusic();
+                    }
                     else if (_textureManager.MainMenu.CreditsPressed)
                         currentState = GameState.Credits;
                     else if (_textureManager.MainMenu.ExitPressed)
