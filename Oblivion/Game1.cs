@@ -30,7 +30,7 @@ namespace Oblivion
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
         }
-
+        
         protected override void Initialize()
         {
             #region Game Window Configuration
