@@ -11,7 +11,9 @@ namespace Oblivion
         private static SoundEffect _attackSound1;
         public static SoundEffect _menuHover;
         public static SoundEffect _menuClicked;
+        public static SoundEffect _menuClickedInstance;
         public static SoundEffect _pauseMenuClicked;
+        public static SoundEffect _gameOverSFX;
 
         // Music
         private static Song _menuBackgroundsfx;
@@ -24,12 +26,13 @@ namespace Oblivion
             _menuHover = content.Load<SoundEffect>("Sound/menu_hover");
             _menuClicked = content.Load<SoundEffect>("Sound/menu_start");
             _pauseMenuClicked = content.Load<SoundEffect>("Sound/kotohit");
+            _gameOverSFX = content.Load<SoundEffect>("Sound/game_over");
 
             // Load BGM
             _menuBackgroundsfx = content.Load<Song>("Music/missing_wind");
             _menuGamestagesfx = content.Load<Song>("Music/main_gameSound");
             MediaPlayer.IsRepeating = true;
-            MediaPlayer.Volume = 0.5f;
+            MediaPlayer.Volume = 0.4f;
         }
 
         // Public playback methods

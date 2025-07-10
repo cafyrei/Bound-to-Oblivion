@@ -52,6 +52,11 @@ namespace Oblivion
 
             _pauseMenu.Update();
 
+            if (_player.Position.Y > Game1.ScreenHeight)
+            {
+                Game1.currentState = Game1.GameState.GameOver;
+            }
+
             if (!_gamePause)
             {
                 foreach (var sb in _scrollingBackground)
@@ -87,22 +92,19 @@ namespace Oblivion
 
         public void Draw(GameTime gameTime, SpriteBatch _spriteBatch)
         {
-            foreach (var sb in _scrollingBackground)
-            {
-                sb.Draw(gameTime, _spriteBatch);
-            }
-
+            _scrollingBackground[0].Draw(gameTime, _spriteBatch);
+            _scrollingBackground[1].Draw(gameTime, _spriteBatch);
             _platform.Draw(_spriteBatch);
+            _player.Draw(_spriteBatch);
+            _scrollingBackground[2].Draw(gameTime, _spriteBatch);
+            _scrollingBackground[3].Draw(gameTime, _spriteBatch);
 
             foreach (var enemy in _minorEnemies)
             {
                 enemy.Draw(_spriteBatch);
             }
 
-            _player.Draw(_spriteBatch);
-
         }
-
         public void DrawUI(SpriteBatch _spriteBatch, Viewport _screenViewPort)
         {
             if (_gamePause)

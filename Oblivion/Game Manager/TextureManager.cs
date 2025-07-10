@@ -12,12 +12,14 @@ namespace Oblivion
         // Game Stages Variables;
         private MainMenu _mainMenu;
         private GameStage _gameStage;
+        private GameOverScreen _gameOver;
 
         // Player Variables
         private Texture2D _samuraiTexture;
         private Texture2D _minorEnemyTexture;
         private Player _player;
         private SpriteAnimation2D _playerAnimation;
+        private HPBar _HpBar;
 
         // Enemy Variables
         private SpriteAnimation2D _minorEnemyAnimation;
@@ -51,7 +53,7 @@ namespace Oblivion
                 frameHeight: 64,
                 rowFrameCount: new Dictionary<int, int>
                 {
-                    {0,6}, // Atk 1 
+                    {0,6}, // Atk 1
                     {1,6}, // Atk 2
                     {2,6}, // Death
                     {3,5}, // Hit
@@ -63,15 +65,16 @@ namespace Oblivion
                 frameTime: 0.2f
             );
 
-            _player = new Player(_samuraiTexture, _playerAnimation)
+            _HpBar = new HPBar(Content, 123f);
+            _player = new Player(_samuraiTexture, _playerAnimation, Content, _HpBar, _HpBar.MaxValue)
             {
-                Position = new Vector2(50, Game1.ScreenHeight - 150),
+                Position = new Vector2(50, 0),
                 Layer = 0.94f,
             };
 
             _scrollingBackground = new List<ScrollingBackground>()
             {
-                new ScrollingBackground(Content.Load<Texture2D>("Parallax_Layers/_stage1"), _player, 1f)
+                new ScrollingBackground(Content.Load<Texture2D>("Parallax_Layers/lyr0"), _player, 1f)
                 {
                     Layer = 0.1f,
                 },
@@ -90,7 +93,7 @@ namespace Oblivion
             };
             #endregion
 
-            #region Minor and Major Enemies 
+            #region Minor and Major Enemies
             try
             {
                 _minorEnemyTexture = Content.Load<Texture2D>("Enemies/Skeleton");
@@ -119,6 +122,10 @@ namespace Oblivion
 
             #endregion
 
+            #region Game Over 
+            _gameOver = new GameOverScreen(Content, graphicsDevice);
+            #endregion
+
             _camera = new Camera2D(graphicsDevice.Viewport);
             _mainMenu = new MainMenu(Content, graphicsDevice);
             _platform1 = new Platform("../../../Data/Stage1map.csv", Content, graphicsDevice);
@@ -133,7 +140,7 @@ namespace Oblivion
                 () =>
                 {
                     Game1.currentState = Game1.GameState.MainMenu;
-                    _mainMenu.ResetFlags();
+                    MainMenu.ResetFlags();
                     _mainMenu.StartFadeIn();
                 }
             );
@@ -171,11 +178,14 @@ namespace Oblivion
             }
         }
 
-
         // Properties
         public MainMenu MainMenu => _mainMenu;
         public GameStage GameStage => _gameStage;
 
         public Camera2D Camera { get => _camera; }
+        public Player Player1 { get => _player; set => _player = value; }
+        public GameOverScreen GameOver { get => _gameOver; }
     }
-}
+
+        
+    }

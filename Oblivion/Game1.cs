@@ -15,7 +15,7 @@ namespace Oblivion
         private SpriteBatch _spriteBatch;
         private GraphicsDeviceManager _graphics;
 
-        public enum GameState { MainMenu, GamePlay, Credits };
+        public enum GameState { MainMenu, GamePlay, Credits, GameOver };
         public static GameState currentState = GameState.MainMenu;
 
         // Content Managers
@@ -30,7 +30,7 @@ namespace Oblivion
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
         }
-        
+
         protected override void Initialize()
         {
             #region Game Window Configuration
@@ -59,30 +59,34 @@ namespace Oblivion
                 case GameState.MainMenu:
                     _textureManager.MainMenu.Update(gameTime);
                     AudioManager.PlayMenuBGM();
-                    if (_textureManager.MainMenu.StartPressed)
+
+                    if (MainMenu.StartPressed)
                     {
                         currentState = GameState.GamePlay;
                         AudioManager.StopMusic();
                     }
-                    else if (_textureManager.MainMenu.CreditsPressed)
+                    else if (MainMenu.CreditsPressed)
+                    {
                         currentState = GameState.Credits;
-                    else if (_textureManager.MainMenu.ExitPressed)
+                    }
+                    else if (MainMenu.ExitPressed)
+                    {
                         Exit();
+                    }
                     break;
 
                 case GameState.GamePlay:
-                    _textureManager.GameStage.Update(gameTime, _textureManager.Camera);
+                    _textureManager.GameStage.Update(gameTime, _textureManager.Camera); 
                     break;
-                    // case GameState.Continue:
-                    //     _gameStage.Update(gameTime);
-                    //     break;
-                    // case GameState.Credits:
-                    //     _gameStage.Update(gameTime);
-                    //     break;
-            }
 
+                case GameState.GameOver:
+                    AudioManager.StopMusic();
+                    _textureManager.GameOver.Update();
+                    break;
+            }
             base.Update(gameTime);
         }
+
 
         protected override void Draw(GameTime gameTime)
         {
@@ -91,24 +95,28 @@ namespace Oblivion
             switch (currentState)
             {
                 case GameState.MainMenu:
-                    _spriteBatch.Begin();
+                    _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
                     _textureManager.MainMenu.Draw(_spriteBatch);
                     _spriteBatch.End();
                     break;
 
                 case GameState.GamePlay:
                     _textureManager.Camera.Follow(_textureManager.GameStage.GetPlayerPosition(), TextureManager.tileWidth, TextureManager.tileHeight); // Follow the player
-                    _spriteBatch.Begin(transformMatrix: _textureManager.Camera.GetViewMatrix());
+                    _spriteBatch.Begin(transformMatrix: _textureManager.Camera.GetViewMatrix(), samplerState: SamplerState.PointClamp);
                     _textureManager.GameStage.Draw(gameTime, _spriteBatch);
                     _spriteBatch.End();
 
-                    _spriteBatch.Begin();
+                    _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
+                    _textureManager.Player1._HPbar.Draw(_spriteBatch);
                     _textureManager.GameStage.DrawUI(_spriteBatch, GraphicsDevice.Viewport);
                     _spriteBatch.End();
-
+                    break;
+                case GameState.GameOver:
+                    _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
+                    _textureManager.GameOver.Draw(_spriteBatch, GraphicsDevice.Viewport);
+                    _spriteBatch.End();
                     break;
             }
-
             base.Draw(gameTime);
         }
     }

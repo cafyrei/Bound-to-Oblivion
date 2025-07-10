@@ -36,9 +36,9 @@ namespace Oblivion
         // Font
         SpriteFont menu_Font;
 
-        public bool StartPressed { get; private set; } = false;
-        public bool CreditsPressed { get; private set; } = false;
-        public bool ExitPressed { get; private set; } = false;
+        public static bool StartPressed { get; private set; } = false;
+        public static bool CreditsPressed { get; private set; } = false;
+        public static bool ExitPressed { get; private set; } = false;
 
         public MainMenu(ContentManager contents, GraphicsDevice graphics)
         {
@@ -90,7 +90,7 @@ namespace Oblivion
             }
         }
 
-        public void ResetFlags()
+        public static void ResetFlags()
         {
             StartPressed = false;
             CreditsPressed = false;
@@ -102,8 +102,6 @@ namespace Oblivion
             _fadeAlpha = 1f;
             _fadingIn = true;
         }
-
-
 
         public void Update(GameTime gameTime)
         {
