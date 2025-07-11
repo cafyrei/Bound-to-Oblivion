@@ -86,10 +86,10 @@ namespace Oblivion
 
                 _player.Update(gameTime, _platform.collision, _minorEnemies);
 
-                foreach (var enemy in _minorEnemies)
-                {
-                    enemy.Update(gameTime, _platform.collision, camera);
-                }
+                // foreach (var enemy in _minorEnemies)
+                // {
+                //     enemy.Update(gameTime, _platform.collision, camera);
+                // }
 
                 aliveEnemies = _minorEnemies.Count(e => !e.IsDead);
                 Console.WriteLine(aliveEnemies);
