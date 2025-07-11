@@ -76,7 +76,7 @@ namespace Oblivion
 
                 foreach (var collectible in _collectible)
                 {
-                    collectible.Update(gameTime);
+                    collectible.Update(gameTime, _player);
                 }
             }
         }
