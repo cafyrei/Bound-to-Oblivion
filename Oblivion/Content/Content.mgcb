@@ -25,6 +25,18 @@
 /processorParam:TextureFormat=Color
 /build:Backgrounds/Controls.png
 
+#begin Backgrounds/Credits.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Backgrounds/Credits.png
+
 #begin Backgrounds/game_menu.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -135,6 +147,18 @@
 /processorParam:TextureFormat=Color
 /build:Parallax_Layers/_stage1.png
 
+#begin Parallax_Layers/Layer 0.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Parallax_Layers/Layer 0.png
+
 #begin Parallax_Layers/Layer 1.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -219,7 +243,7 @@
 /processorParam:TextureFormat=Color
 /build:Platform/sprite sheet 16x16px seamless textures.png
 
-#begin Player/Samurai Spritesheet.png
+#begin Player/Samurai SpriteSheet.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -229,7 +253,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Player/Samurai Spritesheet.png
+/build:Player/Samurai SpriteSheet.png
 
 #begin Player/thumbnail_sprite_sheet.png
 /importer:TextureImporter
@@ -320,4 +344,16 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:UIs/HP_Profile.png
+
+#begin UIs/HP_Undermidground.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:UIs/HP_Undermidground.png
 

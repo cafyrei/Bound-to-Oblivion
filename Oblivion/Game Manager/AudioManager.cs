@@ -11,7 +11,7 @@ namespace Oblivion
         private static SoundEffect _attackSound1;
         public static SoundEffect _menuHover;
         public static SoundEffect _menuClicked;
-        public static SoundEffect _menuClickedInstance;
+        public static SoundEffectInstance _SFXInstance;
         public static SoundEffect _pauseMenuClicked;
         public static SoundEffect _gameOverSFX;
 

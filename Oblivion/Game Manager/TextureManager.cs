@@ -15,6 +15,8 @@ namespace Oblivion
         private GameOverScreen _gameOver;
         private Controls _control;
 
+        private Credits _credits;
+
         // Player Variables
         private Texture2D _samuraiTexture;
         private Texture2D _minorEnemyTexture;
@@ -83,11 +85,11 @@ namespace Oblivion
                 {
                     Layer = 0.92f,
                 },
-                new ScrollingBackground(Content.Load<Texture2D>("Parallax_Layers/Layer 2"), _player, 30f)
+                new ScrollingBackground(Content.Load<Texture2D>("Parallax_Layers/Layer 3"), _player, 30f)
                 {
                     Layer = 0.95f,
                 },
-                new ScrollingBackground(Content.Load<Texture2D>("Parallax_Layers/Layer 3"), _player, 40f)
+                new ScrollingBackground(Content.Load<Texture2D>("Parallax_Layers/Layer 2"), _player, 40f)
                 {
                     Layer = 0.97f,
                 }
@@ -152,6 +154,12 @@ namespace Oblivion
                  }
             );
 
+            _credits = new Credits(Content, graphicsDevice,
+            () => {
+                Game1.currentState = Game1.GameState.MainMenu;
+                 }
+            );
+
             _gameStage.Load(Content, graphicsDevice);
 
             foreach (var bg in _scrollingBackground)
@@ -188,7 +196,7 @@ namespace Oblivion
         public MainMenu MainMenu => _mainMenu;
         public GameStage GameStage => _gameStage;
         public Controls Controls => _control;
-
+        public Credits Credits => _credits;
         public Camera2D Camera { get => _camera; }
         public Player Player1 { get => _player; set => _player = value; }
         public GameOverScreen GameOver { get => _gameOver; }

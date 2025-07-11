@@ -91,6 +91,10 @@ namespace Oblivion
                 case GameState.Controls:
                     _textureManager.Controls.Update();
                     break;
+
+                case GameState.Credits:
+                    _textureManager.Credits.Update();
+                    break;
             }
             base.Update(gameTime);
         }
@@ -128,6 +132,12 @@ namespace Oblivion
                 case GameState.Controls:
                     _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
                     _textureManager.Controls.Draw(_spriteBatch);
+                    _spriteBatch.End();
+                    break;
+
+                case GameState.Credits:
+                    _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
+                    _textureManager.Credits.Draw(_spriteBatch);
                     _spriteBatch.End();
                     break;
             }
