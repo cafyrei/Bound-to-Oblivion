@@ -125,7 +125,12 @@ public class Platform
             new Rectangle(320,0,32,32), // 93
             new Rectangle(352,0,32,32), // 94
             new Rectangle(384,0,32,32), // 95
-            new Rectangle(416,0,32,32) // 96
+            new Rectangle(416,0,32,32), // 96
+
+            //GRASS
+            new Rectangle(0,384,32,32), // 97
+            new Rectangle(32,384,32,32), // 98
+            new Rectangle(64,384,32,32) //99
         };
     }
 

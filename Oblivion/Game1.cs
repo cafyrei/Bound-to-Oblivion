@@ -151,7 +151,7 @@ namespace Oblivion
                     _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
                     _textureManager2.HPBarAccess.Draw(_spriteBatch);
                     _textureManager2.GameStage2.DrawUI(_spriteBatch, GraphicsDevice.Viewport);
-                    _textureManager2.objectiveHUD.Draw(_spriteBatch, GameStage.aliveEnemies);
+                    _textureManager2.objectiveHUD.Draw(_spriteBatch, GameStage.aliveEnemies, 2);
                     _spriteBatch.End();
                     break;
                 
