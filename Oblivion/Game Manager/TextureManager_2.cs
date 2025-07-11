@@ -7,15 +7,12 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Oblivion
 {
-    public class TextureManager
+    public class TextureManager_2
     {
         // Game Stages Variables;
         private MainMenu _mainMenu;
-        private GameStage _gameStage;
+        private GameStage_2 _gameStage;
         private GameOverScreen _gameOver;
-        private Controls _control;
-
-        private Credits _credits;
 
         // Player Variables
         private Texture2D _samuraiTexture;
@@ -92,21 +89,17 @@ namespace Oblivion
 
             _scrollingBackground = new List<ScrollingBackground>()
             {
-                new ScrollingBackground(Content.Load<Texture2D>("Parallax_Layers/lyr0"), _player, 1f)
+                new ScrollingBackground(Content.Load<Texture2D>("Parallax_Layers/Stage 2 Layer 0"), _player, 1f)
                 {
                     Layer = 0.1f,
                 },
-                new ScrollingBackground(Content.Load<Texture2D>("Parallax_Layers/Layer 1"), _player, 15f)
+                new ScrollingBackground(Content.Load<Texture2D>("Parallax_Layers/Stage 2 Layer 2"), _player, 15f)
                 {
                     Layer = 0.92f,
                 },
-                new ScrollingBackground(Content.Load<Texture2D>("Parallax_Layers/Layer 3"), _player, 30f)
+                new ScrollingBackground(Content.Load<Texture2D>("Parallax_Layers/Stage 2 Layer 3"), _player, 30f)
                 {
                     Layer = 0.95f,
-                },
-                new ScrollingBackground(Content.Load<Texture2D>("Parallax_Layers/Layer 2"), _player, 40f)
-                {
-                    Layer = 0.97f,
                 }
             };
             #endregion
@@ -164,7 +157,7 @@ namespace Oblivion
                new SpriteAnimation2D(
                frameWidth: 64,
                frameHeight: 77,
-               rowFrameCount: new Dictionary<int, int> { { 0, 4 } },
+               rowFrameCount: new Dictionary<int, int> { { 1, 4 } },
                frameTime: _collectibleAnimationSpeed);
 
             boss_Portal = new Portal(portal_Texture, _ToriiGate, new Vector2(2620, 110));
@@ -174,11 +167,11 @@ namespace Oblivion
 
             _camera = new Camera2D(graphicsDevice.Viewport);
             _mainMenu = new MainMenu(Content, graphicsDevice);
-            _platform1 = new Platform("../../../Data/Stage1map.csv", Content, graphicsDevice);
+            _platform1 = new Platform("../../../Data/Stage2map.csv", Content, graphicsDevice);
 
 
             // Game Stage Constructor
-            _gameStage = new GameStage(
+            _gameStage = new GameStage_2(
                 _scrollingBackground,
                 _player,
                 _minorEnemies,
@@ -192,19 +185,6 @@ namespace Oblivion
                 },
                 boss_Portal,
                 this
-            );
-
-            _control = new Controls(Content, graphicsDevice,
-            () =>
-            {
-                Game1.currentState = Game1.GameState.MainMenu;
-            }
-            );
-            _credits = new Credits(Content, graphicsDevice,
-            () =>
-            {
-                Game1.currentState = Game1.GameState.MainMenu;
-            }
             );
 
             _gameStage.Load(Content, graphicsDevice);
@@ -278,7 +258,7 @@ namespace Oblivion
             _collectibles = new List<Collectible>();
             SpawnCollectibles(4); // your existing method
 
-            _gameStage = new GameStage(
+            _gameStage = new GameStage_2(
                 _scrollingBackground,
                 _player,
                 _minorEnemies,
@@ -307,10 +287,9 @@ namespace Oblivion
 
         // Properties
         public MainMenu MainMenu => _mainMenu;
-        public GameStage GameStage => _gameStage;
-        public Controls Controls => _control;
+        public GameStage_2 GameStage2 => _gameStage;
         public ObjectiveHUD objectiveHUD => objHUD;
-        public Credits Credits => _credits; public HPBar HPBarAccess => _HpBar;
+        public HPBar HPBarAccess => _HpBar;
         public Camera2D Camera { get => _camera; }
         public Player Player1 { get => _player; set => _player = value; }
         public GameOverScreen GameOver { get => _gameOver; }

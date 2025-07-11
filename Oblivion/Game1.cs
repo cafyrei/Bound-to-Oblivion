@@ -15,11 +15,12 @@ namespace Oblivion
         private SpriteBatch _spriteBatch;
         private GraphicsDeviceManager _graphics;
 
-        public enum GameState { MainMenu, GamePlay, Continue, Controls, Credits, GameOver };
+        public enum GameState { MainMenu, GamePlay, Continue, Controls, Credits, GameOver, GamePlay2};
         public static GameState currentState = GameState.MainMenu;
 
         // Content Managers
         private TextureManager _textureManager;
+        private TextureManager_2 _textureManager2;
 
         public static int ScreenWidth = 1280;
         public static int ScreenHeight = 720;
@@ -50,6 +51,9 @@ namespace Oblivion
 
             _textureManager = new TextureManager();
             _textureManager.Load(Content, GraphicsDevice); // Handles Txture for Background and Player
+
+            _textureManager2 = new TextureManager_2();
+            _textureManager2.Load(Content, GraphicsDevice); // Handles Txture for Background and Player
 
         }
         protected override void Update(GameTime gameTime)
@@ -89,6 +93,10 @@ namespace Oblivion
 
                 case GameState.GamePlay:
                     _textureManager.GameStage.Update(gameTime, _textureManager.Camera);
+                    break;
+
+                case GameState.GamePlay2:
+                    _textureManager2.GameStage2.Update(gameTime, _textureManager.Camera);
                     break;
 
                 case GameState.GameOver:
@@ -132,6 +140,21 @@ namespace Oblivion
                     _textureManager.objectiveHUD.Draw(_spriteBatch, GameStage.aliveEnemies);
                     _spriteBatch.End();
                     break;
+                
+                
+                case GameState.GamePlay2:
+                    _textureManager2.Camera.Follow(_textureManager2.GameStage2.GetPlayerPosition(), TextureManager_2.tileWidth, TextureManager_2.tileHeight, gameTime); // Follow the player
+                    _spriteBatch.Begin(transformMatrix: _textureManager2.Camera.GetViewMatrix(), samplerState: SamplerState.PointClamp);
+                    _textureManager2.GameStage2.Draw(gameTime, _spriteBatch);
+                    _spriteBatch.End();
+
+                    _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
+                    _textureManager2.HPBarAccess.Draw(_spriteBatch);
+                    _textureManager2.GameStage2.DrawUI(_spriteBatch, GraphicsDevice.Viewport);
+                    _textureManager2.objectiveHUD.Draw(_spriteBatch, GameStage.aliveEnemies);
+                    _spriteBatch.End();
+                    break;
+                
                 case GameState.GameOver:
                     _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
                     _textureManager.GameOver.Draw(_spriteBatch, GraphicsDevice.Viewport);

@@ -28,6 +28,7 @@ namespace Oblivion
             {
                 Console.WriteLine("Teleport");
                 AudioManager.PlaySFX(AudioManager._teleportingSFX, 5f);
+                Game1.currentState = Game1.GameState.GamePlay2;
             }
         }
 
