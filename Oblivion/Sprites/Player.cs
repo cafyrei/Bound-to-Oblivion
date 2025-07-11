@@ -75,7 +75,8 @@ namespace Oblivion
     GameTime gameTime,
     Dictionary<Vector2, Rectangle> collisionBlocks,
     List<MinorEnemy> minorEnemies,
-    List<ZombieEnemies> zombieEnemies)
+    List<ZombieEnemies> zombieEnemies,
+    Boss boss)
         {
             var deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
             var input = Keyboard.GetState();
@@ -99,6 +100,61 @@ namespace Oblivion
                     {
                         _deathFadeOpacity = 1f;
                         Game1.currentState = Game1.GameState.GameOver;
+                        MainMenu.ResetFlags();
+                    }
+                }
+
+                return;
+            }
+
+            HandleMovement(input, gameTime);
+            HandleJump(input);
+            HandleAttack(mouseInput, deltaTime, minorEnemies, zombieEnemies, boss);
+            ApplyGravity(deltaTime);
+
+            Move(deltaTime);
+            UpdateHitbox();
+            HandleCollision(collisionBlocks);
+
+            if (!_wasOnGround && _isOnGround)
+            {
+                AudioManager.PlaySFX(AudioManager._jumpLandSFX, 1f);
+            }
+
+            _animation.Update(gameTime);
+            _previousKeyboard = input;
+            _previousMouse = mouseInput;
+        }
+
+        public void Update(
+        GameTime gameTime,
+        Dictionary<Vector2, Rectangle> collisionBlocks,
+        List<MinorEnemy> minorEnemies,
+        List<ZombieEnemies> zombieEnemies)
+        {
+            var deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            var input = Keyboard.GetState();
+            var mouseInput = Mouse.GetState();
+            _wasOnGround = _isOnGround;
+
+            velocity = new Vector2(0, velocity.Y);
+
+            if (_isDead)
+            {
+                if (_animation.CurrentFrame < _animation.TotalFrames - 1)
+                {
+                    _animation.Update(gameTime);
+                }
+                else
+                {
+                    _startFade = true;
+                    _deathFadeOpacity += 0.5f * deltaTime;
+
+                    if (_deathFadeOpacity >= 1f)
+                    {
+                        _deathFadeOpacity = 1f;
+                        Game1.currentState = Game1.GameState.GameOver;
+                        MainMenu.ResetFlags();
                     }
                 }
 
@@ -229,6 +285,59 @@ namespace Oblivion
         }
 
 
+        private void HandleAttack(MouseState input, float deltaTime, List<MinorEnemy> minorEnemies, List<ZombieEnemies> zombieEnemies, Boss boss)
+        {
+            bool leftClick = input.LeftButton == ButtonState.Pressed && _previousMouse.LeftButton == ButtonState.Released;
+            bool rightClick = input.RightButton == ButtonState.Pressed && _previousMouse.RightButton == ButtonState.Released;
+
+            if (_isAttacking)
+            {
+                _attackTimer += deltaTime;
+                _animation.SetRow(_attackTurn ? 0 : 1);
+
+                if (_attackTimer >= AttackDuration)
+                {
+                    _isAttacking = false;
+                    _attackTimer = 0f;
+                }
+
+                return;
+            }
+
+            if (leftClick || rightClick)
+            {
+                float damage = leftClick ? 10f : 25f;
+                _attackTurn = leftClick;
+
+                foreach (var enemy in minorEnemies)
+                {
+                    if (_hitbox.Intersects(enemy.Hitbox))
+                    {
+                        enemy.TakeDamage(100f);
+                    }
+                }
+
+                foreach (var enemy in zombieEnemies)
+                {
+                    if (_hitbox.Intersects(enemy.Hitbox))
+                    {
+                        enemy.TakeDamage(100);
+                    }
+                }
+
+                if (_hitbox.Intersects(boss.Hitbox))
+                {
+                    boss.TakeDamage(100);
+                }
+
+                    _isAttacking = true;
+                _attackTimer = 0f;
+
+                _animation.SetRow(_attackTurn ? 0 : 1);
+                AudioManager.PlayAttack();
+            }
+        }
+
         private void HandleAttack(MouseState input, float deltaTime, List<MinorEnemy> minorEnemies, List<ZombieEnemies> zombieEnemies)
         {
             bool leftClick = input.LeftButton == ButtonState.Pressed && _previousMouse.LeftButton == ButtonState.Released;
@@ -268,6 +377,7 @@ namespace Oblivion
                         enemy.TakeDamage(100);
                     }
                 }
+
                 _isAttacking = true;
                 _attackTimer = 0f;
 

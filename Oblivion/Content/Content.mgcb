@@ -171,6 +171,12 @@
 /processorParam:Quality=Best
 /build:Music/missing_wind.mp3
 
+#begin Music/Wrong Place.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Music/Wrong Place.mp3
+
 #begin Parallax_Layers/_stage1.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -374,6 +380,12 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Player/thumbnail_sprite_sheet.png
+
+#begin Sound/boss_bell.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sound/boss_bell.wav
 
 #begin Sound/game_over.wav
 /importer:WavImporter

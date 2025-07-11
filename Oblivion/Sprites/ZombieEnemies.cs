@@ -319,7 +319,7 @@ namespace Oblivion
             if (_currentHealth <= 0f && !_isDying)
             {
                 _isDying = true;
-                _animation.SetRow(2);
+                _animation.SetRow(1);
                 _deathTimer = 0f;
             }
 
@@ -335,7 +335,7 @@ namespace Oblivion
             {
                 _isHit = true;
                 _hitTimer = 0f;
-                _animation.SetRow(2);
+                _animation.SetRow(4);
             }
         }
 
@@ -380,4 +380,3 @@ namespace Oblivion
 
     }
 }
-

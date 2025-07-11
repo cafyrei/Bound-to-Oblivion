@@ -331,7 +331,6 @@ namespace Oblivion
                 _collectibles.Add(collectible);
             }
         }
-
         public void ResetGameStage(ContentManager Content, GraphicsDevice graphicsDevice)
         {
             // Reset Player
@@ -352,8 +351,7 @@ namespace Oblivion
             // Reset Collectibles
             _collectibles = new List<Collectible>();
             SpawnCollectibles(4);
-
-            // ✅ Reset Boss
+            
             boss = new Boss(BossTexture, new SpriteAnimation2D(BossAnimation), 10, 10, Camera);
 
             // Recreate GameStage

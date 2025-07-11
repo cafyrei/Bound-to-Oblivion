@@ -17,10 +17,12 @@ namespace Oblivion
         public static SoundEffect _gatesOpenedrSFX;
         public static SoundEffect _jumpLandSFX;
         public static SoundEffect _teleportingSFX;
+        public static SoundEffect _bossBellSFX;
 
         // Music
         private static Song _menuBackgroundsfx;
         private static Song _menuGamestagesfx;
+        private static Song _bossGamestagesfx;
 
         public static void Load(ContentManager content)
         {
@@ -35,11 +37,13 @@ namespace Oblivion
             _runGrassSFX = content.Load<SoundEffect>("Sound/run_grass");
             _gatesOpenedrSFX = content.Load<SoundEffect>("Sound/Horn");
             _teleportingSFX = content.Load<SoundEffect>("Sound/tp");
+            _bossBellSFX = content.Load<SoundEffect>("Sound/boss_bell");
 
 
             // Load BGM
             _menuBackgroundsfx = content.Load<Song>("Music/missing_wind");
             _menuGamestagesfx = content.Load<Song>("Music/main_gameSound");
+            _bossGamestagesfx = content.Load<Song>("Music/Wrong Place");
             MediaPlayer.IsRepeating = true;
             MediaPlayer.Volume = 0.4f;
         }
@@ -61,6 +65,14 @@ namespace Oblivion
             if (MediaPlayer.Queue.ActiveSong != _menuGamestagesfx)
             {
                 MediaPlayer.Play(_menuGamestagesfx);
+            }
+        }
+
+        public static void PlayBossStageBGM()
+        {
+            if (MediaPlayer.Queue.ActiveSong != _bossGamestagesfx)
+            {
+                MediaPlayer.Play(_bossGamestagesfx);
             }
         }
 

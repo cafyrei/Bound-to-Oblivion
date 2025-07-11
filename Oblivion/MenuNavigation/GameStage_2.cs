@@ -72,11 +72,10 @@ namespace Oblivion
             graphicsDevice1 = graphicsDevice;
         }
 
-
         public void Update(GameTime gameTime, Camera2D camera)
         {
             KeyboardState _currentKeyboardState = Keyboard.GetState();
-            AudioManager.PlayGameStageBGM();
+            AudioManager.PlayBossStageBGM();
 
             if (_currentKeyboardState.IsKeyDown(Keys.Escape) && !_previousKeyboardState.IsKeyDown(Keys.Escape))
             {
