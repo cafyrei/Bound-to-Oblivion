@@ -53,7 +53,7 @@ namespace Oblivion
 
         }
         protected override void Update(GameTime gameTime)
-        {            
+        {
             switch (currentState)
             {
                 case GameState.MainMenu:
@@ -121,6 +121,7 @@ namespace Oblivion
                     _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
                     _textureManager.HPBarAccess.Draw(_spriteBatch);
                     _textureManager.GameStage.DrawUI(_spriteBatch, GraphicsDevice.Viewport);
+                    _textureManager.objectiveHUD.Draw(_spriteBatch);
                     _spriteBatch.End();
                     break;
                 case GameState.GameOver:

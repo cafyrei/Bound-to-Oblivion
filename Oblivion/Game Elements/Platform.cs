@@ -60,8 +60,8 @@ public class Platform
                     if (value > 0)
                     {
                         result[new Vector2(x, y)] = value;
-                        //if (value < NUM of platform tiles)
-                        collision[new Vector2(x,y)] = new Rectangle(x * TILESIZE, y * TILESIZE, TILESIZE, TILESIZE);
+                        if(value < 17)
+                            collision[new Vector2(x,y)] = new Rectangle(x * TILESIZE, y * TILESIZE, TILESIZE, TILESIZE);
                     }
                 }
             }

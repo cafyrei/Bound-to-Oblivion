@@ -14,13 +14,15 @@ namespace Oblivion
         private List<MinorEnemy> _minorEnemies;
         private Platform _platform;
 
+        private List<Collectible> _collectible;
+
         private bool _gamePause = false;
         KeyboardState _previousKeyboardState;
 
         private PauseMenu _pauseMenu;
         private SpriteFont _font;
         private readonly Action _onExitToMenu;
-        public GameStage(List<ScrollingBackground> scrollingBackground, Player player, List<MinorEnemy> minorEnemy, Platform platform, Action onExitToMenu)
+        public GameStage(List<ScrollingBackground> scrollingBackground, Player player, List<MinorEnemy> minorEnemy, Platform platform, List<Collectible> collectible, Action onExitToMenu)
         {
             _scrollingBackground = scrollingBackground;
             _player = player;
@@ -28,6 +30,7 @@ namespace Oblivion
             _platform = platform;
             _previousKeyboardState = Keyboard.GetState();
             _onExitToMenu = onExitToMenu;
+            _collectible = collectible;
         }
 
         public void Load(ContentManager Content, GraphicsDevice graphicsDevice)
@@ -70,6 +73,11 @@ namespace Oblivion
                 {
                     enemy.Update(gameTime, _platform.collision, camera);
                 }
+
+                foreach (var collectible in _collectible)
+                {
+                    collectible.Update(gameTime);
+                }
             }
         }
 
@@ -95,15 +103,18 @@ namespace Oblivion
             _scrollingBackground[0].Draw(gameTime, _spriteBatch);
             _scrollingBackground[1].Draw(gameTime, _spriteBatch);
             _platform.Draw(_spriteBatch);
-            _player.Draw(_spriteBatch);
-            _scrollingBackground[2].Draw(gameTime, _spriteBatch);
-            _scrollingBackground[3].Draw(gameTime, _spriteBatch);
-
             foreach (var enemy in _minorEnemies)
             {
                 enemy.Draw(_spriteBatch);
             }
 
+            foreach (var collectible in _collectible)
+            {
+                collectible.Draw(_spriteBatch);
+            }
+            _player.Draw(_spriteBatch);
+            _scrollingBackground[2].Draw(gameTime, _spriteBatch);
+            _scrollingBackground[3].Draw(gameTime, _spriteBatch);
         }
         public void DrawUI(SpriteBatch _spriteBatch, Viewport _screenViewPort)
         {
