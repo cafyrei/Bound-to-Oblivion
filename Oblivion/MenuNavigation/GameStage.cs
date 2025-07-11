@@ -19,6 +19,7 @@ namespace Oblivion
 
         private PauseMenu _pauseMenu;
         private SpriteFont _font;
+
         private readonly Action _onExitToMenu;
         public GameStage(List<ScrollingBackground> scrollingBackground, Player player, List<MinorEnemy> minorEnemy, Platform platform, Action onExitToMenu)
         {
@@ -64,13 +65,16 @@ namespace Oblivion
                     sb.Update(gameTime);
                 }
 
-                _player.Update(gameTime, _platform.collision);
+                _minorEnemies.RemoveAll(enemy => enemy.IsDead);
+
+                _player.Update(gameTime, _platform.collision, _minorEnemies);
 
                 foreach (var enemy in _minorEnemies)
                 {
                     enemy.Update(gameTime, _platform.collision, camera);
                 }
             }
+
         }
 
         private void gameResume()

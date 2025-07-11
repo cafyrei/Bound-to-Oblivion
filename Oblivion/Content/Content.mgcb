@@ -73,7 +73,7 @@
 /processorParam:TextureFormat=Color
 /build:Backgrounds/transparent_texture.png
 
-#begin Enemies/Skeleton.png
+#begin Enemies/Skelebones.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -83,7 +83,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Enemies/Skeleton.png
+/build:Enemies/Skelebones.png
 
 #begin Enemies/SkeletonSprite.png
 /importer:TextureImporter

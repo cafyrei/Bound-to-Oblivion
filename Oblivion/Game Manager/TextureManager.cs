@@ -100,7 +100,7 @@ namespace Oblivion
             #region Minor and Major Enemies
             try
             {
-                _minorEnemyTexture = Content.Load<Texture2D>("Enemies/Skeleton");
+                _minorEnemyTexture = Content.Load<Texture2D>("Enemies/Skelebones");
             }
             catch (ContentLoadException e)
             {
@@ -112,11 +112,11 @@ namespace Oblivion
                 frameWidth: 96,
                 rowFrameCount: new Dictionary<int, int>
                 {
-                    {0, 10}, // Atk 1
-                    {1, 9}, // Atk 2
-                    {2, 5}, // Take Damage
+                    {0, 10}, // Walk
+                    {1, 10}, // Attack
+                    {2, 10}, // Death
                     {3, 8}, // Idle
-                    {4, 10} // Walk
+                    {4, 5} // Hit
                 },
                 frameTime: attackAnimationSpeed
             );

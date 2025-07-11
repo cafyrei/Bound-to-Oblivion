@@ -54,6 +54,7 @@ namespace Oblivion
             background = new Background(background_Texture, backgroundRect, Color.White);
             _fadeTexture = new Texture2D(graphics, 1, 1);
             _fadeTexture.SetData(new[] { Color.Black });
+            
 
             button_Texture = Content.Load<Texture2D>("Backgrounds/transparent_texture");
 

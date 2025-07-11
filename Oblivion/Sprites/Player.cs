@@ -16,6 +16,7 @@ namespace Oblivion
         private const float Gravity = 800f;
         private const float FallMultiplier = 2.5f;
         private const float AttackDuration = 0.5f;
+        private float AttackAnimDuration = 2.5f;
         private const float HitboxScale = 1.5f;
 
         // Movement and State
@@ -62,7 +63,7 @@ namespace Oblivion
             _HPbar = hpbar;
         }
 
-        public void Update(GameTime gameTime, Dictionary<Vector2, Rectangle> collisionBlocks)
+        public void Update(GameTime gameTime, Dictionary<Vector2, Rectangle> collisionBlocks, List<MinorEnemy> enemies)
         {
             var deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
             var input = Keyboard.GetState();
@@ -72,7 +73,7 @@ namespace Oblivion
 
             HandleMovement(input, gameTime);
             HandleJump(input);
-            HandleAttack(input, deltaTime);
+            HandleAttack(input, deltaTime, enemies);
             ApplyGravity(deltaTime);
 
             Move(deltaTime);
@@ -93,10 +94,13 @@ namespace Oblivion
             bool run = input.IsKeyDown(Keys.LeftShift);
 
             float moveSpeed = run ? _runSpeed : _walkSpeed;
-            if (_isHit && !_isAttacking && !moveLeft && !moveRight)
+
+            if (_isAttacking) return;
+
+            if (_isHit && !moveLeft && !moveRight)
             {
                 _hitTimer += deltaTime;
-                _animation.SetRow(3);
+                _animation.SetRow(3); // Hit animation
                 if (_hitTimer >= _hitDuration)
                 {
                     _isHit = false;
@@ -109,13 +113,13 @@ namespace Oblivion
             {
                 velocity.X = moveSpeed;
                 Flip = SpriteEffects.FlipHorizontally;
-                _animation.SetRow(run ? 6 : 7);
+                _animation.SetRow(run ? 6 : 7); // Run/Walk Right
             }
             else if (moveLeft && !moveRight)
             {
                 velocity.X = -moveSpeed;
                 Flip = SpriteEffects.None;
-                _animation.SetRow(run ? 6 : 7);
+                _animation.SetRow(run ? 6 : 7); // Run/Walk Left
             }
             else
             {
@@ -123,11 +127,11 @@ namespace Oblivion
             }
         }
 
+
         private void SetHealth(float value) // Update
         {
             _currentHealth = MathHelper.Clamp(value, _minHealth, _maxHealth);
-            Console.WriteLine("Health Damage " + _currentHealth);
-            if (_currentHealth <= 23f)
+            if (_currentHealth <= 0f)
             {
                 Console.WriteLine("Game Over");
             }
@@ -146,7 +150,7 @@ namespace Oblivion
             SetHealth(_currentHealth + heal);
         }
 
-        private void HandleAttack(KeyboardState input, float deltaTime)
+        private void HandleAttack(KeyboardState input, float deltaTime, List<MinorEnemy> enemies)
         {
             bool attackPressed = input.IsKeyDown(Keys.E) && !_previousKeyboard.IsKeyDown(Keys.E);
 
@@ -158,16 +162,33 @@ namespace Oblivion
                     _isAttacking = false;
                     _attackTimer = 0f;
                 }
+
+                _animation.SetRow(_attackTurn ? 0 : 1);
+                return;
             }
-            else if (attackPressed)
+
+            if (attackPressed)
             {
+                foreach (var enemy in enemies)
+                {
+                    if (_hitbox.Intersects(enemy.Hitbox))
+                    {
+                        enemy.TakeDamage(20f);
+                    }
+                }
+
                 _isAttacking = true;
                 _attackTimer = 0f;
                 _attackTurn = !_attackTurn;
+
+                // Set attack animation frame
                 _animation.SetRow(_attackTurn ? 0 : 1);
+
                 AudioManager.PlayAttack();
             }
         }
+
+
 
         private void HandleJump(KeyboardState input)
         {
@@ -243,7 +264,7 @@ namespace Oblivion
                     else
                     {
                         // Vertical collision
-                        if (_hitbox.Center.Y< tile.Center.Y)
+                        if (_hitbox.Center.Y < tile.Center.Y)
                         {
                             // Landing
                             Position.Y -= intersection.Height;
