@@ -69,10 +69,10 @@ namespace Oblivion
 
                 _player.Update(gameTime, _platform.collision);
 
-                foreach (var enemy in _minorEnemies)
-                {
-                    enemy.Update(gameTime, _platform.collision, camera);
-                }
+                // foreach (var enemy in _minorEnemies)
+                // {
+                //     enemy.Update(gameTime, _platform.collision, camera);
+                // }
 
                 foreach (var collectible in _collectible)
                 {

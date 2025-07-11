@@ -152,7 +152,7 @@ namespace Oblivion
 
             _camera = new Camera2D(graphicsDevice.Viewport);
             _mainMenu = new MainMenu(Content, graphicsDevice);
-            _platform1 = new Platform("../../../Data/Stage1map.csv", Content, graphicsDevice);
+            _platform1 = new Platform("../../../Data/Stage2map.csv", Content, graphicsDevice);
 
 
             // Game Stage Constructor
