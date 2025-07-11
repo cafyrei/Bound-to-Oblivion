@@ -89,18 +89,15 @@ namespace Oblivion
                 foreach (var enemy in _minorEnemies)
                 {
                     enemy.Update(gameTime, _platform.collision, camera);
-
-                    if (!enemy.IsDead)
-                    {
-                        aliveEnemies = _minorEnemies.Count(e => !e.IsDead) ;
-                    }
-
                 }
+
+                aliveEnemies = _minorEnemies.Count(e => !e.IsDead);
                 Console.WriteLine(aliveEnemies);
 
-                if (aliveEnemies == 1 && !_toriiGateSpawn)
+                if (aliveEnemies == 0 && !_toriiGateSpawn)
                 {
                     _toriiGateSpawn = true;
+                    AudioManager.PlaySFX(AudioManager._gatesOpenedrSFX, 1.5f);
                 }
 
                 if (_toriiGateSpawn)

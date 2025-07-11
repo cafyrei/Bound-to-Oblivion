@@ -30,7 +30,7 @@ namespace Oblivion
         public void Draw(SpriteBatch _spritebatch, int NumOfEnemies)
         {
             toDisplay = NumOfEnemies == 0 ?
-                "- Reach the Portal and Defeat Final Boss" : "- Defeat Enemies: " + NumOfEnemies + " Left";
+                "- Reach the Portal and \n   Defeat Final Boss" : "- Defeat Enemies: " + NumOfEnemies + " Left";
 
             _spritebatch.DrawString(fontStyle, goal, GoalPosition, Color.Gold, 0f, Vector2.Zero, 0.9f, SpriteEffects.None, 0f);
             _spritebatch.DrawString(fontStyle, toDisplay, TaskPosition, Color.White, 0f, Vector2.Zero, 0.7f, SpriteEffects.None, 0f);

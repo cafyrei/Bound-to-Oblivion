@@ -225,7 +225,7 @@ namespace Oblivion
                 new Vector2(400, 310),
                 new Vector2(1000, 110),
                 new Vector2(1400, 100),
-                new Vector2(700, 110),
+                new Vector2(300, 220),
             };
 
             foreach (var pos in spawnPositions)

@@ -55,9 +55,13 @@ namespace Oblivion
         float _hitTimer = 0f;
         float _hitDuration = 3f;
         bool _isDead = false;
-        float waitingTime;
         private float _deathFadeOpacity = 0f;
         private bool _startFade = false;
+        private bool _wasOnGround;
+
+        private float _footstepTimer = 0f;
+        private float _footstepCooldown = 0.3f;
+
 
 
         public Player(Texture2D texture, SpriteAnimation2D animation, ContentManager Content, HPBar hpbar) : base(texture)
@@ -74,6 +78,7 @@ namespace Oblivion
             var deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
             var input = Keyboard.GetState();
             var mouseInput = Mouse.GetState();
+            _wasOnGround = _isOnGround; // Store previous grounded state
 
             velocity = new Vector2(0, velocity.Y);
 
@@ -98,8 +103,6 @@ namespace Oblivion
                 return;
             }
 
-
-
             HandleMovement(input, gameTime);
             HandleJump(input);
             HandleAttack(mouseInput, deltaTime, enemies);
@@ -109,10 +112,16 @@ namespace Oblivion
             UpdateHitbox();
             HandleCollision(collisionBlocks);
 
+            if (!_wasOnGround && _isOnGround)
+            {
+                AudioManager.PlaySFX(AudioManager._jumpLandSFX, 1f);
+            }
+
             _animation.Update(gameTime);
             _previousKeyboard = input;
             _previousMouse = mouseInput;
         }
+
 
         private void HandleMovement(KeyboardState input, GameTime gameTime)
         {
@@ -126,10 +135,11 @@ namespace Oblivion
 
             if (_isAttacking) return;
 
+            // Handle hit state
             if (_isHit && !moveLeft && !moveRight)
             {
                 _hitTimer += deltaTime;
-                _animation.SetRow(3); // Hit
+                _animation.SetRow(3); // Hit animation row
                 if (_hitTimer >= _hitDuration)
                 {
                     _isHit = false;
@@ -154,29 +164,43 @@ namespace Oblivion
                 velocity.X = 0;
             }
 
+            // Animation and SFX
             if (!_isOnGround)
             {
+                // Airborne animation
                 if (velocity.Y < 0 && Math.Abs(velocity.X) < 0.1f)
                 {
-                    _animation.SetRow(5);
+                    _animation.SetRow(5); // Jump up idle
                 }
                 else
                 {
-                    _animation.SetRow(run ? 6 : 7);
+                    _animation.SetRow(run ? 6 : 7); // Jump with movement
                 }
+
+                // Reset footstep timer while airborne
+                _footstepTimer = 0f;
             }
             else
             {
                 if (velocity.X == 0)
                 {
-                    _animation.SetRow(4);
+                    _animation.SetRow(4); // Idle on ground
+                    _footstepTimer = 0f;
                 }
                 else
                 {
-                    _animation.SetRow(run ? 6 : 7);
+                    _animation.SetRow(run ? 6 : 7); // Run animation
+                    _footstepTimer += deltaTime;
+
+                    if (_footstepTimer >= _footstepCooldown)
+                    {   
+                        AudioManager.PlaySFX(AudioManager._runGrassSFX, 5f);
+                        _footstepTimer = 0f;
+                    }
                 }
             }
         }
+
 
         private void SetHealth(float value) // Update
         {

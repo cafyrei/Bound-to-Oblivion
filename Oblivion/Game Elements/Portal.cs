@@ -11,10 +11,6 @@ namespace Oblivion
         private Vector2 _position;
         private float _scale = 2.5f;
         private Rectangle _portalRect;
-        private bool _isActivated;
-
-        public bool TriggerStageTransition => _isActivated;
-
         public Portal(Texture2D texture, SpriteAnimation2D animation, Vector2 position)
         {
             _texture = texture;
@@ -31,6 +27,7 @@ namespace Oblivion
             if (player.Hitbox.Intersects(_portalRect))
             {
                 Console.WriteLine("Teleport");
+                AudioManager.PlaySFX(AudioManager._teleportingSFX, 5f);
             }
         }
 

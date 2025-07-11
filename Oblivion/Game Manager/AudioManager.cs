@@ -11,9 +11,12 @@ namespace Oblivion
         private static SoundEffect _attackSound1;
         public static SoundEffect _menuHover;
         public static SoundEffect _menuClicked;
-        public static SoundEffectInstance _SFXInstance;
         public static SoundEffect _pauseMenuClicked;
         public static SoundEffect _gameOverSFX;
+        public static SoundEffect _runGrassSFX;
+        public static SoundEffect _gatesOpenedrSFX;
+        public static SoundEffect _jumpLandSFX;
+        public static SoundEffect _teleportingSFX;
 
         // Music
         private static Song _menuBackgroundsfx;
@@ -27,6 +30,12 @@ namespace Oblivion
             _menuClicked = content.Load<SoundEffect>("Sound/menu_start");
             _pauseMenuClicked = content.Load<SoundEffect>("Sound/kotohit");
             _gameOverSFX = content.Load<SoundEffect>("Sound/game_over");
+
+            _jumpLandSFX = content.Load<SoundEffect>("Sound/jump_land");
+            _runGrassSFX = content.Load<SoundEffect>("Sound/run_grass");
+            _gatesOpenedrSFX = content.Load<SoundEffect>("Sound/gates_opened"); 
+            _teleportingSFX = content.Load<SoundEffect>("Sound/tp"); 
+
 
             // Load BGM
             _menuBackgroundsfx = content.Load<Song>("Music/missing_wind");
@@ -55,6 +64,13 @@ namespace Oblivion
             }
         }
 
+        public static void PlaySFX(SoundEffect sfx, float volume = 1f)
+        {
+            if (sfx == null) return;
+            var instance = sfx.CreateInstance();
+            instance.Volume = MathHelper.Clamp(volume, 0f, 1f);
+            instance.Play();
+        }
 
         public static void StopMusic()
         {
