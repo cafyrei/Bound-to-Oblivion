@@ -22,12 +22,21 @@ namespace Oblivion
 
         private PauseMenu _pauseMenu;
         private SpriteFont _font;
-    
+        private Portal _torii_gate;
+        private bool _toriiGateSpawn = false;
+
         public static int aliveEnemies { get; private set; }
-        public bool GamePause { get => _gamePause;}
+        public bool GamePause { get => _gamePause; }
 
         private readonly Action _onExitToMenu;
-        public GameStage(List<ScrollingBackground> scrollingBackground, Player player, List<MinorEnemy> minorEnemy, Platform platform, List<Collectible> collectible, Action onExitToMenu)
+        public GameStage(List<ScrollingBackground> scrollingBackground,
+         Player player,
+         List<MinorEnemy> minorEnemy,
+         Platform platform,
+         List<Collectible> collectible,
+         Action onExitToMenu,
+         Portal _torii_Gate
+         )
         {
             _scrollingBackground = scrollingBackground;
             _player = player;
@@ -36,7 +45,7 @@ namespace Oblivion
             _previousKeyboardState = Keyboard.GetState();
             _onExitToMenu = onExitToMenu;
             _collectible = collectible;
-
+            _torii_gate = _torii_Gate;
         }
 
         public void Load(ContentManager Content, GraphicsDevice graphicsDevice)
@@ -83,18 +92,30 @@ namespace Oblivion
 
                     if (!enemy.IsDead)
                     {
-                        aliveEnemies = _minorEnemies.Count(e => !e.IsDead);
+                        aliveEnemies = _minorEnemies.Count(e => !e.IsDead) ;
                     }
+
                 }
+                Console.WriteLine(aliveEnemies);
+
+                if (aliveEnemies == 1 && !_toriiGateSpawn)
+                {
+                    _toriiGateSpawn = true;
+                }
+
+                if (_toriiGateSpawn)
+                {
+                    _torii_gate.Update(gameTime, _player, aliveEnemies);
+                }
+
 
                 foreach (var collectible in _collectible)
                 {
-                    collectible.Update(gameTime);
+                    collectible.Update(gameTime, _player);
                 }
             }
 
         }
-
         private void gameResume()
         {
             _gamePause = false;
@@ -111,7 +132,6 @@ namespace Oblivion
             return _player.Position;
         }
 
-
         public void Draw(GameTime gameTime, SpriteBatch _spriteBatch)
         {
             _scrollingBackground[0].Draw(gameTime, _spriteBatch);
@@ -125,6 +145,11 @@ namespace Oblivion
             foreach (var collectible in _collectible)
             {
                 collectible.Draw(_spriteBatch);
+            }
+
+            if (_toriiGateSpawn)
+            {
+                _torii_gate.Draw(_spriteBatch);
             }
             _player.Draw(_spriteBatch);
             _scrollingBackground[2].Draw(gameTime, _spriteBatch);

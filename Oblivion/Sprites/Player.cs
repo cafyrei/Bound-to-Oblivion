@@ -16,7 +16,6 @@ namespace Oblivion
         private const float Gravity = 800f;
         private const float FallMultiplier = 2.5f;
         private const float AttackDuration = 0.5f;
-        private float AttackAnimDuration = 2.5f;
         private const float HitboxScale = 1.5f;
 
         // Movement and State
@@ -42,6 +41,8 @@ namespace Oblivion
         public Vector2 Velocity => velocity;
         public Rectangle Hitbox => _hitbox;
 
+        public float CurrentHealth { get => _currentHealth; }
+
         //HP System
         public HPBar _HPbar;
 
@@ -53,6 +54,11 @@ namespace Oblivion
         bool _isHit = false;
         float _hitTimer = 0f;
         float _hitDuration = 3f;
+        bool _isDead = false;
+        float waitingTime;
+        private float _deathFadeOpacity = 0f;
+        private bool _startFade = false;
+
 
         public Player(Texture2D texture, SpriteAnimation2D animation, ContentManager Content, HPBar hpbar) : base(texture)
         {
@@ -70,6 +76,29 @@ namespace Oblivion
             var mouseInput = Mouse.GetState();
 
             velocity = new Vector2(0, velocity.Y);
+
+            if (_isDead)
+            {
+                if (_animation.CurrentFrame < _animation.TotalFrames - 1)
+                {
+                    _animation.Update(gameTime);
+                }
+                else
+                {
+                    _startFade = true;
+                    _deathFadeOpacity += 0.5f * deltaTime;
+
+                    if (_deathFadeOpacity >= 1f)
+                    {
+                        _deathFadeOpacity = 1f;
+                        Game1.currentState = Game1.GameState.GameOver;
+                    }
+                }
+
+                return;
+            }
+
+
 
             HandleMovement(input, gameTime);
             HandleJump(input);
@@ -131,9 +160,9 @@ namespace Oblivion
                 {
                     _animation.SetRow(5);
                 }
-                else 
+                else
                 {
-                    _animation.SetRow(run ? 6:7); 
+                    _animation.SetRow(run ? 6 : 7);
                 }
             }
             else
@@ -149,14 +178,16 @@ namespace Oblivion
             }
         }
 
-
-
         private void SetHealth(float value) // Update
         {
             _currentHealth = MathHelper.Clamp(value, _minHealth, _maxHealth);
             if (_currentHealth <= 0f)
             {
-                Console.WriteLine("Game Over");
+                _isDead = true;
+                velocity = Vector2.Zero;
+                _animation.FrameTimeAccess = .25f;
+                _animation.SetRow(2);
+
             }
             _HPbar.Update(_currentHealth);
         }
@@ -167,7 +198,6 @@ namespace Oblivion
             SetHealth(_currentHealth - dmg);
             camera.Shake(0.25f, 10f);
         }
-
 
         public void Heal(float heal)
         {
@@ -204,7 +234,7 @@ namespace Oblivion
                 {
                     if (_hitbox.Intersects(enemy.Hitbox))
                     {
-                        enemy.TakeDamage(_damage);
+                        enemy.TakeDamage(100f);
                     }
                 }
 

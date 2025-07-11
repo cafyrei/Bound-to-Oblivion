@@ -85,7 +85,7 @@
 /processorParam:TextureFormat=Color
 /build:Collectibles/Health Soul.png
 
-#begin Enemies/Skeleton.png
+#begin Enemies/Skelebones.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -254,6 +254,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Platform/sprite sheet 16x16px seamless textures.png
+
+#begin Platform/Tori_Portal.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Platform/Tori_Portal.png
 
 #begin Player/Samurai SpriteSheet.png
 /importer:TextureImporter

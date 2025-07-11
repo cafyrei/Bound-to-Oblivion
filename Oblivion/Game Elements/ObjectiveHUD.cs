@@ -22,8 +22,8 @@ namespace Oblivion
         public void LoadContent(ContentManager Content)
         {
             fontStyle = Content.Load<SpriteFont>("Fonts/Blade Stroke");
-            GoalPosition = new Vector2(40, 150);
-            TaskPosition = new Vector2(60, 190);
+            GoalPosition = new Vector2(950, 100);
+            TaskPosition = new Vector2(990, 150);
             goal = "Quest: Duty of the Bound";
         }
 

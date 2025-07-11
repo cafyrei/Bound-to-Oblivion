@@ -179,7 +179,7 @@ namespace Oblivion
                         if (_isColliding)
                         {
 
-                            // Collision Just started (valid attack)  
+                            // Collision Just started (valid attack)
                             if (_damageTimer >= _damageCooldown)
                             {
                                 _damage = randDamage.Next(5, 11); // Damage Per Slah (min,max)

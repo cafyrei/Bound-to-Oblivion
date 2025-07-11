@@ -70,7 +70,7 @@ namespace Oblivion
 
             for (int i = 0; i < labels.Length; i++)
             {
-                Rectangle button_Rect = new Rectangle(180, 400 + i * 60, 120, 40);
+                Rectangle button_Rect = new Rectangle(120, 350 + i * 60, 120, 40);
                 Button2D menu_Button = new Button2D(button_Texture, button_Rect, Color.White, labels[i], menu_Font)
                 {
                     MenuHover = AudioManager._menuHover,
@@ -89,6 +89,7 @@ namespace Oblivion
                         case 4: ExitPressed = true; break;
                     }
                 };
+                menu_Button.Alignment = TextAlignment.Left;
                 menuButtons.Add(menu_Button);
             }
         }
