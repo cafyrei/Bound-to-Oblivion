@@ -13,6 +13,7 @@ namespace Oblivion
         private List<ScrollingBackground> _scrollingBackground;
         private Player _player;
         private List<MinorEnemy> _minorEnemies;
+        private List<ZombieEnemies> _zombieEnemies;
         private Platform _platform;
 
         private List<Collectible> _collectible;
@@ -39,7 +40,8 @@ namespace Oblivion
          List<Collectible> collectible,
          Action onExitToMenu,
          Portal _torii_Gate,
-         TextureManager textureManager
+         TextureManager textureManager,
+         List<ZombieEnemies> zombieEnemies
          )
         {
             _scrollingBackground = scrollingBackground;
@@ -50,6 +52,7 @@ namespace Oblivion
             _onExitToMenu = onExitToMenu;
             _collectible = collectible;
             _torii_gate = _torii_Gate;
+            _zombieEnemies = zombieEnemies;
 
             _textureManager = textureManager;
         }
@@ -96,11 +99,18 @@ namespace Oblivion
 
                 _minorEnemies.RemoveAll(enemy => enemy.IsDead);
 
-                _player.Update(gameTime, _platform.collision, _minorEnemies);
-
                 foreach (var enemy in _minorEnemies)
                 {
                     enemy.Update(gameTime, _platform.collision, camera);
+                }
+                
+                 _zombieEnemies.RemoveAll(enemy => enemy.IsDead);
+                
+                _player.Update(gameTime, _platform.collision, _minorEnemies, _zombieEnemies);
+
+                foreach (var zombie in _zombieEnemies)
+                {
+                    zombie.Update(gameTime, _platform.collision, camera);
                 }
 
                 aliveEnemies = _minorEnemies.Count(e => !e.IsDead);
@@ -168,9 +178,14 @@ namespace Oblivion
             _scrollingBackground[0].Draw(gameTime, _spriteBatch);
             _scrollingBackground[1].Draw(gameTime, _spriteBatch);
             _platform.Draw(_spriteBatch);
-            foreach (var enemy in _minorEnemies)
+            // foreach (var enemy in _minorEnemies)
+            // {
+            //     enemy.Draw(_spriteBatch);
+            // }
+
+            foreach (var zombie in _zombieEnemies)
             {
-                enemy.Draw(_spriteBatch);
+                zombie.Draw(_spriteBatch);
             }
 
             foreach (var collectible in _collectible)

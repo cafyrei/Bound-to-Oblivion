@@ -100,6 +100,7 @@ namespace Oblivion
             StartPressed = false;
             CreditsPressed = false;
             ExitPressed = false;
+            ContinuePressed = false;
             ControlsPressed = false;
         }
 

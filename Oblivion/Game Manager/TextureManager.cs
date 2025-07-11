@@ -20,6 +20,7 @@ namespace Oblivion
         // Player Variables
         private Texture2D _samuraiTexture;
         private Texture2D _minorEnemyTexture;
+        private Texture2D _zombieEnemyTexture;
         private Player _player;
         private SpriteAnimation2D _playerAnimation;
         private HPBar _HpBar;
@@ -27,6 +28,11 @@ namespace Oblivion
         // Enemy Variables
         private SpriteAnimation2D _minorEnemyAnimation;
         private List<MinorEnemy> _minorEnemies;
+
+
+        private SpriteAnimation2D _zombieEnemyAnimation;
+        private List<ZombieEnemies> _zombieEnemy;
+
         public static float attackAnimationSpeed = .125f;
 
         // Background Variables
@@ -137,8 +143,31 @@ namespace Oblivion
                 frameTime: attackAnimationSpeed
             );
 
+            try
+            {
+                _zombieEnemyTexture = Content.Load<Texture2D>("Enemies/zombie_1");
+            }
+            catch (ContentLoadException e)
+            {
+                Console.WriteLine("Error Loading Zombie Texture Error Details : " + e);
+            }
+            _zombieEnemyAnimation = new SpriteAnimation2D(
+                frameHeight: 64,
+                frameWidth: 64,
+                rowFrameCount: new Dictionary<int, int>
+                {
+                    {0, 13}, // Attack
+                    {1, 13}, // Death 
+                    {2, 12}
+                },
+                frameTime: attackAnimationSpeed
+            );
+
+            _zombieEnemy = new List<ZombieEnemies>();
+            SpawnZombieEnemies(5); // Spawn 5 zombies
+
             _minorEnemies = new List<MinorEnemy>(); // Initialize the list of enemies
-            SpawnEnemies(7); // Spawn enemies
+            SpawnWhiteEnemies(7); // Spawn enemies
 
             #endregion
 
@@ -193,7 +222,8 @@ namespace Oblivion
                     _mainMenu.StartFadeIn();
                 },
                 boss_Portal,
-                this
+                this,
+                _zombieEnemy
             );
 
             _control = new Controls(Content, graphicsDevice,
@@ -221,7 +251,7 @@ namespace Oblivion
 
 
         #region Spawn Enemies (Skelebones)
-        private void SpawnEnemies(int count)
+        private void SpawnWhiteEnemies(int count)
         {
             Vector2[] spawnPositions = new Vector2[]
             {
@@ -248,7 +278,34 @@ namespace Oblivion
             }
         }
 
+        private void SpawnZombieEnemies(int count)
+        {
+            Vector2[] spawnPositions = new Vector2[]
+            {
+        new Vector2(500, 220),
+        new Vector2(800, 100),
+        new Vector2(1200, 310),
+        new Vector2(1600, 110),
+        new Vector2(2000, 100),
+            };
+
+            foreach (var pos in spawnPositions)
+            {
+                var animationClone = new SpriteAnimation2D(_zombieEnemyAnimation);
+
+                var zombie = new ZombieEnemies(_zombieEnemyTexture, animationClone, pos.X - 100, pos.X + 100, Camera)
+                {
+                    Position = pos,
+                    Layer = 0.93f,
+                };
+
+                zombie.SetTarget(_player);
+                _zombieEnemy.Add(zombie);
+            }
+        }
+
         #endregion
+
         #region Spawn Collectibles
         private void SpawnCollectibles(int count)
         {
@@ -271,8 +328,10 @@ namespace Oblivion
         }
         #endregion
         #region Game Reset
+
         public void ResetGameStage(ContentManager Content, GraphicsDevice graphicsDevice)
         {
+            // Reset Player
             _player = new Player(_samuraiTexture, new SpriteAnimation2D(_playerAnimation), Content, _HpBar)
             {
                 Position = new Vector2(50, 150),
@@ -280,10 +339,14 @@ namespace Oblivion
             };
 
             _minorEnemies = new List<MinorEnemy>();
-            SpawnEnemies(7); // your existing method
+            SpawnWhiteEnemies(7); 
+
+            _zombieEnemy = new List<ZombieEnemies>();
+            SpawnZombieEnemies(5); 
+
 
             _collectibles = new List<Collectible>();
-            SpawnCollectibles(4); // your existing method
+            SpawnCollectibles(4);
 
             _gameStage = new GameStage(
                 _scrollingBackground,
@@ -298,9 +361,9 @@ namespace Oblivion
                     _mainMenu.StartFadeIn();
                 },
                 boss_Portal,
-                this
+                this,
+                _zombieEnemy
             );
-
             _gameStage.Load(Content, graphicsDevice);
 
             foreach (var bg in _scrollingBackground)
@@ -308,8 +371,8 @@ namespace Oblivion
                 bg.SetCamera(_camera);
             }
         }
-        #endregion
 
+        #endregion
 
         #region Properties
         public MainMenu MainMenu => _mainMenu;

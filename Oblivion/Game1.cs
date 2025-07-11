@@ -17,12 +17,12 @@ namespace Oblivion
 
         public enum GameState { MainMenu, GamePlay, Continue, Controls, Credits, GameOver };
         public static GameState currentState = GameState.MainMenu;
-
         // Content Managers
         private TextureManager _textureManager;
 
         public static int ScreenWidth = 1280;
         public static int ScreenHeight = 720;
+        private bool _hasLoadedContinue = false;
 
         PlayerData loadedData = SaveSystem.LoadPlayerData();
 
@@ -52,13 +52,10 @@ namespace Oblivion
 
             _textureManager = new TextureManager();
             _textureManager.Load(Content, GraphicsDevice); // Handles Txture for Background and Player
-
-            // // Load Data
-            // if (loadedData != null)
-            // {
-            //     _textureManager.GameStage.LoadProgress(loadedData);
-            // }
+            loadedData = SaveSystem.LoadPlayerData();
+            _textureManager.ResetGameStage(Content, GraphicsDevice);
         }
+
         protected override void Update(GameTime gameTime)
         {
             IsMouseVisible = (currentState != GameState.GamePlay) || _textureManager.GameStage.GamePause;
@@ -83,9 +80,6 @@ namespace Oblivion
                     else if (MainMenu.ContinuePressed)
                     {
                         // Load game state and player data
-                        loadedData = SaveSystem.LoadPlayerData();
-                        _textureManager.ResetGameStage(Content, GraphicsDevice);
-
                         if (loadedData != null)
                         {
                             _textureManager.GameStage.LoadProgress(loadedData);
