@@ -157,7 +157,6 @@ namespace Oblivion
                         MainMenu.ResetFlags();
                     }
                 }
-
                 return;
             }
 
@@ -187,7 +186,7 @@ namespace Oblivion
             bool moveLeft = input.IsKeyDown(Keys.A);
             bool moveRight = input.IsKeyDown(Keys.D);
             bool run = input.IsKeyDown(Keys.LeftShift);
-
+            Console.WriteLine("Position: " + Position);
             float moveSpeed = run ? _runSpeed : _walkSpeed;
 
             if (_isAttacking) return;

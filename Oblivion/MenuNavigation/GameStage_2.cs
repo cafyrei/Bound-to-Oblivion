@@ -15,7 +15,7 @@ namespace Oblivion
         private List<MinorEnemy> _minorEnemies;
         private List<ZombieEnemies> _zombieEnemies;
         private Platform _platform;
-        private Boss _boss;
+        private List<Boss> _boss;
         private List<Collectible> _collectible;
 
         public Background bg1;
@@ -46,7 +46,7 @@ namespace Oblivion
             Portal _torii_Gate,
             TextureManager_2 textureManager,
             List<ZombieEnemies> zombieEnemies,
-            Boss boss
+            List<Boss> boss
         )
         {
             _scrollingBackground = scrollingBackground;
@@ -117,7 +117,11 @@ namespace Oblivion
                     zombie.Update(gameTime, _platform.collision, camera);
                 }
 
-                _boss?.Update(gameTime, _platform.collision, _textureManager.Camera);
+                foreach (var boss in _boss)
+                {
+                    boss?.Update(gameTime, _platform.collision, _textureManager.Camera);
+                }
+                
 
 
                 aliveEnemies = _minorEnemies.Count(e => !e.IsDead);
@@ -152,6 +156,7 @@ namespace Oblivion
         {
             AudioManager.StopMusic();
 
+            // Just change the game state to Main Menu
             Game1.currentState = Game1.GameState.MainMenu;
             Game1.ResetToStage1();
 
@@ -199,7 +204,11 @@ namespace Oblivion
                 zombie.Draw(_spriteBatch);
             }
 
-            _boss?.Draw(_spriteBatch);
+            foreach (var bossing in _boss)
+            {
+                bossing?.Draw(_spriteBatch);
+            }
+            
 
 
             foreach (var collectible in _collectible)

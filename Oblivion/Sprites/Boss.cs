@@ -75,11 +75,11 @@ namespace Oblivion
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds; // Delta Time
 
             _isColliding = _player.Hitbox.Intersects(_hitbox); // Condition Checking
-
+            Console.WriteLine("BOSS POSITION: " + Position);
             int newAnimationRow = 3;
 
             ApplyGravity(deltaTime);
-
+            HandleCollision(collisionBlocks);
             Position.Y += _enemyVelocity.Y * deltaTime;
 
             if (_isDying)
@@ -166,7 +166,7 @@ namespace Oblivion
                     {
                         _stateTimer += deltaTime;
                         _damageTimer += deltaTime;
-                        newAnimationRow = 1; // attack row
+                        newAnimationRow = 0; // attack row
 
                         if (_isColliding)
                         {
@@ -202,7 +202,7 @@ namespace Oblivion
             }
 
             UpdateHitbox();
-            HandleCollision(collisionBlocks);
+            // HandleCollision(collisionBlocks);
 
             _animation.SetRow(newAnimationRow);
             _animation.Update(gameTime);
@@ -251,13 +251,13 @@ namespace Oblivion
                         {
                             Position.X -= intersection.Width;
                             _enemyVelocity.X = -_walkSpeed;
-                            Flip = SpriteEffects.FlipHorizontally;
+                            Flip = SpriteEffects.None;
                         }
                         else
                         {
                             Position.X += intersection.Width;
                             _enemyVelocity.X = _walkSpeed;
-                            Flip = SpriteEffects.None;
+                            Flip = SpriteEffects.FlipHorizontally;
                         }
                     }
                     else
@@ -304,10 +304,9 @@ namespace Oblivion
             if (_currentHealth <= 0f && !_isDying)
             {
                 _isDying = true;
-                _animation.SetRow(2);
+                _animation.SetRow(1);
                 _deathTimer = 0f;
             }
-
         }
 
         public void TakeDamage(float dmg)
@@ -334,7 +333,7 @@ namespace Oblivion
             if (_player.Position.X > Position.X)
             {
                 _enemyVelocity.X = _walkSpeed;
-                Flip = SpriteEffects.None;  // facing right
+                Flip = SpriteEffects.None; // facing right
             }
             else
             {
@@ -352,13 +351,13 @@ namespace Oblivion
             {
                 Position.X = _leftBound;
                 _enemyVelocity.X = _walkSpeed;
-                Flip = SpriteEffects.None;
+                Flip = SpriteEffects.FlipHorizontally;
             }
             else if (Position.X >= _rightBound)
             {
                 Position.X = _rightBound;
                 _enemyVelocity.X = -_walkSpeed;
-                Flip = SpriteEffects.FlipHorizontally;
+                Flip = SpriteEffects.None;
             }
 
             Position.X += _enemyVelocity.X * deltaTime;

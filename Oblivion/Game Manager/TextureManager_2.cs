@@ -46,6 +46,8 @@ namespace Oblivion
         private List<Collectible> _collectibles;
         private static float _collectibleAnimationSpeed = .125f;
 
+
+        private List<Boss> Bossing;
         private Texture2D BossTexture;
         private SpriteAnimation2D BossAnimation;
         private Boss boss;
@@ -204,6 +206,9 @@ namespace Oblivion
 
             _minorEnemies = new List<MinorEnemy>(); // Initialize the list of enemies
             SpawnWhiteEnemies(7); // Spawn enemies
+
+            Bossing = new List<Boss>();
+            SpawnBossing(1);
             #endregion
 
             #region Game Collectibles Declaration
@@ -243,7 +248,8 @@ namespace Oblivion
             _platform1 = new Platform("../../../Data/Stage2map.csv", Content, graphicsDevice);
 
 
-            boss = new Boss(BossTexture, BossAnimation, 10, 10, Camera);
+            boss = new Boss(BossTexture, BossAnimation, 100, 100, Camera);
+            boss.Position = new Vector2(2000, 470);
             // Game Stage Constructor
             _gameStage = new GameStage_2(
                 _scrollingBackground,
@@ -260,7 +266,7 @@ namespace Oblivion
                 boss_Portal,
                 this,
                 _zombieEnemy,
-                boss
+                Bossing
             );
 
             _gameStage.Load(Content, graphicsDevice);
@@ -329,6 +335,28 @@ namespace Oblivion
             }
         }
 
+        private void SpawnBossing(int count)
+        {
+            Vector2[] spawnPositions = new Vector2[]
+            {
+                new Vector2(2000, 400)
+            };
+
+            foreach (var pos in spawnPositions)
+            {
+                var animationClone = new SpriteAnimation2D(BossAnimation);
+
+                var enemy = new Boss(BossTexture, animationClone, pos.X - 100, pos.X + 100, Camera)
+                {
+                    Position = pos,
+                    Layer = 0.93f,
+                };
+
+                enemy.SetTarget(_player);
+                Bossing.Add(enemy);
+            }
+        }
+
         private void SpawnCollectibles(int count)
         {
             Vector2[] spawnPositions = new Vector2[]
@@ -380,8 +408,9 @@ namespace Oblivion
     boss_Portal,
     this,
     _zombieEnemy,
-    boss
+    Bossing
 );
+
 
         }
 
