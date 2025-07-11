@@ -24,9 +24,12 @@ namespace Oblivion
         private SpriteFont _font;
         private Portal _torii_gate;
         private bool _toriiGateSpawn = false;
-
+        private TextureManager _textureManager;
         public static int aliveEnemies { get; private set; }
         public bool GamePause { get => _gamePause; }
+
+        ContentManager Content1;
+        GraphicsDevice graphicsDevice1;
 
         private readonly Action _onExitToMenu;
         public GameStage(List<ScrollingBackground> scrollingBackground,
@@ -35,7 +38,8 @@ namespace Oblivion
          Platform platform,
          List<Collectible> collectible,
          Action onExitToMenu,
-         Portal _torii_Gate
+         Portal _torii_Gate,
+         TextureManager textureManager
          )
         {
             _scrollingBackground = scrollingBackground;
@@ -46,6 +50,8 @@ namespace Oblivion
             _onExitToMenu = onExitToMenu;
             _collectible = collectible;
             _torii_gate = _torii_Gate;
+
+            _textureManager = textureManager;
         }
 
         public void Load(ContentManager Content, GraphicsDevice graphicsDevice)
@@ -54,7 +60,11 @@ namespace Oblivion
             _pauseMenu = new PauseMenu(graphicsDevice, _font, Content);
             _pauseMenu.OnResumeGame += gameResume;
             _pauseMenu.BackToMenu += backToMenu;
+
+            Content1 = Content;
+            graphicsDevice1 = graphicsDevice;
         }
+        
 
         public void Update(GameTime gameTime, Camera2D camera)
         {
@@ -73,6 +83,7 @@ namespace Oblivion
             if (_player.Position.Y > Game1.ScreenHeight)
             {
                 Game1.currentState = Game1.GameState.GameOver;
+                _textureManager.ResetGameStage(Content1, graphicsDevice1);
             }
 
             if (!_gamePause)
@@ -97,6 +108,7 @@ namespace Oblivion
                 if (aliveEnemies == 0 && !_toriiGateSpawn)
                 {
                     _toriiGateSpawn = true;
+                    AudioManager.StopMusic();
                     AudioManager.PlaySFX(AudioManager._gatesOpenedrSFX, 1.5f);
                 }
 
