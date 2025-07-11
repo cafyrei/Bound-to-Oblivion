@@ -56,6 +56,16 @@ namespace Oblivion
         private Texture2D portal_Texture;
         private SpriteAnimation2D _ToriiGate;
 
+        // Wallpaper Variable
+        private Texture2D background_Texture1;
+        private Background background1;
+        private Rectangle backgroundRect1;
+        private Texture2D background_Texture2;
+        private Background background2;
+        private Rectangle backgroundRect2;
+
+        private TextureManager texturemanager1;
+
 
         public void Load(ContentManager Content, GraphicsDevice graphicsDevice)
         {
@@ -110,6 +120,14 @@ namespace Oblivion
                     Layer = 0.95f,
                 }
             };
+
+            background_Texture1 = Content.Load<Texture2D>("Parallax_Layers/Stage 2 Layer 1");
+            backgroundRect1 = new Rectangle(0, 0, graphicsDevice.Viewport.Width, graphicsDevice.Viewport.Height);
+            background1 = new Background(background_Texture1, backgroundRect1, Color.White);
+
+            background_Texture2 = Content.Load<Texture2D>("Parallax_Layers/Stage 2 Layer 4");
+            backgroundRect2 = new Rectangle(0, 0, graphicsDevice.Viewport.Width, graphicsDevice.Viewport.Height);
+            background2 = new Background(background_Texture2, backgroundRect2, Color.White);
             #endregion
 
             #region Minor and Major Enemies
@@ -150,7 +168,7 @@ namespace Oblivion
                 rowFrameCount: new Dictionary<int, int>
                 {
                     {0, 13}, // Attack
-                    {1, 13}, // Death 
+                    {1, 13}, // Death
                     {2, 12}, // Walk
                     {3, 3} // Hit
                 },
@@ -243,7 +261,6 @@ namespace Oblivion
                 this,
                 _zombieEnemy,
                 boss
-
             );
 
             _gameStage.Load(Content, graphicsDevice);
@@ -340,45 +357,32 @@ namespace Oblivion
                 Layer = 0.94f,
             };
 
-            // Reset Minor Enemies
             _minorEnemies = new List<MinorEnemy>();
             SpawnWhiteEnemies(7);
 
-            // Reset Zombie Enemies
             _zombieEnemy = new List<ZombieEnemies>();
             SpawnZombieEnemies(5);
 
-            // Reset Collectibles
+
             _collectibles = new List<Collectible>();
             SpawnCollectibles(4);
-            
-            boss = new Boss(BossTexture, new SpriteAnimation2D(BossAnimation), 10, 10, Camera);
 
-            // Recreate GameStage
-            _gameStage = new GameStage_2(
-                _scrollingBackground,
-                _player,
-                _minorEnemies,
-                _platform1,
-                _collectibles,
-                () =>
-                {
-                    Game1.currentState = Game1.GameState.MainMenu;
-                    MainMenu.ResetFlags();
-                    _mainMenu.StartFadeIn();
-                },
-                boss_Portal,
-                this,
-                _zombieEnemy,
-                boss
-            );
+       _gameStage = new GameStage_2(
+    _scrollingBackground,
+    _player,
+    _minorEnemies,
+    _platform1,
+    _collectibles,
+    () =>
+    {
+        Game1.ResetToStage1();
+    },
+    boss_Portal,
+    this,
+    _zombieEnemy,
+    boss
+);
 
-            _gameStage.Load(Content, graphicsDevice);
-
-            foreach (var bg in _scrollingBackground)
-            {
-                bg.SetCamera(_camera);
-            }
         }
 
         // Properties
@@ -389,6 +393,8 @@ namespace Oblivion
         public Camera2D Camera { get => _camera; }
         public Player Player1 { get => _player; set => _player = value; }
         public GameOverScreen GameOver { get => _gameOver; }
+       public Background Background1 => background1;
+        public Background Background2 => background2;
     }
 
 

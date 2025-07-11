@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Oblivion
 {
-    internal class Background
+    public class Background
     {
         Texture2D background_Texture;
         Rectangle background_Rectangle;

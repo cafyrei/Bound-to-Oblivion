@@ -26,9 +26,12 @@ namespace Oblivion
         private bool _hasLoadedContinue = false;
 
         PlayerData loadedData = SaveSystem.LoadPlayerData();
+        public static Game1 Instance;
+
 
         public Game1()
         {
+            Instance = this;
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
@@ -129,7 +132,11 @@ namespace Oblivion
             base.Update(gameTime);
         }
 
-
+        public static void ResetToStage1()
+        {
+            currentState = GameState.MainMenu;
+            Instance._textureManager.Load(Instance.Content, Instance.GraphicsDevice);
+        }
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Black);
@@ -164,6 +171,8 @@ namespace Oblivion
 
                     _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
                     _textureManager2.HPBarAccess.Draw(_spriteBatch);
+                    _spriteBatch.Draw(_textureManager2.Background1.Background_Texture, _textureManager2.Background1.Background_Rectangle, Color.White);
+                    _spriteBatch.Draw(_textureManager2.Background2.Background_Texture, _textureManager2.Background2.Background_Rectangle, Color.White);
                     _textureManager2.GameStage2.DrawUI(_spriteBatch, GraphicsDevice.Viewport);
                     _textureManager2.objectiveHUD.Draw(_spriteBatch, GameStage.aliveEnemies, 2);
                     _spriteBatch.End();

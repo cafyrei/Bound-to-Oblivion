@@ -18,6 +18,9 @@ namespace Oblivion
         private Boss _boss;
         private List<Collectible> _collectible;
 
+        public Background bg1;
+        public Background bg2;
+
         private bool _gamePause = false;
         KeyboardState _previousKeyboardState;
 
@@ -89,7 +92,6 @@ namespace Oblivion
             if (_player.Position.Y > Game1.ScreenHeight)
             {
                 Game1.currentState = Game1.GameState.GameOver;
-                _textureManager.ResetGameStage(Content1, graphicsDevice1);
             }
 
             if (!_gamePause)
@@ -149,6 +151,10 @@ namespace Oblivion
         private void backToMenu()
         {
             AudioManager.StopMusic();
+
+            Game1.currentState = Game1.GameState.MainMenu;
+            Game1.ResetToStage1();
+
             _onExitToMenu?.Invoke();
         }
 
@@ -193,7 +199,7 @@ namespace Oblivion
                 zombie.Draw(_spriteBatch);
             }
 
-            _boss?.Draw(_spriteBatch); 
+            _boss?.Draw(_spriteBatch);
 
 
             foreach (var collectible in _collectible)
@@ -206,7 +212,6 @@ namespace Oblivion
                 _torii_gate.Draw(_spriteBatch);
             }
             _player.Draw(_spriteBatch);
-            _scrollingBackground[2].Draw(gameTime, _spriteBatch);
             _scrollingBackground[2].Draw(gameTime, _spriteBatch);
         }
         public void DrawUI(SpriteBatch _spriteBatch, Viewport _screenViewPort)

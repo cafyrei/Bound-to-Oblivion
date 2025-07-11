@@ -144,6 +144,7 @@ namespace Oblivion
         private void backToMenu()
         {
             AudioManager.StopMusic();
+            _textureManager.ResetGameStage(Content1, graphicsDevice1);
             _onExitToMenu?.Invoke();
         }
 

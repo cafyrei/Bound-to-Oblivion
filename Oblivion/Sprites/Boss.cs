@@ -20,7 +20,7 @@ namespace Oblivion
         // Constants
         private const float Gravity = 500f;
         private const float FallMultiplier = 2.5f;
-        private const float HitboxScale = 2f;
+        private const float HitboxScale = 4f;
 
         // AI
         private EnemyState _currentState = EnemyState.Idle;
