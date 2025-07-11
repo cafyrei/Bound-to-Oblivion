@@ -24,6 +24,8 @@ namespace Oblivion
         public static int ScreenWidth = 1280;
         public static int ScreenHeight = 720;
 
+        PlayerData loadedData = SaveSystem.LoadPlayerData();
+
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -51,6 +53,11 @@ namespace Oblivion
             _textureManager = new TextureManager();
             _textureManager.Load(Content, GraphicsDevice); // Handles Txture for Background and Player
 
+            // // Load Data
+            // if (loadedData != null)
+            // {
+            //     _textureManager.GameStage.LoadProgress(loadedData);
+            // }
         }
         protected override void Update(GameTime gameTime)
         {
@@ -70,6 +77,20 @@ namespace Oblivion
 
                     if (MainMenu.StartPressed)
                     {
+                        currentState = GameState.GamePlay;
+                        AudioManager.StopMusic();
+                    }
+                    else if (MainMenu.ContinuePressed)
+                    {
+                        // Load game state and player data
+                        loadedData = SaveSystem.LoadPlayerData();
+                        _textureManager.ResetGameStage(Content, GraphicsDevice);
+
+                        if (loadedData != null)
+                        {
+                            _textureManager.GameStage.LoadProgress(loadedData);
+                        }
+
                         currentState = GameState.GamePlay;
                         AudioManager.StopMusic();
                     }

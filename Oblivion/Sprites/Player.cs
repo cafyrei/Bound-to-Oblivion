@@ -41,14 +41,14 @@ namespace Oblivion
         public Vector2 Velocity => velocity;
         public Rectangle Hitbox => _hitbox;
 
-        public float CurrentHealth { get => _currentHealth; }
 
         //HP System
         public HPBar _HPbar;
 
         float _maxHealth = 100f;
         float _minHealth = 0f;
-        float _currentHealth;
+        public float _currentHealth;
+        public float CurrentHealth { get => _currentHealth; set => _currentHealth = value; }
 
         // Animation Control
         bool _isHit = false;
@@ -372,6 +372,10 @@ namespace Oblivion
             }
         }
 
+        public Vector2 GetPlayerPosition()
+        {
+            return Position;
+        }
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(

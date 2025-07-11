@@ -60,11 +60,12 @@ namespace Oblivion
             _pauseMenu = new PauseMenu(graphicsDevice, _font, Content);
             _pauseMenu.OnResumeGame += gameResume;
             _pauseMenu.BackToMenu += backToMenu;
+            _pauseMenu.OnSaveGame += SaveProgress;
 
             Content1 = Content;
             graphicsDevice1 = graphicsDevice;
         }
-        
+
 
         public void Update(GameTime gameTime, Camera2D camera)
         {
@@ -135,6 +136,27 @@ namespace Oblivion
             AudioManager.StopMusic();
             _onExitToMenu?.Invoke();
         }
+
+        private void SaveProgress()
+        {
+            PlayerData data = new PlayerData
+            {
+                Health = _player.CurrentHealth,
+                CurrentStage = 1, // Problem Variable
+                SpawnPosition = new SerializableVector2(_player.Position)
+            };
+
+            SaveSystem.SavePlayerData(data);
+        }
+
+        public void LoadProgress(PlayerData data)
+        {
+            if (data == null) return;
+
+            _player.CurrentHealth = data.Health;
+            _player.Position = data.SpawnPosition.ToVector2();
+        }
+
 
         public Vector2 GetPlayerPosition()
         {

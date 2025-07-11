@@ -1,17 +1,39 @@
+using System;
 using System.IO;
 using System.Xml.Serialization;
 
-public static class SaveSystem
+namespace Oblivion
 {
-    public static void SavePlayerData(PlayerData data, string path)
+    public static class SaveSystem
     {
-        XmlSerializer serializer = new XmlSerializer(typeof(PlayerData));
+        private static string SavePath => Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "savefile.xml");
 
-        using (StreamWriter writer = new StreamWriter(path))
+        public static void SavePlayerData(PlayerData data)
         {
-            serializer.Serialize(writer, data);
+            XmlSerializer serializer = new XmlSerializer(typeof(PlayerData));
+            using (FileStream stream = new FileStream(SavePath, FileMode.Create))
+            {
+                serializer.Serialize(stream, data);
+                Console.WriteLine("Save file location: " + SavePath);
+            }
+        }
+
+        public static PlayerData LoadPlayerData()
+        {
+            if (!File.Exists(SavePath))
+                return null;
+
+            XmlSerializer serializer = new XmlSerializer(typeof(PlayerData));
+            using (FileStream stream = new FileStream(SavePath, FileMode.Open))
+            {
+                return serializer.Deserialize(stream) as PlayerData;
+            }
+        }
+
+        public static void DeleteSave()
+        {
+            if (File.Exists(SavePath))
+                File.Delete(SavePath);
         }
     }
 }
-
-

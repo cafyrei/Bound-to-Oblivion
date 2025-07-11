@@ -9,7 +9,7 @@ namespace Oblivion
 {
     public class TextureManager
     {
-        // Game Stages Variables;
+        #region Game Stages Variables;
         private MainMenu _mainMenu;
         private GameStage _gameStage;
         private GameOverScreen _gameOver;
@@ -51,6 +51,8 @@ namespace Oblivion
         Portal boss_Portal;
         private Texture2D portal_Texture;
         private SpriteAnimation2D _ToriiGate;
+
+        #endregion
 
         public void Load(ContentManager Content, GraphicsDevice graphicsDevice)
         {
@@ -217,6 +219,8 @@ namespace Oblivion
             objHUD = new ObjectiveHUD(Content);
         }
 
+
+        #region Spawn Enemies (Skelebones)
         private void SpawnEnemies(int count)
         {
             Vector2[] spawnPositions = new Vector2[]
@@ -244,6 +248,8 @@ namespace Oblivion
             }
         }
 
+        #endregion
+        #region Spawn Collectibles
         private void SpawnCollectibles(int count)
         {
             Vector2[] spawnPositions = new Vector2[]
@@ -263,7 +269,8 @@ namespace Oblivion
                 _collectibles.Add(collectible);
             }
         }
-
+        #endregion
+        #region Game Reset
         public void ResetGameStage(ContentManager Content, GraphicsDevice graphicsDevice)
         {
             _player = new Player(_samuraiTexture, new SpriteAnimation2D(_playerAnimation), Content, _HpBar)
@@ -301,11 +308,10 @@ namespace Oblivion
                 bg.SetCamera(_camera);
             }
         }
+        #endregion
 
 
-
-
-        // Properties
+        #region Properties
         public MainMenu MainMenu => _mainMenu;
         public GameStage GameStage => _gameStage;
         public Controls Controls => _control;
@@ -314,6 +320,8 @@ namespace Oblivion
         public Camera2D Camera { get => _camera; }
         public Player Player1 { get => _player; set => _player = value; }
         public GameOverScreen GameOver { get => _gameOver; }
+        #endregion
+
     }
 
 

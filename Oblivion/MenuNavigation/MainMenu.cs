@@ -37,6 +37,7 @@ namespace Oblivion
         SpriteFont menu_Font;
 
         public static bool StartPressed { get; private set; } = false;
+        public static bool ContinuePressed { get; private set; } = false;
         public static bool CreditsPressed { get; private set; } = false;
         public static bool ExitPressed { get; private set; } = false;
         public static bool ControlsPressed { get; private set; } = false;
@@ -83,7 +84,7 @@ namespace Oblivion
                     switch (index)
                     {
                         case 0: StartPressed = true; break;
-                        case 1: break;
+                        case 1: ContinuePressed = true;  break;
                         case 2: ControlsPressed = true; break;
                         case 3: CreditsPressed = true; break;
                         case 4: ExitPressed = true; break;
