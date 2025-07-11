@@ -48,12 +48,14 @@ namespace Oblivion
 
         private Texture2D BossTexture;
         private SpriteAnimation2D BossAnimation;
+        private Boss boss;
 
 
         // Portal Variable
         Portal boss_Portal;
         private Texture2D portal_Texture;
         private SpriteAnimation2D _ToriiGate;
+
 
         public void Load(ContentManager Content, GraphicsDevice graphicsDevice)
         {
@@ -136,7 +138,7 @@ namespace Oblivion
 
             try
             {
-                _zombieEnemyTexture = Content.Load<Texture2D>("Enemies/zombie_1");
+                _zombieEnemyTexture = Content.Load<Texture2D>("Enemies/ZombieSP");
             }
             catch (ContentLoadException e)
             {
@@ -149,7 +151,8 @@ namespace Oblivion
                 {
                     {0, 13}, // Attack
                     {1, 13}, // Death 
-                    {2, 12}
+                    {2, 12},
+                    {3,3}
                 },
                 frameTime: attackAnimationSpeed
             );
@@ -177,12 +180,12 @@ namespace Oblivion
                 frameTime: attackAnimationSpeed
             );
 
+
             _zombieEnemy = new List<ZombieEnemies>();
             SpawnZombieEnemies(5); // Spawn 5 zombies
 
             _minorEnemies = new List<MinorEnemy>(); // Initialize the list of enemies
             SpawnWhiteEnemies(7); // Spawn enemies
-
             #endregion
 
             #region Game Collectibles Declaration
@@ -222,6 +225,7 @@ namespace Oblivion
             _platform1 = new Platform("../../../Data/Stage2map.csv", Content, graphicsDevice);
 
 
+            boss = new Boss(BossTexture, BossAnimation, 10, 10, Camera);
             // Game Stage Constructor
             _gameStage = new GameStage_2(
                 _scrollingBackground,
@@ -237,7 +241,8 @@ namespace Oblivion
                 },
                 boss_Portal,
                 this,
-                _zombieEnemy
+                _zombieEnemy,
+                boss
 
             );
 
@@ -249,7 +254,10 @@ namespace Oblivion
             }
 
             objHUD = new ObjectiveHUD(Content);
+            boss.SetTarget(_player);
         }
+
+
         private void SpawnZombieEnemies(int count)
         {
             Vector2[] spawnPositions = new Vector2[]
@@ -333,16 +341,22 @@ namespace Oblivion
                 Layer = 0.94f,
             };
 
+            // Reset Minor Enemies
             _minorEnemies = new List<MinorEnemy>();
-            SpawnWhiteEnemies(7); 
+            SpawnWhiteEnemies(7);
 
+            // Reset Zombie Enemies
             _zombieEnemy = new List<ZombieEnemies>();
-            SpawnZombieEnemies(5); 
+            SpawnZombieEnemies(5);
 
-
+            // Reset Collectibles
             _collectibles = new List<Collectible>();
             SpawnCollectibles(4);
 
+            // ✅ Reset Boss
+            boss = new Boss(BossTexture, new SpriteAnimation2D(BossAnimation), 10, 10, Camera);
+
+            // Recreate GameStage
             _gameStage = new GameStage_2(
                 _scrollingBackground,
                 _player,
@@ -357,8 +371,10 @@ namespace Oblivion
                 },
                 boss_Portal,
                 this,
-                _zombieEnemy
+                _zombieEnemy,
+                boss
             );
+
             _gameStage.Load(Content, graphicsDevice);
 
             foreach (var bg in _scrollingBackground)
@@ -366,9 +382,6 @@ namespace Oblivion
                 bg.SetCamera(_camera);
             }
         }
-
-
-
 
         // Properties
         public MainMenu MainMenu => _mainMenu;

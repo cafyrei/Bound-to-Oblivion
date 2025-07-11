@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Oblivion
 {
-    public class ZombieEnemies : Sprite
+    public class Boss : Sprite
     {
         private SpriteAnimation2D _animation;
         public SpriteEffects Flip = SpriteEffects.None;
@@ -57,7 +57,7 @@ namespace Oblivion
 
         public Rectangle Hitbox { get => _hitbox; }
 
-        public ZombieEnemies(Texture2D texture, SpriteAnimation2D animation, float leftBound, float rightBound, Camera2D camera)
+        public Boss(Texture2D texture, SpriteAnimation2D animation, float leftBound, float rightBound, Camera2D camera)
             : base(texture)
         {
             _animation = animation;
@@ -76,7 +76,7 @@ namespace Oblivion
 
             _isColliding = _player.Hitbox.Intersects(_hitbox); // Condition Checking
 
-            int newAnimationRow = 2;
+            int newAnimationRow = 3;
 
             ApplyGravity(deltaTime);
 
@@ -100,7 +100,7 @@ namespace Oblivion
             if (_isHit)
             {
                 _hitTimer += deltaTime;
-                _animation.SetRow(4);
+                _animation.SetRow(2);
                 _animation.Update(gameTime);
                 _enemyVelocity.Y = -3f;
 
@@ -118,7 +118,7 @@ namespace Oblivion
                     _idleTimer += deltaTime;
                     if (_idleTimer >= _idleDuration)
                     {
-                        _idleTimer = 0;
+                        _idleTimer = 3;
                         _currentState = EnemyState.Patrol;
                     }
                     break;
@@ -134,7 +134,7 @@ namespace Oblivion
                     }
 
                     PatrolMovement(deltaTime);
-                    newAnimationRow = 2;
+                    newAnimationRow = 4;
                     break;
 
                 case EnemyState.Chase:
@@ -152,13 +152,13 @@ namespace Oblivion
                         if (distance > 500f) // If Distance Back to Patrol
                         {
                             _currentState = EnemyState.Patrol;
-                            newAnimationRow = 2;
+                            newAnimationRow = 4;
                             break;
                         }
 
                         // Still chasing
                         ChasePlayer(deltaTime);
-                        newAnimationRow = 2;
+                        newAnimationRow = 4;
                         break;
                     }
 
@@ -166,7 +166,7 @@ namespace Oblivion
                     {
                         _stateTimer += deltaTime;
                         _damageTimer += deltaTime;
-                        newAnimationRow = 0; // attack row
+                        newAnimationRow = 1; // attack row
 
                         if (_isColliding)
                         {
@@ -238,29 +238,15 @@ namespace Oblivion
         {
             _isOnGround = false;
 
-            Rectangle feetSensor = new Rectangle(
-                _hitbox.X + 10,
-                _hitbox.Bottom,
-                _hitbox.Width - 20,
-                5 // Thin height to detect the ground
-            );
-
             foreach (var tile in tiles.Values)
             {
-                // 1. Ground check using feet sensor
-                if (feetSensor.Intersects(tile))
-                {
-                    _isOnGround = true;
-                }
-
-                // 2. Full-body collision resolution
                 if (_hitbox.Intersects(tile))
                 {
                     Rectangle intersection = Rectangle.Intersect(_hitbox, tile);
 
                     if (intersection.Width < intersection.Height)
                     {
-                        // Horizontal collision (walls)
+                        // Horizontal collision (wall)
                         if (_hitbox.Center.X < tile.Center.X)
                         {
                             Position.X -= intersection.Width;
@@ -276,25 +262,24 @@ namespace Oblivion
                     }
                     else
                     {
-                        // Vertical collision (ground/ceiling)
-                        if (_hitbox.Center.Y < tile.Center.Y)
+                        // Vertical collision
+                        if (_hitbox.Center.Y < tile.Center.Y && intersection.Height < _hitbox.Height / 2f)
                         {
                             Position.Y -= intersection.Height;
-                            _enemyVelocity.Y = 0f;
-                            _isOnGround = true; // <- direct detection
+                            _enemyVelocity.Y = 0;
+                            _isOnGround = true;
                         }
                         else
                         {
                             Position.Y += intersection.Height;
-                            _enemyVelocity.Y = 0f;
+                            _enemyVelocity.Y = 0;
                         }
                     }
 
-                    UpdateHitbox(); // Make sure to re-align hitbox
+                    UpdateHitbox();
                 }
             }
         }
-
 
         public void Draw(SpriteBatch spriteBatch)
         {
@@ -349,13 +334,14 @@ namespace Oblivion
             if (_player.Position.X > Position.X)
             {
                 _enemyVelocity.X = _walkSpeed;
-                Flip = SpriteEffects.None;
+                Flip = SpriteEffects.None;  // facing right
             }
             else
             {
                 _enemyVelocity.X = -_walkSpeed;
-                Flip = SpriteEffects.FlipHorizontally;
+                Flip = SpriteEffects.FlipHorizontally; // facing left
             }
+
 
             Position.X += _enemyVelocity.X * deltaTime;
         }
@@ -380,4 +366,3 @@ namespace Oblivion
 
     }
 }
-

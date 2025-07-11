@@ -257,7 +257,7 @@ namespace Oblivion
                 {
                     if (_hitbox.Intersects(enemy.Hitbox))
                     {
-                        enemy.TakeDamage(damage);
+                        enemy.TakeDamage(100f);
                     }
                 }
 

@@ -15,7 +15,7 @@ namespace Oblivion
         private List<MinorEnemy> _minorEnemies;
         private List<ZombieEnemies> _zombieEnemies;
         private Platform _platform;
-
+        private Boss _boss;
         private List<Collectible> _collectible;
 
         private bool _gamePause = false;
@@ -34,16 +34,17 @@ namespace Oblivion
 
         private readonly Action _onExitToMenu;
         public GameStage_2(
-     List<ScrollingBackground> scrollingBackground,
-     Player player,
-     List<MinorEnemy> minorEnemy,
-     Platform platform,
-     List<Collectible> collectible,
-     Action onExitToMenu,
-     Portal _torii_Gate,
-     TextureManager_2 textureManager,
-     List<ZombieEnemies> zombieEnemies
- )
+            List<ScrollingBackground> scrollingBackground,
+            Player player,
+            List<MinorEnemy> minorEnemy,
+            Platform platform,
+            List<Collectible> collectible,
+            Action onExitToMenu,
+            Portal _torii_Gate,
+            TextureManager_2 textureManager,
+            List<ZombieEnemies> zombieEnemies,
+            Boss boss
+        )
         {
             _scrollingBackground = scrollingBackground;
             _player = player;
@@ -54,6 +55,7 @@ namespace Oblivion
             _collectible = collectible;
             _torii_gate = _torii_Gate;
             _zombieEnemies = zombieEnemies;
+            _boss = boss;
 
             _textureManager = textureManager;
         }
@@ -113,6 +115,9 @@ namespace Oblivion
                 {
                     zombie.Update(gameTime, _platform.collision, camera);
                 }
+
+                _boss?.Update(gameTime, _platform.collision, _textureManager.Camera);
+
 
                 aliveEnemies = _minorEnemies.Count(e => !e.IsDead);
                 Console.WriteLine(aliveEnemies);
@@ -188,6 +193,9 @@ namespace Oblivion
             {
                 zombie.Draw(_spriteBatch);
             }
+
+            _boss?.Draw(_spriteBatch); 
+
 
             foreach (var collectible in _collectible)
             {

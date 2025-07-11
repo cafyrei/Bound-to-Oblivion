@@ -167,7 +167,6 @@ namespace Oblivion
             _player.Position = data.SpawnPosition.ToVector2();
         }
 
-
         public Vector2 GetPlayerPosition()
         {
             return _player.Position;
@@ -178,15 +177,15 @@ namespace Oblivion
             _scrollingBackground[0].Draw(gameTime, _spriteBatch);
             _scrollingBackground[1].Draw(gameTime, _spriteBatch);
             _platform.Draw(_spriteBatch);
-            // foreach (var enemy in _minorEnemies)
-            // {
-            //     enemy.Draw(_spriteBatch);
-            // }
-
-            foreach (var zombie in _zombieEnemies)
+            foreach (var enemy in _minorEnemies)
             {
-                zombie.Draw(_spriteBatch);
+                enemy.Draw(_spriteBatch);
             }
+
+            // foreach (var zombie in _zombieEnemies)
+            // {
+            //     zombie.Draw(_spriteBatch);
+            // }
 
             foreach (var collectible in _collectible)
             {
