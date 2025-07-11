@@ -174,7 +174,7 @@ namespace Oblivion
 
             _camera = new Camera2D(graphicsDevice.Viewport);
             _mainMenu = new MainMenu(Content, graphicsDevice);
-            _platform1 = new Platform("../../../Data/Stage2map.csv", Content, graphicsDevice);
+            _platform1 = new Platform("../../../Data/Stage1map.csv", Content, graphicsDevice);
 
 
             // Game Stage Constructor
@@ -190,7 +190,8 @@ namespace Oblivion
                     MainMenu.ResetFlags();
                     _mainMenu.StartFadeIn();
                 },
-                boss_Portal
+                boss_Portal,
+                this
             );
 
             _control = new Controls(Content, graphicsDevice,
@@ -263,12 +264,53 @@ namespace Oblivion
             }
         }
 
+        public void ResetGameStage(ContentManager Content, GraphicsDevice graphicsDevice)
+        {
+            _player = new Player(_samuraiTexture, new SpriteAnimation2D(_playerAnimation), Content, _HpBar)
+            {
+                Position = new Vector2(50, 150),
+                Layer = 0.94f,
+            };
+
+            _minorEnemies = new List<MinorEnemy>();
+            SpawnEnemies(7); // your existing method
+
+            _collectibles = new List<Collectible>();
+            SpawnCollectibles(4); // your existing method
+
+            _gameStage = new GameStage(
+                _scrollingBackground,
+                _player,
+                _minorEnemies,
+                _platform1,
+                _collectibles,
+                () =>
+                {
+                    Game1.currentState = Game1.GameState.MainMenu;
+                    MainMenu.ResetFlags();
+                    _mainMenu.StartFadeIn();
+                },
+                boss_Portal,
+                this
+            );
+
+            _gameStage.Load(Content, graphicsDevice);
+
+            foreach (var bg in _scrollingBackground)
+            {
+                bg.SetCamera(_camera);
+            }
+        }
+
+
+
+
         // Properties
         public MainMenu MainMenu => _mainMenu;
         public GameStage GameStage => _gameStage;
         public Controls Controls => _control;
         public ObjectiveHUD objectiveHUD => objHUD;
-        public Credits Credits => _credits;        public HPBar HPBarAccess => _HpBar;
+        public Credits Credits => _credits; public HPBar HPBarAccess => _HpBar;
         public Camera2D Camera { get => _camera; }
         public Player Player1 { get => _player; set => _player = value; }
         public GameOverScreen GameOver { get => _gameOver; }

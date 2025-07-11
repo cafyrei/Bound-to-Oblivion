@@ -303,6 +303,12 @@
 /processorParam:Quality=Best
 /build:Sound/gates_opened.wav
 
+#begin Sound/Horn.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sound/Horn.wav
+
 #begin Sound/jump_land.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
