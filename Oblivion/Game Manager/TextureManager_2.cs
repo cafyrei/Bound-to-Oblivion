@@ -7,20 +7,17 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Oblivion
 {
-    public class TextureManager
+    public class TextureManager_2
     {
-        #region Game Stages Variables;
+        // Game Stages Variables;
         private MainMenu _mainMenu;
-        private GameStage _gameStage;
+        private GameStage_2 _gameStage;
         private GameOverScreen _gameOver;
-        private Controls _control;
-
-        private Credits _credits;
-
+        private List<ZombieEnemies> _zombieEnemy;
+        private SpriteAnimation2D _zombieEnemyAnimation;
         // Player Variables
         private Texture2D _samuraiTexture;
         private Texture2D _minorEnemyTexture;
-        private Texture2D _zombieEnemyTexture;
         private Player _player;
         private SpriteAnimation2D _playerAnimation;
         private HPBar _HpBar;
@@ -28,11 +25,6 @@ namespace Oblivion
         // Enemy Variables
         private SpriteAnimation2D _minorEnemyAnimation;
         private List<MinorEnemy> _minorEnemies;
-
-
-        private SpriteAnimation2D _zombieEnemyAnimation;
-        private List<ZombieEnemies> _zombieEnemy;
-
         public static float attackAnimationSpeed = .125f;
 
         // Background Variables
@@ -41,6 +33,7 @@ namespace Oblivion
 
         // Camera Variables
         private Camera2D _camera;
+        private Texture2D _zombieEnemyTexture;
         public static int tileWidth = 2800;
         public static int tileHeight = 720;
 
@@ -53,12 +46,14 @@ namespace Oblivion
         private List<Collectible> _collectibles;
         private static float _collectibleAnimationSpeed = .125f;
 
+        private Texture2D BossTexture;
+        private SpriteAnimation2D BossAnimation;
+
+
         // Portal Variable
         Portal boss_Portal;
         private Texture2D portal_Texture;
         private SpriteAnimation2D _ToriiGate;
-
-        #endregion
 
         public void Load(ContentManager Content, GraphicsDevice graphicsDevice)
         {
@@ -100,21 +95,17 @@ namespace Oblivion
 
             _scrollingBackground = new List<ScrollingBackground>()
             {
-                new ScrollingBackground(Content.Load<Texture2D>("Parallax_Layers/lyr0"), _player, 1f)
+                new ScrollingBackground(Content.Load<Texture2D>("Parallax_Layers/Stage 2 Layer 0"), _player, 1f)
                 {
                     Layer = 0.1f,
                 },
-                new ScrollingBackground(Content.Load<Texture2D>("Parallax_Layers/Layer 1"), _player, 15f)
+                new ScrollingBackground(Content.Load<Texture2D>("Parallax_Layers/Stage 2 Layer 2"), _player, 15f)
                 {
                     Layer = 0.92f,
                 },
-                new ScrollingBackground(Content.Load<Texture2D>("Parallax_Layers/Layer 3"), _player, 30f)
+                new ScrollingBackground(Content.Load<Texture2D>("Parallax_Layers/Stage 2 Layer 3"), _player, 30f)
                 {
                     Layer = 0.95f,
-                },
-                new ScrollingBackground(Content.Load<Texture2D>("Parallax_Layers/Layer 2"), _player, 40f)
-                {
-                    Layer = 0.97f,
                 }
             };
             #endregion
@@ -145,21 +136,43 @@ namespace Oblivion
 
             try
             {
-                _zombieEnemyTexture = Content.Load<Texture2D>("Enemies/ZombieSP");
+                _zombieEnemyTexture = Content.Load<Texture2D>("Enemies/zombie_1");
             }
             catch (ContentLoadException e)
             {
                 Console.WriteLine("Error Loading Zombie Texture Error Details : " + e);
             }
             _zombieEnemyAnimation = new SpriteAnimation2D(
-                frameHeight: 52,
+                frameHeight: 64,
                 frameWidth: 64,
                 rowFrameCount: new Dictionary<int, int>
                 {
                     {0, 13}, // Attack
                     {1, 13}, // Death 
-                    {2, 12}, // Walk
-                    {3, 3} // Hit
+                    {2, 12}
+                },
+                frameTime: attackAnimationSpeed
+            );
+
+            try
+            {
+                BossTexture = Content.Load<Texture2D>("Enemies/BossSpriteSheet");
+            }
+            catch (ContentLoadException e)
+            {
+                Console.WriteLine("Error Loading Skeleton Texture Error Details : " + e);
+            }
+
+            BossAnimation = new SpriteAnimation2D(
+                frameHeight: 93,
+                frameWidth: 140,
+                rowFrameCount: new Dictionary<int, int>
+                {
+                    {0, 10}, // Attack
+                    {1, 10}, // Death
+                    {2, 3}, // Hit
+                    {3, 8}, // Idle
+                    {4, 8} // Run
                 },
                 frameTime: attackAnimationSpeed
             );
@@ -196,7 +209,7 @@ namespace Oblivion
                new SpriteAnimation2D(
                frameWidth: 64,
                frameHeight: 77,
-               rowFrameCount: new Dictionary<int, int> { { 0, 4 } },
+               rowFrameCount: new Dictionary<int, int> { { 1, 4 } },
                frameTime: _collectibleAnimationSpeed);
 
             boss_Portal = new Portal(portal_Texture, _ToriiGate, new Vector2(2620, 110));
@@ -206,11 +219,11 @@ namespace Oblivion
 
             _camera = new Camera2D(graphicsDevice.Viewport);
             _mainMenu = new MainMenu(Content, graphicsDevice);
-            _platform1 = new Platform("../../../Data/Stage1map.csv", Content, graphicsDevice);
+            _platform1 = new Platform("../../../Data/Stage2map.csv", Content, graphicsDevice);
 
 
             // Game Stage Constructor
-            _gameStage = new GameStage(
+            _gameStage = new GameStage_2(
                 _scrollingBackground,
                 _player,
                 _minorEnemies,
@@ -225,19 +238,7 @@ namespace Oblivion
                 boss_Portal,
                 this,
                 _zombieEnemy
-            );
 
-            _control = new Controls(Content, graphicsDevice,
-            () =>
-            {
-                Game1.currentState = Game1.GameState.MainMenu;
-            }
-            );
-            _credits = new Credits(Content, graphicsDevice,
-            () =>
-            {
-                Game1.currentState = Game1.GameState.MainMenu;
-            }
             );
 
             _gameStage.Load(Content, graphicsDevice);
@@ -249,9 +250,33 @@ namespace Oblivion
 
             objHUD = new ObjectiveHUD(Content);
         }
+        private void SpawnZombieEnemies(int count)
+        {
+            Vector2[] spawnPositions = new Vector2[]
+            {
+                new Vector2(500, 220),
+                new Vector2(800, 100),
+                new Vector2(1200, 310),
+                new Vector2(1600, 110),
+                new Vector2(2000, 100),
+            };
+
+            foreach (var pos in spawnPositions)
+            {
+                var animationClone = new SpriteAnimation2D(_zombieEnemyAnimation);
+
+                var zombie = new ZombieEnemies(_zombieEnemyTexture, animationClone, pos.X - 100, pos.X + 100, Camera)
+                {
+                    Position = pos,
+                    Layer = 0.93f,
+                };
+
+                zombie.SetTarget(_player);
+                _zombieEnemy.Add(zombie);
+            }
+        }
 
 
-        #region Spawn Enemies (Skelebones)
         private void SpawnWhiteEnemies(int count)
         {
             Vector2[] spawnPositions = new Vector2[]
@@ -279,35 +304,6 @@ namespace Oblivion
             }
         }
 
-        private void SpawnZombieEnemies(int count)
-        {
-            Vector2[] spawnPositions = new Vector2[]
-            {
-        new Vector2(500, 220),
-        new Vector2(800, 100),
-        new Vector2(1200, 310),
-        new Vector2(1600, 110),
-        new Vector2(2000, 100),
-            };
-
-            foreach (var pos in spawnPositions)
-            {
-                var animationClone = new SpriteAnimation2D(_zombieEnemyAnimation);
-
-                var zombie = new ZombieEnemies(_zombieEnemyTexture, animationClone, pos.X - 100, pos.X + 100, Camera)
-                {
-                    Position = pos,
-                    Layer = 0.93f,
-                };
-
-                zombie.SetTarget(_player);
-                _zombieEnemy.Add(zombie);
-            }
-        }
-
-        #endregion
-
-        #region Spawn Collectibles
         private void SpawnCollectibles(int count)
         {
             Vector2[] spawnPositions = new Vector2[]
@@ -327,8 +323,6 @@ namespace Oblivion
                 _collectibles.Add(collectible);
             }
         }
-        #endregion
-        #region Game Reset
 
         public void ResetGameStage(ContentManager Content, GraphicsDevice graphicsDevice)
         {
@@ -349,7 +343,7 @@ namespace Oblivion
             _collectibles = new List<Collectible>();
             SpawnCollectibles(4);
 
-            _gameStage = new GameStage(
+            _gameStage = new GameStage_2(
                 _scrollingBackground,
                 _player,
                 _minorEnemies,
@@ -373,19 +367,17 @@ namespace Oblivion
             }
         }
 
-        #endregion
 
-        #region Properties
+
+
+        // Properties
         public MainMenu MainMenu => _mainMenu;
-        public GameStage GameStage => _gameStage;
-        public Controls Controls => _control;
+        public GameStage_2 GameStage2 => _gameStage;
         public ObjectiveHUD objectiveHUD => objHUD;
-        public Credits Credits => _credits; public HPBar HPBarAccess => _HpBar;
+        public HPBar HPBarAccess => _HpBar;
         public Camera2D Camera { get => _camera; }
         public Player Player1 { get => _player; set => _player = value; }
         public GameOverScreen GameOver { get => _gameOver; }
-        #endregion
-
     }
 
 

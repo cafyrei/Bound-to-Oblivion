@@ -33,8 +33,8 @@ namespace Oblivion
 
             _jumpLandSFX = content.Load<SoundEffect>("Sound/jump_land");
             _runGrassSFX = content.Load<SoundEffect>("Sound/run_grass");
-            _gatesOpenedrSFX = content.Load<SoundEffect>("Sound/Horn"); 
-            _teleportingSFX = content.Load<SoundEffect>("Sound/tp"); 
+            _gatesOpenedrSFX = content.Load<SoundEffect>("Sound/Horn");
+            _teleportingSFX = content.Load<SoundEffect>("Sound/tp");
 
 
             // Load BGM

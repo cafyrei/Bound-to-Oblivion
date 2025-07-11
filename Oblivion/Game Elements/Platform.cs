@@ -40,18 +40,6 @@ public class Platform
             new Rectangle(96,32,32,32), //14 CORNER UPPER RIGHT
             new Rectangle(96,64,32,32), //15 CORNER LOWER LEFT
             new Rectangle(96,96,32,32), //16 CORNER LOWER RIGHT
-
-
-
-
-
-
-
-
-
-
-
-
             new Rectangle(128,0,32,32), //17 STAGE 2 TOP LEFT
             new Rectangle(160,0,32,32), //18 STAGE 2 TOP MIDDLE
             new Rectangle(192,0,32,32), //19 STAGE 2 TOP RIGHT
@@ -68,22 +56,81 @@ public class Platform
             new Rectangle(224,32,32,32), //30 STAGE 2 CORNER TOP RIGHT
             new Rectangle(224,64,32,32), //31 STAGE 2 CORNER BOTTOM LEFT
             new Rectangle(224,96,32,32), //32 STAGE 2 CORNER BOTTOM RIGHT
-            new Rectangle(0,128,32,32), //33 STONE LATERN 1
-            new Rectangle(0,160,32,32), //34 GRAVEYARD WITH SWORD
-            new Rectangle(32,128,32,32), //35 TOMBSTONE TYPE A
-            new Rectangle(32,160,32,32), //36 TREE STUMP
-            new Rectangle(64,128,32,32), //37 TOMBSTONE TYPE B
-            new Rectangle(64,160,32,32), //38 SHRINE
-            new Rectangle(96,128,32,32), //39 STONE LATERN 2
-            new Rectangle(96,160,32,32), //40 BROKEN PILLAR
-            new Rectangle(128,128,32,32), //41 WHITE BANNER FACING LEFT
-            new Rectangle(128,160,32,32), //42 RED CRYSTAL
-            new Rectangle(160,128,32,32), //43 RED BANNER FACING RIGHT
-            new Rectangle(160,160,32,32), //44 SUMMONING CIRCLE TYPE A
-            new Rectangle(192,128,32,32), //45 BLUE BANNER FACING LEFT
-            new Rectangle(192,160,32,32), //46 SUMMONING CIRCLE TYPE B
-            new Rectangle(224,128,32,32), //47 WHITE BANNER FACING RIGHT
-            new Rectangle(224,160,32,32) //48 GARGOYLE STONE
+            new Rectangle(0,128,32,32), // 33 TOP-LEFT LAMP
+            new Rectangle(32,128,32,32), // 34 TOP-RIGHT LAMP
+            new Rectangle(0,160,32,32), // 35 BOTTOM-LEFT LAMP
+            new Rectangle(32,160,32,32), // 36 BOTTOM-RIGHT LAMP
+            new Rectangle(64,128,32,32), // 37 TOP-LEFT TREE STUMP
+            new Rectangle(96,128,32,32), // 38 TOP-RIGHT TREE STUMP
+            new Rectangle(64,160,32,32), // 39 BOTTOM-LEFT TREE STUMP
+            new Rectangle(96,160,32,32), // 40 BOTTOM-RIGHT TREE STUMP
+            new Rectangle(192,256,32,32), // 41 BOTTOM-RIGHT WHITE BANNER
+            new Rectangle(224,256,32,32), // 42 BOTTOM-RIGHT WHITE BANNER
+            new Rectangle(192,288,32,32), // 43 BOTTOM-RIGHT WHITE BANNER
+            new Rectangle(224,288,32,32), // 44 BOTTOM-RIGHT WHITE BANNER
+            new Rectangle(0,256,32,32), // 45 TOP-LEFT TOMBSTONE
+            new Rectangle(32,256,32,32), // 46 TOP-RIGHT TOMBSTONE
+            new Rectangle(0,288,32,32), // 47 BOTTOM-LEFT TOMBSTONE
+            new Rectangle(32,288,32,32), // 48 BOTTOM-RIGHT TOMBSTONE
+            new Rectangle(128,128,32,32), // 49 TOP-LEFT SHRINE
+            new Rectangle(160,128,32,32), // 50 TOP-RIGHT SHRINE
+            new Rectangle(128,160,32,32), // 51 BOTTOM-LEFT SHRINE
+            new Rectangle(160,160,32,32), // 52 BOTTOM-RIGHT SHRINE
+            new Rectangle(192,192,32,32), // 53 TOP-LEFT GARGOYLE
+            new Rectangle(224,192,32,32), // 54 TOP-RIGHT GARGOYLE
+            new Rectangle(192,224,32,32), // 55 BOTTOM-LEFT GARGOYLE
+            new Rectangle(225,224,32,32), // 56 BOTTOM-RIGHT GARGOYLE
+            new Rectangle(0,320,32,32), // 57 TOP-LEFT RED FLAG
+            new Rectangle(32,320,32,32), // 58 TOP-RIGHT RED FLAG
+            new Rectangle(0,352,32,32), // 59 BOTTOM-LEFT RED FLAG
+            new Rectangle(32,352,32,32), // 60 BOTTOM-RIGHT RED FLAG
+            new Rectangle(192,128,32,32), // 61 TOP-LEFT PILLAR
+            new Rectangle(224,128,32,32), // 62 TOP-RIGHT PILLAR
+            new Rectangle(192,160,32,32), // 63 BOTTOM-LEFT PILLAR
+            new Rectangle(224,160,32,32), // 64 BOTTOM-RIGHT PILLAR
+
+            new Rectangle(256,160,32,32), // 65 STAIRS TOP MIDDLE
+            new Rectangle(288,160,32,32), // 66 STAIRS TOP RIGHT
+            new Rectangle(320,160,32,32), // 67 STAIRS MIDDLE LEFT
+            new Rectangle(352,160,32,32), // 68 STAIRS MIDDLE MID
+            new Rectangle(384,160,32,32), // 69 STAIRS MIDDLE RIGHT
+            new Rectangle(416,160,32,32), // 70 STAIRS BOTTOM LEFT
+
+            new Rectangle(256,128,32,32), // 71 STAIRS BOTTOM MIDDLE
+            new Rectangle(288,128,32,32), // 72 STAIRS BOTTOM RIGHT
+            new Rectangle(320,128,32,32), // 73 STAIRS MIDDLE LEFT
+            new Rectangle(352,128,32,32), // 74 STAIRS MIDDLE MID
+            new Rectangle(384,128,32,32), // 75 STAIRS MIDDLE RIGHT
+            new Rectangle(416,128,32,32), // 76
+
+            new Rectangle(256,96,32,32), // 77
+            new Rectangle(288,96,32,32), // 78
+            new Rectangle(320,96,32,32), // 79
+            new Rectangle(352,96,32,32), // 80
+            new Rectangle(384,96,32,32), // 81
+            new Rectangle(416,96,32,32), // 82
+
+            new Rectangle(256,64,32,32), // 83
+            new Rectangle(288,64,32,32), // 84
+            new Rectangle(320,64,32,32), // 85
+            new Rectangle(352,64,32,32), // 86
+            new Rectangle(384,64,32,32), // 87
+            new Rectangle(416,64,32,32), // 88
+
+            new Rectangle(320,32,32,32), // 89
+            new Rectangle(352,32,32,32), // 90
+            new Rectangle(384,32,32,32), // 91
+            new Rectangle(416,32,32,32), // 92
+
+            new Rectangle(320,0,32,32), // 93
+            new Rectangle(352,0,32,32), // 94
+            new Rectangle(384,0,32,32), // 95
+            new Rectangle(416,0,32,32), // 96
+
+            //GRASS
+            new Rectangle(0,384,32,32), // 97
+            new Rectangle(32,384,32,32), // 98
+            new Rectangle(64,384,32,32) //99
         };
     }
 

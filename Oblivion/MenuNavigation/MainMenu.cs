@@ -55,7 +55,6 @@ namespace Oblivion
             background = new Background(background_Texture, backgroundRect, Color.White);
             _fadeTexture = new Texture2D(graphics, 1, 1);
             _fadeTexture.SetData(new[] { Color.Black });
-            
 
             button_Texture = Content.Load<Texture2D>("Backgrounds/transparent_texture");
 
@@ -75,7 +74,7 @@ namespace Oblivion
                 Button2D menu_Button = new Button2D(button_Texture, button_Rect, Color.White, labels[i], menu_Font)
                 {
                     MenuHover = AudioManager._menuHover,
-                    MenuClicked = AudioManager._menuClicked
+                    MenuClicked = AudioManager._menuClicked,
                 };
 
                 int index = i;
