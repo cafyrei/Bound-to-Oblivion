@@ -189,7 +189,7 @@ namespace Oblivion
 
         private void UpdateHitbox()
         {
-            int horizontalTrim = 40;
+            int horizontalTrim = 80;
             int verticalTrim = 10;
 
             _hitbox = new Rectangle(

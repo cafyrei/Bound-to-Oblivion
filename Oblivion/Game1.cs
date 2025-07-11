@@ -81,7 +81,7 @@ namespace Oblivion
 
                 case GameState.GameOver:
                     AudioManager.StopMusic();
-                    _textureManager.GameOver.Update();
+                    _textureManager.GameOver.Update(gameTime);
                     break;
             }
             base.Update(gameTime);
@@ -90,7 +90,7 @@ namespace Oblivion
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
 
             switch (currentState)
             {
