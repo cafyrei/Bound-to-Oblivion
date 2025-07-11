@@ -23,6 +23,9 @@ namespace Oblivion
         // Frame Properties
         public int FrameWidthAccess { get => FrameWidth; }
         public int FrameHeightAccess { get => FrameHeight; }
+        public int CurrentFrame { get => _currentColumn; }
+        public int TotalFrames => _rowFrameCounts.ContainsKey(CurrentRow) ? _rowFrameCounts[CurrentRow] : 1;
+        public float FrameTimeAccess {set => FrameTime = value; }
 
         public SpriteAnimation2D(SpriteAnimation2D other)
         {

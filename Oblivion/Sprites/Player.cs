@@ -41,6 +41,8 @@ namespace Oblivion
         public Vector2 Velocity => velocity;
         public Rectangle Hitbox => _hitbox;
 
+        public float CurrentHealth { get => _currentHealth; }
+
         //HP System
         public HPBar _HPbar;
 
@@ -52,6 +54,15 @@ namespace Oblivion
         bool _isHit = false;
         float _hitTimer = 0f;
         float _hitDuration = 3f;
+        bool _isDead = false;
+        private float _deathFadeOpacity = 0f;
+        private bool _startFade = false;
+        private bool _wasOnGround;
+
+        private float _footstepTimer = 0f;
+        private float _footstepCooldown = 0.3f;
+
+
 
         public Player(Texture2D texture, SpriteAnimation2D animation, ContentManager Content, HPBar hpbar) : base(texture)
         {
@@ -62,27 +73,55 @@ namespace Oblivion
             _HPbar = hpbar;
         }
 
-        public void Update(GameTime gameTime, Dictionary<Vector2, Rectangle> collisionBlocks)
+        public void Update(GameTime gameTime, Dictionary<Vector2, Rectangle> collisionBlocks, List<MinorEnemy> enemies)
         {
             var deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
             var input = Keyboard.GetState();
             var mouseInput = Mouse.GetState();
+            _wasOnGround = _isOnGround; // Store previous grounded state
 
             velocity = new Vector2(0, velocity.Y);
 
+            if (_isDead)
+            {
+                if (_animation.CurrentFrame < _animation.TotalFrames - 1)
+                {
+                    _animation.Update(gameTime);
+                }
+                else
+                {
+                    _startFade = true;
+                    _deathFadeOpacity += 0.5f * deltaTime;
+
+                    if (_deathFadeOpacity >= 1f)
+                    {
+                        _deathFadeOpacity = 1f;
+                        Game1.currentState = Game1.GameState.GameOver;
+                    }
+                }
+
+                return;
+            }
+
             HandleMovement(input, gameTime);
             HandleJump(input);
-            HandleAttack(input, deltaTime);
+            HandleAttack(mouseInput, deltaTime, enemies);
             ApplyGravity(deltaTime);
 
             Move(deltaTime);
             UpdateHitbox();
             HandleCollision(collisionBlocks);
 
+            if (!_wasOnGround && _isOnGround)
+            {
+                AudioManager.PlaySFX(AudioManager._jumpLandSFX, 1f);
+            }
+
             _animation.Update(gameTime);
             _previousKeyboard = input;
             _previousMouse = mouseInput;
         }
+
 
         private void HandleMovement(KeyboardState input, GameTime gameTime)
         {
@@ -93,10 +132,14 @@ namespace Oblivion
             bool run = input.IsKeyDown(Keys.LeftShift);
 
             float moveSpeed = run ? _runSpeed : _walkSpeed;
-            if (_isHit && !_isAttacking && !moveLeft && !moveRight)
+
+            if (_isAttacking) return;
+
+            // Handle hit state
+            if (_isHit && !moveLeft && !moveRight)
             {
                 _hitTimer += deltaTime;
-                _animation.SetRow(3);
+                _animation.SetRow(3); // Hit animation row
                 if (_hitTimer >= _hitDuration)
                 {
                     _isHit = false;
@@ -105,66 +148,127 @@ namespace Oblivion
                 return;
             }
 
+            // Movement logic
             if (moveRight && !moveLeft)
             {
                 velocity.X = moveSpeed;
                 Flip = SpriteEffects.FlipHorizontally;
-                _animation.SetRow(run ? 6 : 7);
             }
             else if (moveLeft && !moveRight)
             {
                 velocity.X = -moveSpeed;
                 Flip = SpriteEffects.None;
-                _animation.SetRow(run ? 6 : 7);
             }
             else
             {
-                _animation.SetRow(4); // Idle
+                velocity.X = 0;
+            }
+
+            // Animation and SFX
+            if (!_isOnGround)
+            {
+                // Airborne animation
+                if (velocity.Y < 0 && Math.Abs(velocity.X) < 0.1f)
+                {
+                    _animation.SetRow(5); // Jump up idle
+                }
+                else
+                {
+                    _animation.SetRow(run ? 6 : 7); // Jump with movement
+                }
+
+                // Reset footstep timer while airborne
+                _footstepTimer = 0f;
+            }
+            else
+            {
+                if (velocity.X == 0)
+                {
+                    _animation.SetRow(4); // Idle on ground
+                    _footstepTimer = 0f;
+                }
+                else
+                {
+                    _animation.SetRow(run ? 6 : 7); // Run animation
+                    _footstepTimer += deltaTime;
+
+                    if (_footstepTimer >= _footstepCooldown)
+                    {   
+                        AudioManager.PlaySFX(AudioManager._runGrassSFX, 5f);
+                        _footstepTimer = 0f;
+                    }
+                }
             }
         }
+
 
         private void SetHealth(float value) // Update
         {
             _currentHealth = MathHelper.Clamp(value, _minHealth, _maxHealth);
-            Console.WriteLine("Health Damage " + _currentHealth);
-            if (_currentHealth <= 23f)
+            if (_currentHealth <= 0f)
             {
-                Console.WriteLine("Game Over");
+                _isDead = true;
+                velocity = Vector2.Zero;
+                _animation.FrameTimeAccess = .25f;
+                _animation.SetRow(2);
+
             }
             _HPbar.Update(_currentHealth);
         }
         public void TakeDamage(float dmg, Camera2D camera)
         {
             _isHit = true;
+            _hitTimer = 0f;
             SetHealth(_currentHealth - dmg);
             camera.Shake(0.25f, 10f);
         }
-
 
         public void Heal(float heal)
         {
             SetHealth(_currentHealth + heal);
         }
 
-        private void HandleAttack(KeyboardState input, float deltaTime)
+        private void HandleAttack(MouseState input, float deltaTime, List<MinorEnemy> enemies)
         {
-            bool attackPressed = input.IsKeyDown(Keys.E) && !_previousKeyboard.IsKeyDown(Keys.E);
+
+            bool leftClick = input.LeftButton == ButtonState.Pressed && _previousMouse.LeftButton == ButtonState.Released;
+            bool rightClick = input.RightButton == ButtonState.Pressed && _previousMouse.RightButton == ButtonState.Released;
 
             if (_isAttacking)
             {
                 _attackTimer += deltaTime;
+                _animation.SetRow(_attackTurn ? 0 : 1);
+
                 if (_attackTimer >= AttackDuration)
                 {
                     _isAttacking = false;
                     _attackTimer = 0f;
                 }
+
+                _animation.SetRow(_attackTurn ? 0 : 1);
+                return;
             }
-            else if (attackPressed)
+
+            if (leftClick || rightClick)
             {
+                float _damage = leftClick ? 10f : 25f;
+                int newAnimationRow = leftClick ? 0 : 1;
+
+                foreach (var enemy in enemies)
+                {
+                    if (_hitbox.Intersects(enemy.Hitbox))
+                    {
+                        enemy.TakeDamage(100f);
+                    }
+                }
+
                 _isAttacking = true;
                 _attackTimer = 0f;
-                _attackTurn = !_attackTurn;
+                _attackTurn = leftClick;
+
+                // Set attack animation frame
                 _animation.SetRow(_attackTurn ? 0 : 1);
+
                 AudioManager.PlayAttack();
             }
         }
@@ -174,6 +278,7 @@ namespace Oblivion
             if (input.IsKeyDown(Keys.Space) && !_previousKeyboard.IsKeyDown(Keys.Space) && _isOnGround)
             {
                 velocity.Y = -JumpSpeed;
+                _animation.SetRow(5);
                 _isOnGround = false;
             }
         }
@@ -243,7 +348,7 @@ namespace Oblivion
                     else
                     {
                         // Vertical collision
-                        if (_hitbox.Center.Y< tile.Center.Y)
+                        if (_hitbox.Center.Y < tile.Center.Y)
                         {
                             // Landing
                             Position.Y -= intersection.Height;

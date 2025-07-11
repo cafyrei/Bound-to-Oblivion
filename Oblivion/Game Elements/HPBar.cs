@@ -43,7 +43,6 @@ namespace Oblivion
         {
             currentValue = _value;
             part.Width = (int)(currentValue / _maxHealth * midground.Width);
-            Console.WriteLine("Part Width : " + part.Width);
         }
 
         public void Draw(SpriteBatch _spritebatch)

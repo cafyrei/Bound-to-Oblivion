@@ -17,6 +17,7 @@ namespace Oblivion
         private int FrameWidth = 7;
         private static readonly Random _random = new Random();
         bool isCollected = false;
+        int healPoints;
 
 
         public Collectible(Texture2D texture, SpriteAnimation2D animation, Vector2 position)
@@ -29,7 +30,7 @@ namespace Oblivion
 
         private void UpdateHitbox()
         {
-            int offset = 232;
+            int offset = 10;
 
             _collectbileRect = new Rectangle(
                 (int)(_position.X + offset),
@@ -64,15 +65,15 @@ namespace Oblivion
 
         private void HandleCollision(Player player)
         {
-            int healPoints;
-            Console.WriteLine("+HP OUTSIDE");
-            if (!isCollected && player.Rectangle.Intersects(_collectbileRect))
+            if (!isCollected && player.Hitbox.Intersects(_collectbileRect))
             {
-                Console.WriteLine("+HP INSIDE");
-                healPoints = _random.Next(5, 11);
-                _collectbileRect = Rectangle.Empty;
-                isCollected = true;
-                player.Heal(healPoints);
+                if (player.CurrentHealth < 85f)
+                {
+                    healPoints = _random.Next(8, 16);
+                    _collectbileRect = Rectangle.Empty;
+                    isCollected = true;
+                    player.Heal(healPoints);
+                }
             }
         }
     }

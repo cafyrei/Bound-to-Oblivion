@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -21,8 +22,21 @@ namespace Oblivion
 
         private PauseMenu _pauseMenu;
         private SpriteFont _font;
+        private Portal _torii_gate;
+        private bool _toriiGateSpawn = false;
+
+        public static int aliveEnemies { get; private set; }
+        public bool GamePause { get => _gamePause; }
+
         private readonly Action _onExitToMenu;
-        public GameStage(List<ScrollingBackground> scrollingBackground, Player player, List<MinorEnemy> minorEnemy, Platform platform, List<Collectible> collectible, Action onExitToMenu)
+        public GameStage(List<ScrollingBackground> scrollingBackground,
+         Player player,
+         List<MinorEnemy> minorEnemy,
+         Platform platform,
+         List<Collectible> collectible,
+         Action onExitToMenu,
+         Portal _torii_Gate
+         )
         {
             _scrollingBackground = scrollingBackground;
             _player = player;
@@ -31,6 +45,7 @@ namespace Oblivion
             _previousKeyboardState = Keyboard.GetState();
             _onExitToMenu = onExitToMenu;
             _collectible = collectible;
+            _torii_gate = _torii_Gate;
         }
 
         public void Load(ContentManager Content, GraphicsDevice graphicsDevice)
@@ -67,20 +82,37 @@ namespace Oblivion
                     sb.Update(gameTime);
                 }
 
-                _player.Update(gameTime, _platform.collision);
+                _minorEnemies.RemoveAll(enemy => enemy.IsDead);
+
+                _player.Update(gameTime, _platform.collision, _minorEnemies);
 
                 foreach (var enemy in _minorEnemies)
                 {
                     enemy.Update(gameTime, _platform.collision, camera);
                 }
 
+                aliveEnemies = _minorEnemies.Count(e => !e.IsDead);
+                Console.WriteLine(aliveEnemies);
+
+                if (aliveEnemies == 0 && !_toriiGateSpawn)
+                {
+                    _toriiGateSpawn = true;
+                    AudioManager.PlaySFX(AudioManager._gatesOpenedrSFX, 1.5f);
+                }
+
+                if (_toriiGateSpawn)
+                {
+                    _torii_gate.Update(gameTime, _player, aliveEnemies);
+                }
+
+
                 foreach (var collectible in _collectible)
                 {
                     collectible.Update(gameTime, _player);
                 }
             }
-        }
 
+        }
         private void gameResume()
         {
             _gamePause = false;
@@ -97,7 +129,6 @@ namespace Oblivion
             return _player.Position;
         }
 
-
         public void Draw(GameTime gameTime, SpriteBatch _spriteBatch)
         {
             _scrollingBackground[0].Draw(gameTime, _spriteBatch);
@@ -111,6 +142,11 @@ namespace Oblivion
             foreach (var collectible in _collectible)
             {
                 collectible.Draw(_spriteBatch);
+            }
+
+            if (_toriiGateSpawn)
+            {
+                _torii_gate.Draw(_spriteBatch);
             }
             _player.Draw(_spriteBatch);
             _scrollingBackground[2].Draw(gameTime, _spriteBatch);

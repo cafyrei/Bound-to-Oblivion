@@ -85,7 +85,7 @@
 /processorParam:TextureFormat=Color
 /build:Collectibles/Health Soul.png
 
-#begin Enemies/Skeleton.png
+#begin Enemies/Skelebones.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -95,7 +95,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Enemies/Skeleton.png
+/build:Enemies/Skelebones.png
 
 #begin Enemies/SkeletonSprite.png
 /importer:TextureImporter
@@ -255,6 +255,18 @@
 /processorParam:TextureFormat=Color
 /build:Platform/sprite sheet 16x16px seamless textures.png
 
+#begin Platform/Tori_Portal.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Platform/Tori_Portal.png
+
 #begin Player/Samurai SpriteSheet.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -285,6 +297,18 @@
 /processorParam:Quality=Best
 /build:Sound/game_over.wav
 
+#begin Sound/gates_opened.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sound/gates_opened.wav
+
+#begin Sound/jump_land.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sound/jump_land.wav
+
 #begin Sound/kotohit.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
@@ -303,11 +327,23 @@
 /processorParam:Quality=Best
 /build:Sound/menu_start.WAV
 
+#begin Sound/run_grass.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sound/run_grass.wav
+
 #begin Sound/sword_slash1.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Sound/sword_slash1.wav
+
+#begin Sound/tp.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sound/tp.wav
 
 #begin UIs/HP_Avatar.png
 /importer:TextureImporter

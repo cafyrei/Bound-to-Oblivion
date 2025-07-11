@@ -46,6 +46,12 @@ namespace Oblivion
         private SpriteAnimation2D _collectibleAnimation;
         private List<Collectible> _collectibles;
         private static float _collectibleAnimationSpeed = .125f;
+
+        // Portal Variable 
+        Portal boss_Portal;
+        private Texture2D portal_Texture;
+        private SpriteAnimation2D _ToriiGate;
+
         public void Load(ContentManager Content, GraphicsDevice graphicsDevice)
         {
 
@@ -108,7 +114,7 @@ namespace Oblivion
             #region Minor and Major Enemies
             try
             {
-                _minorEnemyTexture = Content.Load<Texture2D>("Enemies/Skeleton");
+                _minorEnemyTexture = Content.Load<Texture2D>("Enemies/Skelebones");
             }
             catch (ContentLoadException e)
             {
@@ -120,11 +126,11 @@ namespace Oblivion
                 frameWidth: 96,
                 rowFrameCount: new Dictionary<int, int>
                 {
-                    {0, 10}, // Atk 1
-                    {1, 9}, // Atk 2
-                    {2, 5}, // Take Damage
+                    {0, 10}, // Walk
+                    {1, 10}, // Attack
+                    {2, 10}, // Death
                     {3, 8}, // Idle
-                    {4, 10} // Walk
+                    {4, 5} // Hit
                 },
                 frameTime: attackAnimationSpeed
             );
@@ -137,7 +143,7 @@ namespace Oblivion
             #region Game Collectibles Declaration
             _collectibleTexture = Content.Load<Texture2D>("Collectibles/Health Soul");
 
-            _collectibleAnimation = new SpriteAnimation2D(frameHeight: 64, frameWidth: 64, rowFrameCount: new Dictionary<int,int>
+            _collectibleAnimation = new SpriteAnimation2D(frameHeight: 64, frameWidth: 64, rowFrameCount: new Dictionary<int, int>
             {{0,7}},
             frameTime: _collectibleAnimationSpeed
             );
@@ -149,6 +155,22 @@ namespace Oblivion
             #region Game Over
             _gameOver = new GameOverScreen(Content, graphicsDevice);
             #endregion
+
+            #region Portal (Torii)
+            portal_Texture = Content.Load<Texture2D>("Platform/Tori_Portal");
+
+
+            _ToriiGate =
+               new SpriteAnimation2D(
+               frameWidth: 64,
+               frameHeight: 77,
+               rowFrameCount: new Dictionary<int, int> { { 0, 4 } },
+               frameTime: _collectibleAnimationSpeed);
+
+            boss_Portal = new Portal(portal_Texture, _ToriiGate, new Vector2(2620, 110));
+
+            #endregion
+
 
             _camera = new Camera2D(graphicsDevice.Viewport);
             _mainMenu = new MainMenu(Content, graphicsDevice);
@@ -167,7 +189,8 @@ namespace Oblivion
                     Game1.currentState = Game1.GameState.MainMenu;
                     MainMenu.ResetFlags();
                     _mainMenu.StartFadeIn();
-                }
+                },
+                boss_Portal
             );
 
             _control = new Controls(Content, graphicsDevice,
@@ -176,7 +199,6 @@ namespace Oblivion
                 Game1.currentState = Game1.GameState.MainMenu;
             }
             );
-
             _credits = new Credits(Content, graphicsDevice,
             () =>
             {
@@ -192,7 +214,6 @@ namespace Oblivion
             }
 
             objHUD = new ObjectiveHUD(Content);
-            objHUD.Update(_minorEnemies.Count);
         }
 
         private void SpawnEnemies(int count)
@@ -204,7 +225,7 @@ namespace Oblivion
                 new Vector2(400, 310),
                 new Vector2(1000, 110),
                 new Vector2(1400, 100),
-                new Vector2(700, 110),
+                new Vector2(300, 220),
             };
 
             foreach (var pos in spawnPositions)

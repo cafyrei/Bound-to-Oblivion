@@ -13,8 +13,6 @@ namespace Oblivion
         Vector2 TaskPosition;
 
         string goal;
-        StringBuilder EnemyCounter;
-        string enemies;
         string toDisplay;
         public ObjectiveHUD(ContentManager Content)
         {
@@ -24,24 +22,18 @@ namespace Oblivion
         public void LoadContent(ContentManager Content)
         {
             fontStyle = Content.Load<SpriteFont>("Fonts/Blade Stroke");
-            GoalPosition = new Vector2(20, 150);
-            TaskPosition = new Vector2(40, 190);
+            GoalPosition = new Vector2(950, 100);
+            TaskPosition = new Vector2(990, 150);
             goal = "Quest: Duty of the Bound";
         }
 
-        public void Update(int NumOfEnemies)
+        public void Draw(SpriteBatch _spritebatch, int NumOfEnemies)
         {
-            enemies = NumOfEnemies.ToString();
-            if (NumOfEnemies == 0)
-                toDisplay = "- Reach the Portal and Defeat Final Boss";
-            else
-                toDisplay = "- Defeat Enemies: " + enemies + " Left";
-            EnemyCounter = new StringBuilder(toDisplay);
-        }
-        public void Draw(SpriteBatch _spritebatch)
-        {
+            toDisplay = NumOfEnemies == 0 ?
+                "- Reach the Portal and \n   Defeat Final Boss" : "- Defeat Enemies: " + NumOfEnemies + " Left";
+
             _spritebatch.DrawString(fontStyle, goal, GoalPosition, Color.Gold, 0f, Vector2.Zero, 0.9f, SpriteEffects.None, 0f);
-            _spritebatch.DrawString(fontStyle, EnemyCounter, TaskPosition, Color.White, 0f, Vector2.Zero, 0.7f, SpriteEffects.None, 0f);
+            _spritebatch.DrawString(fontStyle, toDisplay, TaskPosition, Color.White, 0f, Vector2.Zero, 0.7f, SpriteEffects.None, 0f);
         }
     }
 }

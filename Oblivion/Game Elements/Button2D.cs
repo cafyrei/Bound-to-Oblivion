@@ -6,7 +6,15 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Oblivion
 {
-    internal class Button2D
+
+    public enum TextAlignment
+    {
+        Center,
+        Left,
+        Right
+    }
+
+    public class Button2D
     {
         public Texture2D button_Texture;
         public Rectangle button_Rectangle;
@@ -19,6 +27,7 @@ namespace Oblivion
         private SoundEffect _menuHover;
         private SoundEffect _menuClicked;
 
+        public TextAlignment Alignment { get; set; } = TextAlignment.Center;
         public SoundEffect MenuHover
         {
             set => _menuHover = value;
@@ -67,22 +76,38 @@ namespace Oblivion
             Color textColor = button_Rectangle.Contains(mouse.Position) ? Color.Yellow : Color.White;
             float fontSize = button_Rectangle.Contains(mouse.Position) ? 1.1f : 1.0f;
 
-
             if (!string.IsNullOrEmpty(button_Text) && button_Font != null)
             {
                 Vector2 textSize = button_Font.MeasureString(button_Text);
-                Vector2 textPosition = new Vector2(
-                    button_Rectangle.X + (button_Rectangle.Width - textSize.X) / 2,
-                    button_Rectangle.Y + (button_Rectangle.Height - textSize.Y) / 2
-                );
-                spriteBatch.DrawString(button_Font,
-                button_Text, textPosition,
-                textColor, 0f,
-                Vector2.Zero,
-                fontSize,
-                SpriteEffects.None,
-                0f);
+                Vector2 textPosition = new Vector2();
+
+                switch (Alignment)
+                {
+                    case TextAlignment.Center:
+                        textPosition.X = button_Rectangle.X + (button_Rectangle.Width - textSize.X * fontSize) / 2;
+                        break;
+                    case TextAlignment.Right:
+                        textPosition.X = button_Rectangle.Right - textSize.X * fontSize - 8; 
+                        break;
+                    case TextAlignment.Left:
+                        textPosition.X = button_Rectangle.X + 10; 
+                        break;
+                }
+
+                textPosition.Y = button_Rectangle.Y + (button_Rectangle.Height - textSize.Y * fontSize) / 2;
+
+                spriteBatch.DrawString(
+                    button_Font,
+                    button_Text,
+                    textPosition,
+                    textColor,
+                    0f,
+                    Vector2.Zero,
+                    fontSize,
+                    SpriteEffects.None,
+                    0f);
             }
         }
+
     }
 }

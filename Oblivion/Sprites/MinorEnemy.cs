@@ -48,13 +48,22 @@ namespace Oblivion
         float _minHealth = 0;
         float _maxHealth = 100f;
         float _currentHealth;
-        bool wasColliding = false;
-
         Random randDamage;
         float _damage;
         float _damageCooldown = 1.5f;
         float _damageTimer = 0f;
 
+
+        private bool _isDying = false;
+        private float _deathTimer = 0f;
+        private float _deathDuration = 1.3f;
+
+        private bool _isHit = false;
+        private float _hitTimer = 0f;
+        private float _hitDuration = 0.3f;
+        public bool IsDead { get; private set; } = false;
+
+        public Rectangle Hitbox { get => _hitbox; }
 
         public MinorEnemy(Texture2D texture, SpriteAnimation2D animation, float leftBound, float rightBound, Camera2D camera)
             : base(texture)
@@ -64,10 +73,13 @@ namespace Oblivion
             _leftBound = leftBound;
             _rightBound = rightBound;
             randDamage = new Random();
+
+            _currentHealth = _maxHealth;
         }
 
         public void Update(GameTime gameTime, Dictionary<Vector2, Rectangle> collisionBlocks, Camera2D camera)
         {
+            Console.WriteLine("Enemy Health " + _currentHealth);
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds; // Delta Time
 
             _isColliding = _player.Hitbox.Intersects(_hitbox); // Condition Checking
@@ -77,6 +89,36 @@ namespace Oblivion
             ApplyGravity(deltaTime);
 
             Position.Y += _enemyVelocity.Y * deltaTime;
+
+            if (_isDying)
+            {
+                _deathTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                _animation.Update(gameTime);
+
+                _enemyVelocity.Y = -3f;
+
+                if (_deathTimer >= _deathDuration)
+                {
+                    IsDead = true;
+                }
+
+                return;
+            }
+
+            if (_isHit)
+            {
+                _hitTimer += deltaTime;
+                _animation.SetRow(4);
+                _animation.Update(gameTime);
+                _enemyVelocity.Y = -3f;
+
+                if (_hitTimer >= _hitDuration)
+                {
+                    _isHit = false;
+                }
+
+                return;
+            }
 
             switch (_currentState)
             {
@@ -100,7 +142,7 @@ namespace Oblivion
                     }
 
                     PatrolMovement(deltaTime);
-                    newAnimationRow = 4;
+                    newAnimationRow = 0;
                     break;
 
                 case EnemyState.Chase:
@@ -111,20 +153,20 @@ namespace Oblivion
                         {
                             _currentState = EnemyState.Attack;
                             _stateTimer = 0f;
-                            newAnimationRow = 0;
+                            newAnimationRow = 1;
                             break;
                         }
 
                         if (distance > 500f) // If Distance Back to Patrol
                         {
                             _currentState = EnemyState.Patrol;
-                            newAnimationRow = 3;
+                            newAnimationRow = 0;
                             break;
                         }
 
                         // Still chasing
                         ChasePlayer(deltaTime);
-                        newAnimationRow = 4;
+                        newAnimationRow = 0;
                         break;
                     }
 
@@ -132,7 +174,7 @@ namespace Oblivion
                     {
                         _stateTimer += deltaTime;
                         _damageTimer += deltaTime;
-                        newAnimationRow = 0; // attack row
+                        newAnimationRow = 1; // attack row
 
                         if (_isColliding)
                         {
@@ -194,7 +236,7 @@ namespace Oblivion
 
             _hitbox = new Rectangle(
                 (int)(Position.X + horizontalTrim),
-                (int)(Position.Y + verticalTrim ),
+                (int)(Position.Y + verticalTrim),
                 Math.Max(1, (int)(_animation.FrameWidthAccess * HitboxScale) - horizontalTrim * 2),
                 Math.Max(1, (int)(_animation.FrameHeightAccess * HitboxScale) - verticalTrim * 2)
             );
@@ -261,7 +303,34 @@ namespace Oblivion
                 Layer
             );
         }
-        
+
+        private void SetHealth(float value)
+        {
+            _currentHealth = MathHelper.Clamp(value, _minHealth, _maxHealth);
+            Console.WriteLine("Enemy Health Damage " + _currentHealth);
+
+            if (_currentHealth <= 0f && !_isDying)
+            {
+                _isDying = true;
+                _animation.SetRow(2);
+                _deathTimer = 0f;
+            }
+
+        }
+
+        public void TakeDamage(float dmg)
+        {
+            if (_isDying || IsDead) return;
+    
+            SetHealth(_currentHealth - dmg);
+
+            if (!_isDying)
+            {
+                _isHit = true;
+                _hitTimer = 0f;
+                _animation.SetRow(2);
+            }
+        }
 
         public void SetTarget(Player player)
         {
