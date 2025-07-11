@@ -8,27 +8,48 @@ namespace Oblivion
 {
     public class GameOverScreen
     {
-        private SpriteFont _font;
         private Texture2D _overlay;
         private SoundEffect _gameOverSFX;
         private bool _playedOnce = false;
-        private string _message = "GAME OVER\nPress Enter to return to Main Menu";
+        private float _shakeTimer = 0f;
+        private float _shakeDuration = 0.5f;
+        private float _shakeMagnitude = 10f;
+        private Vector2 _shakeOffset = Vector2.Zero;
+        private readonly System.Random _rand = new();
+
+
 
         public GameOverScreen(ContentManager Content, GraphicsDevice graphics)
         {
-            _font = Content.Load<SpriteFont>("Fonts/Blade Stroke");
             _gameOverSFX = AudioManager._gameOverSFX;
 
-            _overlay = Content.Load<Texture2D>("Backgrounds/game_over");
+            _overlay = Content.Load<Texture2D>("Backgrounds/final_gameover");
         }
 
-        public void Update()
+        public void Update(GameTime gameTime)
         {
             if (!_playedOnce)
             {
                 _gameOverSFX.Play();
                 _playedOnce = true;
+                _shakeTimer = _shakeDuration;
             }
+
+            float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+            if (_shakeTimer > 0)
+            {
+                _shakeTimer -= deltaTime;
+                _shakeOffset = new Vector2(
+                    (float)(_rand.NextDouble() * 2 - 1) * _shakeMagnitude,
+                    (float)(_rand.NextDouble() * 2 - 1) * _shakeMagnitude
+                );
+            }
+            else
+            {
+                _shakeOffset = Vector2.Zero;
+            }
+
             if (Keyboard.GetState().IsKeyDown(Keys.Enter))
             {
                 Game1.currentState = Game1.GameState.MainMenu;
@@ -37,26 +58,20 @@ namespace Oblivion
             }
         }
 
+
         public void Draw(SpriteBatch spriteBatch, Viewport viewport)
         {
-            spriteBatch.Draw(_overlay, new Rectangle(0, 0, viewport.Width, viewport.Height), Color.White);
+            Rectangle shakeRect = new Rectangle(
+                (int)_shakeOffset.X,
+                (int)_shakeOffset.Y,
+                viewport.Width,
+                viewport.Height
+            );
 
-            string[] lines = _message.Split('\n');
-            float totalHeight = lines.Length * _font.LineSpacing;
-
-            float startY = (viewport.Height - totalHeight) / 2;
-
-            for (int i = 0; i < lines.Length; i++)
-            {
-                Vector2 lineSize = _font.MeasureString(lines[i]);
-                Vector2 linePosition = new Vector2(
-                    (viewport.Width - lineSize.X) / 2,
-                    startY + i * _font.LineSpacing
-                );
-
-                spriteBatch.DrawString(_font, lines[i], linePosition, Color.White);
-            }
+            spriteBatch.Draw(_overlay, shakeRect, Color.White);
         }
 
     }
+
+
 }

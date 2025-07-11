@@ -1,18 +1,15 @@
 using System.IO;
 using System.Xml.Serialization;
 
-public static class SaveSystem
+public static class LoadSystem
 {
-    public static void SavePlayerData(PlayerData data, string path)
+    public static PlayerData LoadPlayerData(string path)
     {
         XmlSerializer serializer = new XmlSerializer(typeof(PlayerData));
 
-        using (StreamWriter writer = new StreamWriter(path))
+        using (StreamReader reader = new StreamReader(path))
         {
-            serializer.Serialize(writer, data);
+            return (PlayerData)serializer.Deserialize(reader);
         }
     }
 }
-
-
-

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -42,17 +43,23 @@ namespace Oblivion
 
         //HP System
         public HPBar _HPbar;
-        float _maxHealth;
-        float _health;
-        float _maxLowestHealth = 23;
 
-        public Player(Texture2D texture, SpriteAnimation2D animation, ContentManager Content, HPBar _hpBar, float maxValue) : base(texture)
+        float _maxHealth = 100f;
+        float _minHealth = 0f;
+        float _currentHealth;
+
+        // Animation Control
+        bool _isHit = false;
+        float _hitTimer = 0f;
+        float _hitDuration = 3f;
+
+        public Player(Texture2D texture, SpriteAnimation2D animation, ContentManager Content, HPBar hpbar) : base(texture)
         {
             _texture = texture;
             _animation = animation;
-            _maxHealth = maxValue;
-            _health = maxValue;
-            _HPbar = _hpBar;
+
+            _currentHealth = _maxHealth;
+            _HPbar = hpbar;
         }
 
         public void Update(GameTime gameTime, Dictionary<Vector2, Rectangle> collisionBlocks)
@@ -63,16 +70,7 @@ namespace Oblivion
 
             velocity = new Vector2(0, velocity.Y);
 
-            // if (_isOnGround)
-            // {
-            //     Console.WriteLine("Is on Ground");
-            // }
-            // else
-            // {
-            //     Console.WriteLine("NOT IN GROUND");
-            // }
-
-            HandleMovement(input);
+            HandleMovement(input, gameTime);
             HandleJump(input);
             HandleAttack(input, deltaTime);
             ApplyGravity(deltaTime);
@@ -81,23 +79,31 @@ namespace Oblivion
             UpdateHitbox();
             HandleCollision(collisionBlocks);
 
-            TakeDamage(10f, mouseInput, _previousMouse);
-            Heal(10f, mouseInput, _previousMouse);
-
             _animation.Update(gameTime);
             _previousKeyboard = input;
             _previousMouse = mouseInput;
-
-            _HPbar.Update(_health);
         }
 
-        private void HandleMovement(KeyboardState input)
+        private void HandleMovement(KeyboardState input, GameTime gameTime)
         {
+            float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+
             bool moveLeft = input.IsKeyDown(Keys.A);
             bool moveRight = input.IsKeyDown(Keys.D);
             bool run = input.IsKeyDown(Keys.LeftShift);
 
             float moveSpeed = run ? _runSpeed : _walkSpeed;
+            if (_isHit && !_isAttacking && !moveLeft && !moveRight)
+            {
+                _hitTimer += deltaTime;
+                _animation.SetRow(3);
+                if (_hitTimer >= _hitDuration)
+                {
+                    _isHit = false;
+                    _hitTimer = 0f;
+                }
+                return;
+            }
 
             if (moveRight && !moveLeft)
             {
@@ -117,13 +123,27 @@ namespace Oblivion
             }
         }
 
-        private void HandleJump(KeyboardState input)
+        private void SetHealth(float value) // Update
         {
-            if (input.IsKeyDown(Keys.Space) && !_previousKeyboard.IsKeyDown(Keys.Space) && _isOnGround)
+            _currentHealth = MathHelper.Clamp(value, _minHealth, _maxHealth);
+            Console.WriteLine("Health Damage " + _currentHealth);
+            if (_currentHealth <= 23f)
             {
-                velocity.Y = -JumpSpeed;
-                _isOnGround = false;
+                Console.WriteLine("Game Over");
             }
+            _HPbar.Update(_currentHealth);
+        }
+        public void TakeDamage(float dmg, Camera2D camera)
+        {
+            _isHit = true;
+            SetHealth(_currentHealth - dmg);
+            camera.Shake(0.25f, 10f);
+        }
+
+
+        public void Heal(float heal)
+        {
+            SetHealth(_currentHealth + heal);
         }
 
         private void HandleAttack(KeyboardState input, float deltaTime)
@@ -149,23 +169,16 @@ namespace Oblivion
             }
         }
 
-        private void TakeDamage(float dmg, MouseState input, MouseState prev)
+        private void HandleJump(KeyboardState input)
         {
-            if (prev.LeftButton == ButtonState.Released && input.LeftButton == ButtonState.Pressed)
+            if (input.IsKeyDown(Keys.Space) && !_previousKeyboard.IsKeyDown(Keys.Space) && _isOnGround)
             {
-                _health -= dmg;
-                if (_health < _maxLowestHealth) _health = _maxLowestHealth;
+                velocity.Y = -JumpSpeed;
+                _isOnGround = false;
             }
         }
 
-        private void Heal(float heal, MouseState input, MouseState prev)
-        {
-            if (prev.RightButton == ButtonState.Released && input.RightButton == ButtonState.Pressed)
-            {
-                _health += heal;
-                if (_health > _maxHealth) _health = _maxHealth;
-            }
-        }
+
         private void ApplyGravity(float deltaTime)
         {
             if (!_isOnGround)

@@ -14,31 +14,36 @@ namespace Oblivion
         Texture2D avatar;
         Texture2D profile;
         Vector2 position;
-        float maxValue;
+        float _maxHealth = 100f;
         float currentValue;
         Rectangle part;
 
         //Properties
-        public float MaxValue { get => maxValue; set => maxValue = value; }
+        public float MaxValue { get => _maxHealth; set => _maxHealth = value; }
         public float CurrentValue { get => currentValue; set => currentValue = value; }
 
-        public HPBar(ContentManager Content, float _maxHealth)
+        public HPBar(ContentManager Content)
         {
+            // Texture Declaration
             background = Content.Load<Texture2D>("UIs/HP_Background");
             undermidground = Content.Load<Texture2D>("UIs/HP_Undermidground");
             midground = Content.Load<Texture2D>("UIs/HP_MiddleGround");
             avatar = Content.Load<Texture2D>("UIs/HP_Avatar");
             profile = Content.Load<Texture2D>("UIs/HP_Profile");
-            maxValue = _maxHealth;
+
+            // Lifeline
             currentValue = _maxHealth;
+
+            // Movement
             position = new Vector2(10, 10);
             part = new(0, 0, midground.Width, midground.Height);
         }
 
-        public void Update(float value)
+        public void Update(float _value)
         {
-            currentValue = value;
-            part.Width = (int)(currentValue / maxValue * midground.Width);
+            currentValue = _value;
+            part.Width = (int)(currentValue / _maxHealth * midground.Width);
+            Console.WriteLine("Part Width : " + part.Width);
         }
 
         public void Draw(SpriteBatch _spritebatch)

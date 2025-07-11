@@ -27,7 +27,7 @@ namespace Oblivion
         // Enemy Variables
         private SpriteAnimation2D _minorEnemyAnimation;
         private List<MinorEnemy> _minorEnemies;
-        public static float attackAnimationSpeed = .15f;
+        public static float attackAnimationSpeed = .125f;
 
         // Background Variables
         private List<ScrollingBackground> _scrollingBackground;
@@ -68,8 +68,9 @@ namespace Oblivion
                 frameTime: 0.2f
             );
 
-            _HpBar = new HPBar(Content, 123f);
-            _player = new Player(_samuraiTexture, _playerAnimation, Content, _HpBar, _HpBar.MaxValue)
+            _HpBar = new HPBar(Content);
+
+            _player = new Player(_samuraiTexture, _playerAnimation, Content, _HpBar)
             {
                 Position = new Vector2(50, 150),
                 Layer = 0.94f,
@@ -181,7 +182,7 @@ namespace Oblivion
             {
                 var animationClone = new SpriteAnimation2D(_minorEnemyAnimation);
 
-                var enemy = new MinorEnemy(_minorEnemyTexture, animationClone, pos.X - 100, pos.X + 100)
+                var enemy = new MinorEnemy(_minorEnemyTexture, animationClone, pos.X - 100, pos.X + 100, Camera)
                 {
                     Position = pos,
                     Layer = 0.93f,
@@ -196,10 +197,11 @@ namespace Oblivion
         public MainMenu MainMenu => _mainMenu;
         public GameStage GameStage => _gameStage;
         public Controls Controls => _control;
-        public Credits Credits => _credits;
+        public Credits Credits => _credits;        public HPBar HPBarAccess => _HpBar;
         public Camera2D Camera { get => _camera; }
         public Player Player1 { get => _player; set => _player = value; }
         public GameOverScreen GameOver { get => _gameOver; }
     }
 
-    }
+
+}
