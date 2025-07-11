@@ -145,14 +145,14 @@ namespace Oblivion
                 Console.WriteLine("Error Loading Zombie Texture Error Details : " + e);
             }
             _zombieEnemyAnimation = new SpriteAnimation2D(
-                frameHeight: 64,
+                frameHeight: 52,
                 frameWidth: 64,
                 rowFrameCount: new Dictionary<int, int>
                 {
                     {0, 13}, // Attack
                     {1, 13}, // Death 
-                    {2, 12},
-                    {3,3}
+                    {2, 12}, // Walk
+                    {3, 3} // Hit
                 },
                 frameTime: attackAnimationSpeed
             );
