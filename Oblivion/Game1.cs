@@ -15,7 +15,7 @@ namespace Oblivion
         private SpriteBatch _spriteBatch;
         private GraphicsDeviceManager _graphics;
 
-        public enum GameState { MainMenu, GamePlay, Continue, Controls, Credits, GameOver};
+        public enum GameState { MainMenu, GamePlay, Continue, Controls, Credits, GameOver };
         public static GameState currentState = GameState.MainMenu;
 
         // Content Managers
@@ -53,7 +53,15 @@ namespace Oblivion
 
         }
         protected override void Update(GameTime gameTime)
-        {            
+        {
+            IsMouseVisible = (currentState != GameState.GamePlay) || _textureManager.GameStage.GamePause;
+
+            if (currentState == GameState.GamePlay && !_textureManager.GameStage.GamePause)
+            {
+                Mouse.SetPosition(GraphicsDevice.Viewport.Width / 2, GraphicsDevice.Viewport.Height / 2);
+            }
+
+
             switch (currentState)
             {
                 case GameState.MainMenu:
@@ -121,6 +129,7 @@ namespace Oblivion
                     _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
                     _textureManager.HPBarAccess.Draw(_spriteBatch);
                     _textureManager.GameStage.DrawUI(_spriteBatch, GraphicsDevice.Viewport);
+                    _textureManager.objectiveHUD.Draw(_spriteBatch, GameStage.aliveEnemies);
                     _spriteBatch.End();
                     break;
                 case GameState.GameOver:

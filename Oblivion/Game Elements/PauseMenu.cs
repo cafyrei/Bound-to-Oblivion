@@ -26,7 +26,7 @@ namespace Oblivion
         {
 
             _overlay = new Texture2D(graphicsDevice, 1, 1);
-            _overlay.SetData(new[] { new Color(0, 0, 0, 150) });
+            _overlay.SetData(new[] { new Color(0, 0, 0, 75) });
             _font = font;
 
             LoadContent(Content, graphicsDevice);
@@ -38,21 +38,23 @@ namespace Oblivion
 
             int buttonWidth = 200;
             int buttonHeight = 50;
-            int spacing = 20;
+            int spacing = 10;
+            int marginRight = 70;
 
             int totalHeight = (_pauseMenuLabels.Length * (buttonHeight + spacing)) - spacing;
-            int startY = (graphicsDevice.Viewport.Height - totalHeight) / 2 + 50; 
+            int startY = (graphicsDevice.Viewport.Height - totalHeight) / 2 + 230;
             for (int i = 0; i < _pauseMenuLabels.Length; i++)
             {
-                int x = (graphicsDevice.Viewport.Width - buttonWidth) / 2;
+                int x = graphicsDevice.Viewport.Width - buttonWidth - marginRight;
                 int y = startY + i * (buttonHeight + spacing);
                 Rectangle button_Rect = new Rectangle(x, y, buttonWidth, buttonHeight);
-
+    
                 Button2D _pauseButton = new Button2D(_buttonTexture, button_Rect, Color.White, _pauseMenuLabels[i], _font)
                 {
                     MenuHover = AudioManager._menuHover,
                     MenuClicked = AudioManager._pauseMenuClicked
                 };
+                
 
                 int index = i;
                 _pauseButton.Clicked += () =>
@@ -64,10 +66,9 @@ namespace Oblivion
                         case 2: BackToMenu?.Invoke(); break;   // Quit 
                     }
                 };
+
+                _pauseButton.Alignment = TextAlignment.Right;
                 _pauseButtons.Add(_pauseButton);
-
-
-
             }
         }
         public void Update()
@@ -80,7 +81,7 @@ namespace Oblivion
             }
             _prevMouseState = currentMouseState;
         }
-        
+
 
         public void Draw(SpriteBatch spriteBatch, Viewport viewport)
         {
@@ -92,7 +93,7 @@ namespace Oblivion
             Vector2 textSize = _font.MeasureString(text);
             Vector2 position = new Vector2(
                 (viewport.Width - textSize.X) / 2,
-                (viewport.Height - textSize.Y) / 2 - 150);
+                (viewport.Height - textSize.Y) / 2 );
 
             spriteBatch.DrawString(_font, text, position, Color.White);
 

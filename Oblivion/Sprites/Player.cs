@@ -73,7 +73,7 @@ namespace Oblivion
 
             HandleMovement(input, gameTime);
             HandleJump(input);
-            HandleAttack(input, deltaTime, enemies);
+            HandleAttack(mouseInput, deltaTime, enemies);
             ApplyGravity(deltaTime);
 
             Move(deltaTime);
@@ -100,7 +100,7 @@ namespace Oblivion
             if (_isHit && !moveLeft && !moveRight)
             {
                 _hitTimer += deltaTime;
-                _animation.SetRow(3); // Hit animation
+                _animation.SetRow(3); // Hit
                 if (_hitTimer >= _hitDuration)
                 {
                     _isHit = false;
@@ -109,23 +109,46 @@ namespace Oblivion
                 return;
             }
 
+            // Movement logic
             if (moveRight && !moveLeft)
             {
                 velocity.X = moveSpeed;
                 Flip = SpriteEffects.FlipHorizontally;
-                _animation.SetRow(run ? 6 : 7); // Run/Walk Right
             }
             else if (moveLeft && !moveRight)
             {
                 velocity.X = -moveSpeed;
                 Flip = SpriteEffects.None;
-                _animation.SetRow(run ? 6 : 7); // Run/Walk Left
             }
             else
             {
-                _animation.SetRow(4); // Idle
+                velocity.X = 0;
+            }
+
+            if (!_isOnGround)
+            {
+                if (velocity.Y < 0 && Math.Abs(velocity.X) < 0.1f)
+                {
+                    _animation.SetRow(5);
+                }
+                else 
+                {
+                    _animation.SetRow(run ? 6:7); 
+                }
+            }
+            else
+            {
+                if (velocity.X == 0)
+                {
+                    _animation.SetRow(4);
+                }
+                else
+                {
+                    _animation.SetRow(run ? 6 : 7);
+                }
             }
         }
+
 
 
         private void SetHealth(float value) // Update
@@ -140,6 +163,7 @@ namespace Oblivion
         public void TakeDamage(float dmg, Camera2D camera)
         {
             _isHit = true;
+            _hitTimer = 0f;
             SetHealth(_currentHealth - dmg);
             camera.Shake(0.25f, 10f);
         }
@@ -150,13 +174,17 @@ namespace Oblivion
             SetHealth(_currentHealth + heal);
         }
 
-        private void HandleAttack(KeyboardState input, float deltaTime, List<MinorEnemy> enemies)
+        private void HandleAttack(MouseState input, float deltaTime, List<MinorEnemy> enemies)
         {
-            bool attackPressed = input.IsKeyDown(Keys.E) && !_previousKeyboard.IsKeyDown(Keys.E);
+
+            bool leftClick = input.LeftButton == ButtonState.Pressed && _previousMouse.LeftButton == ButtonState.Released;
+            bool rightClick = input.RightButton == ButtonState.Pressed && _previousMouse.RightButton == ButtonState.Released;
 
             if (_isAttacking)
             {
                 _attackTimer += deltaTime;
+                _animation.SetRow(_attackTurn ? 0 : 1);
+
                 if (_attackTimer >= AttackDuration)
                 {
                     _isAttacking = false;
@@ -167,19 +195,22 @@ namespace Oblivion
                 return;
             }
 
-            if (attackPressed)
+            if (leftClick || rightClick)
             {
+                float _damage = leftClick ? 10f : 25f;
+                int newAnimationRow = leftClick ? 0 : 1;
+
                 foreach (var enemy in enemies)
                 {
                     if (_hitbox.Intersects(enemy.Hitbox))
                     {
-                        enemy.TakeDamage(20f);
+                        enemy.TakeDamage(_damage);
                     }
                 }
 
                 _isAttacking = true;
                 _attackTimer = 0f;
-                _attackTurn = !_attackTurn;
+                _attackTurn = leftClick;
 
                 // Set attack animation frame
                 _animation.SetRow(_attackTurn ? 0 : 1);
@@ -188,13 +219,12 @@ namespace Oblivion
             }
         }
 
-
-
         private void HandleJump(KeyboardState input)
         {
             if (input.IsKeyDown(Keys.Space) && !_previousKeyboard.IsKeyDown(Keys.Space) && _isOnGround)
             {
                 velocity.Y = -JumpSpeed;
+                _animation.SetRow(5);
                 _isOnGround = false;
             }
         }

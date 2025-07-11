@@ -38,6 +38,14 @@ namespace Oblivion
         public static int tileWidth = 2800;
         public static int tileHeight = 720;
 
+        //HUD Variables
+        private ObjectiveHUD objHUD;
+
+        //Collectible Variables
+        private Texture2D _collectibleTexture;
+        private SpriteAnimation2D _collectibleAnimation;
+        private List<Collectible> _collectibles;
+        private static float _collectibleAnimationSpeed = .125f;
         public void Load(ContentManager Content, GraphicsDevice graphicsDevice)
         {
 
@@ -122,8 +130,20 @@ namespace Oblivion
             );
 
             _minorEnemies = new List<MinorEnemy>(); // Initialize the list of enemies
-            SpawnEnemies(3); // Spawn enemies
+            SpawnEnemies(7); // Spawn enemies
 
+            #endregion
+
+            #region Game Collectibles Declaration
+            _collectibleTexture = Content.Load<Texture2D>("Collectibles/Health Soul");
+
+            _collectibleAnimation = new SpriteAnimation2D(frameHeight: 64, frameWidth: 64, rowFrameCount: new Dictionary<int,int>
+            {{0,7}},
+            frameTime: _collectibleAnimationSpeed
+            );
+
+            _collectibles = new List<Collectible>();
+            SpawnCollectibles(4);
             #endregion
 
             #region Game Over
@@ -141,6 +161,7 @@ namespace Oblivion
                 _player,
                 _minorEnemies,
                 _platform1,
+                _collectibles,
                 () =>
                 {
                     Game1.currentState = Game1.GameState.MainMenu;
@@ -150,15 +171,17 @@ namespace Oblivion
             );
 
             _control = new Controls(Content, graphicsDevice,
-            () => {
+            () =>
+            {
                 Game1.currentState = Game1.GameState.MainMenu;
-                 }
+            }
             );
 
             _credits = new Credits(Content, graphicsDevice,
-            () => {
+            () =>
+            {
                 Game1.currentState = Game1.GameState.MainMenu;
-                 }
+            }
             );
 
             _gameStage.Load(Content, graphicsDevice);
@@ -167,15 +190,20 @@ namespace Oblivion
             {
                 bg.SetCamera(_camera);
             }
+
+            objHUD = new ObjectiveHUD(Content);
         }
 
         private void SpawnEnemies(int count)
         {
             Vector2[] spawnPositions = new Vector2[]
             {
-                new Vector2(200, 300),
-                new Vector2(500, 320),
-                new Vector2(800, 310),
+                new Vector2(300, 220),
+                new Vector2(700, 100),
+                new Vector2(400, 310),
+                new Vector2(1000, 110),
+                new Vector2(1400, 100),
+                new Vector2(700, 110),
             };
 
             foreach (var pos in spawnPositions)
@@ -193,10 +221,31 @@ namespace Oblivion
             }
         }
 
+        private void SpawnCollectibles(int count)
+        {
+            Vector2[] spawnPositions = new Vector2[]
+            {
+                new Vector2(716, 181),
+                new Vector2(1520, 280),
+                new Vector2(1105, 341),
+                new Vector2(1915, 117)
+            };
+
+            foreach (var position in spawnPositions)
+            {
+                var animationClone = new SpriteAnimation2D(_collectibleAnimation);
+
+                var collectible = new Collectible(_collectibleTexture, animationClone, position);
+
+                _collectibles.Add(collectible);
+            }
+        }
+
         // Properties
         public MainMenu MainMenu => _mainMenu;
         public GameStage GameStage => _gameStage;
         public Controls Controls => _control;
+        public ObjectiveHUD objectiveHUD => objHUD;
         public Credits Credits => _credits;        public HPBar HPBarAccess => _HpBar;
         public Camera2D Camera { get => _camera; }
         public Player Player1 { get => _player; set => _player = value; }

@@ -61,8 +61,6 @@ namespace Oblivion
         private bool _isHit = false;
         private float _hitTimer = 0f;
         private float _hitDuration = 0.3f;
-
-
         public bool IsDead { get; private set; } = false;
 
         public Rectangle Hitbox { get => _hitbox; }
