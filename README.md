@@ -33,7 +33,7 @@
 
 - **MonoGame Framework**
 - **C# (.NET 8.0 for Windows)**
-- **Content Pipeline:** `.xnb` assets, sprite fonts, music, sound effects, parallax layers
+- **Content Pipeline:** `.xnb` assets (used .csv for Stage Design), sprite fonts, music, sound effects, parallax layers
 
 ---
 
