@@ -59,7 +59,6 @@ Oblivion_Game/                            # Build output directory
 │       └── Dependencies/                 # Required libraries (MonoGame, SharpDX, etc.)
 
 README.md                                 # Documentation file explaining the project
-
 ```
 
 ---
