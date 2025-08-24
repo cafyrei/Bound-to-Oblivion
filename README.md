@@ -1,3 +1,5 @@
+![Static Badge](https://img.shields.io/badge/DONE-%23009943?style=for-the-badge&logo=checkmarx&logoColor=%23FFF)
+
 # 🗡️ Bound to Oblivion
 
 **Bound to Oblivion** is a C# action-adventure game developed using **MonoGame**. You play as a samurai cursed to the realm of Oblivion. To escape, you must defeat every enemy — only then will the portal to freedom appear. As you grow closer, the realm grows stronger.
@@ -29,10 +31,12 @@
 
 ---
 
-## 🛠️ Built With
+## 🛠️ Tech Stack
 
-- **MonoGame Framework**
-- **C# (.NET 8.0 for Windows)**
+![Static Badge](https://img.shields.io/badge/MonoGame-%23E73C00?style=for-the-badge&logo=MonoGame&logoColor=%23FFF)
+![Static Badge](https://img.shields.io/badge/.Net-%23512BD4?style=for-the-badge&logo=.Net&logoColor=%23FFF)
+![Static Badge](https://img.shields.io/badge/VSCode-%232F80ED?style=for-the-badge&logo=VSCO&logoColor=%23FFF)
+
 - **Content Pipeline:** `.xnb` assets (used .csv for Stage Design), sprite fonts, music, sound effects, parallax layers
 
 ---
