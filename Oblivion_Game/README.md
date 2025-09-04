@@ -32,7 +32,7 @@ mkdir Oblivion_Game
 Then build the project into this folder using:
 
 ```bash
-dotnet publish -c Release -o "Oblivion_Game/Release/net8.0-windows"
+dotnet publish -c Release -o "../Oblivion_Game/Release/net8.0-windows
 ```
 
 This command generates all the runtime files in the correct subdirectory.

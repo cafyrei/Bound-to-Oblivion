@@ -16,18 +16,47 @@
 
 ## 🎮 Game Features
 
-- ⚔️ Samurai-style melee combat  
-- 🧠 Portal opens only when all enemies are slain  
-- 🌌 Difficulty scales as the portal nears  
-- 🎨 Custom-made pixel art and parallax backgrounds  
+- ⚔️ Samurai-style melee combat
+- 🧠 Portal opens only when all enemies are slain
+- 🌌 Difficulty scales as the portal nears
+- 🎨 Custom-made pixel art and parallax backgrounds
 
 ---
 
+# 🎮 Game Screenshots
+
+ - This section showcases various stages of Bound to Oblivion, including the main menu, player interface, enemy encounters, environments, and victory screens. The images highlight both the visual design and core gameplay mechanics, giving a preview of the overall experience.
+
+   <table>
+      <tr>
+        <td align="center" colspan="2">
+          <img src="screenshots/main_menu.png" alt="menu" width="400" />
+          <p align="center">Main mMenu</p>
+        </td>
+        <td align="center" colspan="2">
+          <img src="screenshots/credits.png" alt="credits" width="400" />
+          <p align="center">Developer Team</p>
+        </td>
+      </tr>
+
+      <tr>
+        <td align="center" colspan="2">
+          <img src="screenshots/stage1.png" alt="stage-1" width="400" />
+          <p align="center">First Game Stage</p>
+        </td>
+        <td align="center" colspan="2">
+          <img src="screenshots/stage2.png" alt="stage-2" width="400" />
+          <p align="center">Second Game Stage</p>
+        </td>
+      </tr>
+
+## </table>
+
 ## 🧑‍💻 Team Members
 
-- **Backend Developer:** Rafhielle Allen Alcabaza  
-- **Frontend Developer:** Sean Paul Nieves  
-- **Asset Creator:** Rovic Christopher Sarthou  
+- **Backend Developer:** Rafhielle Allen Alcabaza
+- **Frontend Developer:** Sean Paul Nieves
+- **Asset Creator:** Rovic Christopher Sarthou
 
 ---
 
@@ -68,23 +97,32 @@ README.md                                 # Documentation file explaining the pr
 ---
 
 ## 🖥️ How to Run
+
 ### Installation
+
+1.
 
 ```bash
 git clone https://github.com/cafyrei/Oblivion.git
 cd Oblivion
 ```
 
+2.
+
+```bash
+dotnet publish -c Release -o "../Oblivion_Game/Release/net8.0-windows"
+```
 
 ### 🔧 Prerequisites
 
-- Windows 10 or higher  
-- [.NET Desktop Runtime 8.0](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)  
-- DirectX-compatible GPU  
+- Windows 10 or higher
+- [.NET Desktop Runtime 8.0](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
+- DirectX-compatible GPU
 
 ### 🚀 Run Executable
 
 #### Option 1: GUI
+
 1. Navigate to:
    ```
    Oblivion_Game/Release/net8.0-windows
@@ -92,6 +130,7 @@ cd Oblivion
 2. Double-click `Oblivion.exe`
 
 #### Option 2: CLI
+
 ```bash
 cd bin/Release/net8.0-windows/
 dotnet Oblivion.dll
@@ -108,8 +147,6 @@ This game was developed in compliance with academic requirements. It is intended
 🎓 Purpose: : Final Project Compliance
 
 Please contact the developers if you wish to reuse any part of the code, assets, or concept.
-
-
 
 ---
 
