@@ -31,7 +31,7 @@
       <tr>
         <td align="center" colspan="2">
           <img src="screenshots/main_menu.png" alt="menu" width="400" />
-          <p align="center">Main mMenu</p>
+          <p align="center">Main Menu</p>
         </td>
         <td align="center" colspan="2">
           <img src="screenshots/credits.png" alt="credits" width="400" />
